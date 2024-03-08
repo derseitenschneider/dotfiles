@@ -1,11 +1,14 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [user]
-	name = Patrick McDonald
-	email = 66495007+eieioxyz@users.noreply.github.com
-
-
-
-# Other possible Git configurations.
-# - Set the default editor (nano, VS Code, etc.)
-# - Customize color output
-# - Create aliases (shortcuts for Git subcommands)
-# - Add endpoint shortcuts for commonly used URLs
+	name = Brian Boy
+	email = 97043252+derseitenschneider@users.noreply.github.com 
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[core]
+	ignorecase = false

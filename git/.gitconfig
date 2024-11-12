@@ -6,10 +6,20 @@
 [user]
 	name = Brian Boy
 	email = 97043252+derseitenschneider@users.noreply.github.com 
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPi6tgBV5L5P5FYB7YmjFKOOaXaQCrKgxaM9/xNIM8lA
 [init]
 	defaultBranch = main
 [color]
 	ui = auto
 [core]
 	ignorecase = false
+	editor = nvim -f
 
+[push]
+	autoSetupRemote = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true

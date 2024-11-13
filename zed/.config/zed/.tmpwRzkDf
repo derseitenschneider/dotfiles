@@ -1,0 +1,27 @@
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Setting","setting":"theme","value":"Ayu Mirage"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Setting","setting":"keymap","value":"VSCode"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"App","operation":"open"}
+{"signed_in":false,"milliseconds_since_first_event":0,"type":"Editor","operation":"open","file_extension":"scss","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":false,"milliseconds_since_first_event":9,"type":"Editor","operation":"open","file_extension":"tsx","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":17720,"type":"App","operation":"extensions page: open"}
+{"signed_in":true,"milliseconds_since_first_event":20935,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":24970,"type":"Editor","operation":"open","file_extension":"json","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":50330,"type":"Action","source":"command palette","action":"theme selector: toggle"}
+{"signed_in":true,"milliseconds_since_first_event":62559,"type":"Setting","setting":"theme","value":"macOS Classic Dark2"}
+{"signed_in":true,"milliseconds_since_first_event":117522,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":121019,"type":"Action","source":"command palette","action":"theme selector: toggle"}
+{"signed_in":true,"milliseconds_since_first_event":129165,"type":"Setting","setting":"theme","value":"XY-Zed"}
+{"signed_in":true,"milliseconds_since_first_event":136185,"type":"Action","source":"command palette","action":"theme selector: toggle"}
+{"signed_in":true,"milliseconds_since_first_event":168361,"type":"Setting","setting":"theme","value":"Ayu Dark"}
+{"signed_in":true,"milliseconds_since_first_event":185670,"type":"App","operation":"extensions: install extension"}
+{"signed_in":true,"milliseconds_since_first_event":188974,"type":"Action","source":"command palette","action":"theme selector: toggle"}
+{"signed_in":true,"milliseconds_since_first_event":202194,"type":"Action","source":"command palette","action":"theme selector: toggle"}
+{"signed_in":true,"milliseconds_since_first_event":208371,"type":"Setting","setting":"theme","value":"Zedokai (Filter Spectrum)"}
+{"signed_in":true,"milliseconds_since_first_event":222150,"type":"Editor","operation":"open","file_extension":"tsx","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":239799,"type":"Memory","memory_in_bytes":279810048,"virtual_memory_in_bytes":99135553536}
+{"signed_in":true,"milliseconds_since_first_event":239799,"type":"Cpu","usage_as_percentage":8.927854,"core_count":8}
+{"signed_in":true,"milliseconds_since_first_event":274606,"type":"Edit","duration":1,"environment":"editor"}
+{"signed_in":true,"milliseconds_since_first_event":275719,"type":"Editor","operation":"save","file_extension":"tsx","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":285552,"type":"Editor","operation":"save","file_extension":"tsx","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}
+{"signed_in":true,"milliseconds_since_first_event":298561,"type":"Edit","duration":2212,"environment":"editor"}
+{"signed_in":true,"milliseconds_since_first_event":298940,"type":"Editor","operation":"save","file_extension":"tsx","vim_mode":true,"copilot_enabled":true,"copilot_enabled_for_language":true}

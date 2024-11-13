@@ -1,0 +1,27 @@
+{
+  "title": "Change right command to be cmd+shift",
+  "rules": [
+	{
+	  "description": "Change right command to act like cmd+shift to trigger raycast hotkeys ",
+	  "manipulators": [
+        {
+    "type": "basic",
+    "from": {
+        "key_code": "right_command",
+        "modifiers": {
+            "optional": [
+                "any"
+            ]
+        }
+    },
+    "to": [
+        {
+            "key_code": "right_command+shift",
+            "lazy": true
+        }
+    ],
+}
+	  ]
+	}
+  ]
+}

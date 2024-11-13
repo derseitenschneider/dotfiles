@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/Users/brianboy/Repositories/02-local/baspo-prototypes/app/public/wp-content/plugins/duplicate-post'
+let g:netrw_dirhist_2='/Users/brianboy/Repositories/02-local/baspo-prototypes/app/public/wp-content/plugins'
+let g:netrw_dirhist_1='/Users/brianboy/Repositories'

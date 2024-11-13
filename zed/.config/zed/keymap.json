@@ -1,0 +1,20 @@
+[
+  {
+    "context": "Editor && vim_mode != normal",
+    "bindings": {
+      "k j": ["workspace::SendKeystrokes", "escape"]
+    }
+  },
+  {
+    "before": ["normal_mode"],
+    "commands": ["toggle_wrap_mode", "nop"],
+    "bindings": {
+      "ctrl+shit+w": []
+    }
+  },
+  {
+    "after": ["normal_mode"],
+    "commands": ["toggle_wrap_mode"],
+    "bindings": {}
+  }
+]

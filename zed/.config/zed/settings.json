@@ -1,0 +1,33 @@
+{
+  "theme": "Catppuccin Macchiato",
+  "vim_mode": true,
+  "ui_font_size": 18,
+  "buffer_font_size": 18,
+  "buffer_font_family": "Fira Code",
+  "ui_font_family": "Fira Code",
+  "relative_line_numbers": true,
+  "tab_bar": {
+    "show": false
+  },
+  "languages": {
+    "TSX": {
+      "code_actions_on_format": {
+        // "source.organizeImports": true
+      }
+    },
+    "TypeScript": {
+      "code_actions_on_format": {
+        // "source.organizeImports": true
+      }
+    }
+  },
+  "indent_guides": {
+    "enabled": true
+  },
+  "journal": {
+    "hour_format": "hour24"
+  },
+  "project_panel": {
+    "dock": "right"
+  }
+}

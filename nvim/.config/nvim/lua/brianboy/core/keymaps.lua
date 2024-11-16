@@ -53,6 +53,9 @@ vim.keymap.set(
   { desc = 'Puts the word under the cursor in a search/replace command.' }
 )
 
+-- Set Ctrl b to go to previous buffer.
+keymap.set('n', '<C-b>', '<C-^>', { noremap = true })
+
 -- Window management
 keymap.set('n', '<leader>sv', '<C-w>v', { desc = 'Split window vertically' })
 keymap.set('n', '<leader>sh', '<C-w>s', { desc = 'Split window horizontally' })

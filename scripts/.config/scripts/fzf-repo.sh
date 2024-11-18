@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-path=$(find ~ ~/.config ~/Repositories/work ~/Repositories/personal/ ~/Repositories/02-local/ -maxdepth 1 -mindepth 1 -type d | fzf)
+path=$(find  ~/.dotfiles ~/Repositories/work ~/Repositories/personal/ ~/Repositories/02-local/ -maxdepth 1 -mindepth 1 -type d | fzf)
 session_name=$(basename "$path" | tr . _)
 
 

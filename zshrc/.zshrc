@@ -16,8 +16,7 @@ export PATH=$PATH:/usr/local/mysql/bin
 export PATH="$HOME/.config/scripts:$PATH"
 
 # fzf-repo shortcut
-bindkey -s ^f "fzf-repo.sh\n"
-
+bindkey -s "^f" ' () { fzf-repo.sh; } && eval "clear"\n'
 
 # export TERM='xterm-256color'
 export EDITOR='nvim'

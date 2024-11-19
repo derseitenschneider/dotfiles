@@ -155,3 +155,34 @@ alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
+
+# Eleno - Float and move to workspace E
+[[on-window-detected]]
+if.app-id = "com.google.Chrome.app.lkjpifchofgggignkknhndfeoahbapmi"
+run = ['layout floating', 'move-node-to-workspace E']
+
+# Finder - Float
+[[on-window-detected]]
+if.app-id = "com.apple.finder"
+run = 'layout floating'
+
+# Amazing Slow Downder - Float and move to workspace F
+[[on-window-detected]]
+if.app-id = "com.ronimusic.amazingslowdownerMAS"
+run = ['layout floating', 'move-node-to-workspace U']
+
+# Kitty - Move to workspace T
+[[on-window-detected]]
+if.app-id = "net.kovidgoyal.kitty"
+run =  'move-node-to-workspace T'
+
+# Mail - Move to workspace M
+[[on-window-detected]]
+if.app-id = "com.apple.mail"
+run =  'move-node-to-workspace M'
+
+# 1Password - Float and move to workspace U
+[[on-window-detected]]
+if.app-id = "com.1password.1password" 
+run =  ['layout floating', 'move-node-to-workspace U']
+

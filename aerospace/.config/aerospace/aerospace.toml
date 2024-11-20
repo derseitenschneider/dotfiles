@@ -132,6 +132,8 @@ alt-shift-s = 'move-node-to-workspace S' # Spotify
 alt-shift-t = 'move-node-to-workspace T' # Terminal 
 alt-shift-u = 'move-node-to-workspace U' # Utils 
 
+alt-shift-d = 'close-all-windows-but-current'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
@@ -156,33 +158,49 @@ alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
-# Eleno - Float and move to workspace E
+# Make all windows float by default
 [[on-window-detected]]
-if.app-id = "com.google.Chrome.app.lkjpifchofgggignkknhndfeoahbapmi"
-run = ['layout floating', 'move-node-to-workspace E']
-
-# Finder - Float
-[[on-window-detected]]
-if.app-id = "com.apple.finder"
+check-further-callbacks = true
 run = 'layout floating'
 
-# Amazing Slow Downder - Float and move to workspace F
+# Eleno - Move to worksace E layout tiling
+[[on-window-detected]]
+if.app-id = "com.google.Chrome.app.lkjpifchofgggignkknhndfeoahbapmi"
+run = ['layout tiling','move-node-to-workspace E']
+
+# Amazing Slow Downder - Move to workspace F
 [[on-window-detected]]
 if.app-id = "com.ronimusic.amazingslowdownerMAS"
-run = ['layout floating', 'move-node-to-workspace U']
+run =  'move-node-to-workspace F'
+
+# WhatsApp - Move to workspace F
+[[on-window-detected]]
+if.app-id = "net.whatsapp.WhatsApp "
+run =  'move-node-to-workspace F'
+
+# Drum Beats - Move to workspace F
+[[on-window-detected]]
+if.app-id = "com.ninebuzz.drumbeatsmac"
+run =  'move-node-to-workspace F'
 
 # Kitty - Move to workspace T
 [[on-window-detected]]
 if.app-id = "net.kovidgoyal.kitty"
-run =  'move-node-to-workspace T'
+run =  ['layout tiling','move-node-to-workspace T']
+
+# Browser - Tiling window
+[[on-window-detected]]
+if.app-id = "com.google.Chrome"
+run =  'layout tiling'
 
 # Mail - Move to workspace M
 [[on-window-detected]]
 if.app-id = "com.apple.mail"
 run =  'move-node-to-workspace M'
 
-# 1Password - Float and move to workspace U
+# Spotify - Tiling window and move to workspace S
 [[on-window-detected]]
-if.app-id = "com.1password.1password" 
-run =  ['layout floating', 'move-node-to-workspace U']
+if.app-id = "com.spotify.client"
+run =  ['layout tiling','move-node-to-workspace M']
+
 

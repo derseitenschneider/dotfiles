@@ -196,11 +196,9 @@ run =  'layout tiling'
 # Mail - Move to workspace M
 [[on-window-detected]]
 if.app-id = "com.apple.mail"
-run =  'move-node-to-workspace M'
+run =  'layout tiling'
 
 # Spotify - Tiling window and move to workspace S
 [[on-window-detected]]
 if.app-id = "com.spotify.client"
-run =  ['layout tiling','move-node-to-workspace M']
-
-
+run =  ['layout tiling','move-node-to-workspace S']

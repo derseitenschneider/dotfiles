@@ -186,6 +186,9 @@ return {
       end,
       ['intelephense'] = function()
         lspconfig['intelephense'].setup({
+          root_dir = function()
+            return vim.loop.cwd()
+          end,
           capabilities = capabilities,
           handlers = handlers,
           init_options = {
@@ -276,7 +279,24 @@ return {
                 'polylang',
               },
               diagnostics = {
-                enable = true,
+                enable = false,
+                -- Disable style-related diagnostics in Intelephense
+                typeErrors = true,
+                undefinedClassConstants = true,
+                undefinedConstants = true,
+                undefinedFunctions = true,
+                undefinedMethods = true,
+                undefinedProperties = true,
+                undefinedTypes = true,
+                -- Disable documentation-related diagnostics
+                embeddedLanguage = false,
+                unusedSymbols = false,
+              },
+              format = {
+                enable = false,
+              },
+              files = {
+                maxSize = 5000000,
               },
             },
           },

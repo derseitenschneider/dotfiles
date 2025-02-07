@@ -279,7 +279,7 @@ return {
                 'polylang',
               },
               diagnostics = {
-                enable = false,
+                enable = true,
                 -- Disable style-related diagnostics in Intelephense
                 typeErrors = true,
                 undefinedClassConstants = true,

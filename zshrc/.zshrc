@@ -7,7 +7,6 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-~/.config/scripts/welcome.sh
 
 ##mysql path
 export PATH=$PATH:/usr/local/mysql/bin
@@ -17,6 +16,9 @@ export PATH="$HOME/.config/scripts:$PATH"
 
 # fzf-repo shortcut
 bindkey -s "^f" ' () { fzf-repo.sh; } && eval "clear"\n'
+
+# 1Password ssh keys
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 # export TERM='xterm-256color'
 export EDITOR='nvim'
@@ -240,3 +242,13 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # Created by `pipx` on 2024-10-07 14:14:33
 export PATH="$PATH:/Users/brianboy/.local/bin"
+
+if tmux has-session -t my-session 2>/dev/null; then
+  tmux attach-session -t my-session; clear
+elif tmux ls 2>/dev/null | grep -q '^'; then
+  tmux attach; clear
+else
+  tmux new-session -s my-session;
+  tmux new_window;
+  clear
+fi

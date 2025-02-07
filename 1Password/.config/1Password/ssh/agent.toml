@@ -21,6 +21,9 @@
 #
 #  [[ssh-keys]]
 #  vault = "Private"
+[[ssh-keys]]
+item = "SSH Renovita Server"
+vault = "SSH Keys" 
 
 [[ssh-keys]]
 vault = "SSH Keys"

@@ -7,11 +7,19 @@ opt.relativenumber = true
 opt.number = true
 
 -- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
+opt.tabstop = 4 -- 2 spaces for tabs (prettier default)
+opt.shiftwidth = 4 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 opt.smartindent = true
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'javascript,typescript,javascriptreact,typescriptreact,css,scss,less,html,htm',
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+  end,
+})
 
 -- Enable mouse mode
 opt.mouse = 'a'

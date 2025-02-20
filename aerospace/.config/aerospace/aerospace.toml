@@ -190,6 +190,11 @@ run =  'move-node-to-workspace F'
 if.app-id = "net.kovidgoyal.kitty"
 run =  ['layout tiling','move-node-to-workspace T']
 
+# Ghostty - Move to workspace T
+[[on-window-detected]]
+if.app-id = "com.mitchellh.ghostty"
+run =  ['layout tiling','move-node-to-workspace T']
+
 # Browser - Tiling window
 [[on-window-detected]]
 if.app-id = "com.google.Chrome"

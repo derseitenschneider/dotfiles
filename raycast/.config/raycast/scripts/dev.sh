@@ -7,9 +7,12 @@
 # @raycast.packageName Development
 # @raycast.icon 👨‍💻
 
+# Switch to workspace T
+aerospace workspace --fail-if-noop T 
+
 # Open Chrome window
 open -n -a "Google Chrome" --args --new-window
 
-# Open Kitty and attach to tmux session
+# Open ghostty and attach to tmux session
 # If tmux session doesn't exist, it will create one
-open -n -a "kitty" --args tmux a || tmux new-session
+open -n -a "ghostty" 

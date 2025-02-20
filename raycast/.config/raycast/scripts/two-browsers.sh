@@ -7,6 +7,9 @@
 # @raycast.packageName Browser Tools
 # @raycast.icon 🌐
 
+# Switch to Aerospace B workspace
+aerospace workspace --fail-if-noop B 
+
 # Open first Chrome window with Gmail and Chat in tabs
 open -n -a "Google Chrome" --args --new-window "https://mail.google.com" "https://chat.google.com" "https://app.clickup.com/2154357/dashboards/21qvn-832"
 

@@ -1,12 +1,19 @@
+# THEME
 theme = catppuccin-mocha
-font-size = 18
-window-decoration = none
 
-confirm-close-surface = false
-background-opacity = 0.95
-background-blur = 20
+# FONT
+font-size = 17.5
+adjust-cell-height = 15%
+
+# WINDOW
+window-decoration = none
 window-padding-x = 4
 window-padding-y = 8
-adjust-cell-height = 15%
-#cursor-opacity = 0.3
+background-opacity = 0.95
+background-blur = 20
+
+# CURSOR
 cursor-invert-fg-bg = true
+
+# SYSTEM
+confirm-close-surface = false

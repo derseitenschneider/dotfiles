@@ -9,8 +9,15 @@ keymap.set({ 'i', 'v', 'c' }, 'kj', '<ESC>', { desc = 'Exit insert mode with jk'
 -- Source file with space + enter
 keymap.set('n', '<leader><CR>', ':source %<CR>', { desc = 'Source current file', noremap = false })
 
+-- Set cursor after last char after yanking and go one down
+keymap.set('v', 'Y', 'ygv<Esc>j', { noremap = true, silent = true })
+
+-- Set cursor after last char after yanking, go one down and paste
+-- yanked section.
+keymap.set('v', 'C', 'ygv<Esc>jp', { noremap = true, silent = true })
+
 -- Move visually selected blocks up and down
-keymap.set('v', 'J', ':m \'>+1<CR>gv=gv')
+keymap.set('v', 'J', ':m \'>+1<C>gv=gv')
 keymap.set('v', 'K', ':m \'<-2<CR>gv=gv')
 
 -- greatest remap ever

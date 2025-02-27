@@ -13,6 +13,10 @@ if [ ! -d "$ZINIT_HOME" ]; then
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
+# Starship promt
+eval "$(starship init zsh)"
+######## ZINIT
+#
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
@@ -75,17 +79,6 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 
-# Source autosuggestions plugin
-# source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-#
-# # Source syntax highlighting plugin
-# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-
-# Starship promt
-eval "$(starship init zsh)"
-
-
 # ######## FD
 # #
 # # eval "$(fzf --zsh)"
@@ -130,7 +123,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 alias sf='ls | fzf'
-alias user='cd ~'
+alias home='cd ~'
 alias repo='cd ~/Repositories/'
 alias down='cd ~/Downloads/'
 
@@ -160,6 +153,7 @@ alias gpu="git pull origin"
 alias gst="git status"
 alias lg="lazygit"
 
+# LS
 alias ls="eza --color=always --all --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias lsa="eza --color=always --long --all --git --icons=always"
 

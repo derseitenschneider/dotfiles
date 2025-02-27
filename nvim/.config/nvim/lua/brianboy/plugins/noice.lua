@@ -4,19 +4,17 @@ return {
   opts = {},
   dependencies = {
     'MunifTanjim/nui.nvim',
-    -- OPTIONAL:
-    --   If not available, we use `mini` as the fallback
     'rcarriga/nvim-notify',
   },
   config = function()
     require('notify').setup({
       timeout = 500,
-      render = 'default',
+      render = 'compact',
       stages = 'fade',
       level = vim.log.levels.INFO,
       max_width = 50,
       max_height = 10,
-      background_colour = 'Transparent',
+      background_colour = '#000000',
       icons = {
         ERROR = '',
         WARN = '',

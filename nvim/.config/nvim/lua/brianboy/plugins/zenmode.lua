@@ -2,6 +2,7 @@ return {
   'folke/zen-mode.nvim',
   config = function()
     require('zen-mode').setup({
+      enabled = false,
       window = {
         backdrop = 0.95,
         width = 1, -- width of the Zen window

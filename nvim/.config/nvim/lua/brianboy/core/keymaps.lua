@@ -38,13 +38,13 @@ keymap.set('n', 'N', 'Nzzzv', { desc = 'Centers cursor on jump to previous searc
 keymap.set('n', '<leader>ns', '<cmd>nohls<CR>', { desc = 'Clear search highlights' })
 
 -- Prevent wrapped lines from being jumped
-vim.keymap.set('n', 'k', 'v:count == 0 ? \'gk\' : \'k\'', { expr = true, silent = true })
-vim.keymap.set('n', 'j', 'v:count == 0 ? \'gj\' : \'j\'', { expr = true, silent = true })
-vim.keymap.set('v', 'k', 'v:count == 0 ? \'gk\' : \'k\'', { expr = true, silent = true })
-vim.keymap.set('v', 'j', 'v:count == 0 ? \'gj\' : \'j\'', { expr = true, silent = true })
-vim.keymap.set('n', '0', 'v:count == 0 ? \'g0\' : \'0\'', { expr = true, silent = true })
-vim.keymap.set('n', '^', 'v:count == 0 ? \'g^\' : \'^\'', { expr = true, silent = true })
-vim.keymap.set('n', '$', 'v:count == 0 ? \'g$\' : \'$\'', { expr = true, silent = true })
+keymap.set('n', 'k', 'v:count == 0 ? \'gk\' : \'k\'', { expr = true, silent = true })
+keymap.set('n', 'j', 'v:count == 0 ? \'gj\' : \'j\'', { expr = true, silent = true })
+keymap.set('v', 'k', 'v:count == 0 ? \'gk\' : \'k\'', { expr = true, silent = true })
+keymap.set('v', 'j', 'v:count == 0 ? \'gj\' : \'j\'', { expr = true, silent = true })
+keymap.set('n', '0', 'v:count == 0 ? \'g0\' : \'0\'', { expr = true, silent = true })
+keymap.set('n', '^', 'v:count == 0 ? \'g^\' : \'^\'', { expr = true, silent = true })
+keymap.set('n', '$', 'v:count == 0 ? \'g$\' : \'$\'', { expr = true, silent = true })
 
 -- Increment/decrement numbers
 keymap.set('n', '<leader>+', '<C-x>', { desc = 'Increment number' })
@@ -53,7 +53,7 @@ keymap.set('n', '<leader>-', '<C-a>', { desc = 'Decrement number' })
 keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Better search/replace
-vim.keymap.set(
+keymap.set(
   'n',
   '<leader>s',
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
@@ -80,5 +80,8 @@ keymap.set('n', '<leader>z', '<cmd>ZenMode<CR>', { desc = 'Toggle Zenmode' })
 keymap.set('n', '<C-f>', ':silent !tmux neww fzf-repo.sh <CR>', { desc = 'Toggle Zenmode' })
 
 -- Quickfix list
-vim.keymap.set('n', '<leader>qo', ':copen<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>qc', ':cclose<CR>', { noremap = true, silent = true })
+keymap.set('n', '<leader>qo', ':copen<CR>', { noremap = true, silent = true })
+keymap.set('n', '<leader>qc', ':cclose<CR>', { noremap = true, silent = true })
+
+-- Run the run script
+keymap.set('n', '<leader>r', ':Run<CR>', { noremap = true, silent = true })

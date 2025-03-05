@@ -30,7 +30,7 @@ else
 fi
 
 # Construct the SSH command with vim and desired settings
-SSH_COMMAND="ssh $SSH_HOST 'cd \"$REMOTE_PATH\"; vim +\"set nu rnu | Explore\"; bash'"
+SSH_COMMAND="ssh -t $SSH_HOST 'cd \"$REMOTE_PATH\"; vim +\"set nu rnu | Explore\"; bash'"
 
 # # Construct the final command
 # if [ -n "$TMUX_COMMAND" ]; then

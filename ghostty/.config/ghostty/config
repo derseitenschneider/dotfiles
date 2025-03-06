@@ -2,7 +2,7 @@
 theme = catppuccin-mocha
 
 # FONT
-font-size = 16.5
+font-size = 16.2
 adjust-cell-height = 20%
 
 # WINDOW

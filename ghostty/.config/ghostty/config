@@ -1,16 +1,16 @@
 # THEME
-theme = catppuccin-mocha
+theme = rose-pine
 
 # FONT
-font-size = 16.2
+font-size = 16.5
 adjust-cell-height = 20%
 
 # WINDOW
 window-decoration = none
 window-padding-x = 4
 window-padding-y = 8
-background-opacity = 0.99
-background-blur = 20
+# background-opacity = 0.99
+# background-blur = 20
 
 # CURSOR
 cursor-invert-fg-bg = true

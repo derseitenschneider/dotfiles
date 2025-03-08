@@ -34,12 +34,8 @@ return {
         'html',
         'cssls',
         'tailwindcss',
-        'svelte',
         'lua_ls',
-        'graphql',
         'emmet_ls',
-        'prismals',
-        'pyright',
         'intelephense',
       },
       automatic_installation = true,
@@ -49,9 +45,6 @@ return {
       ensure_installed = {
         'biome',
         'stylua',
-        'isort',
-        'black',
-        'pylint',
         'phpcs',
         'phpcbf',
       },
@@ -186,6 +179,15 @@ return {
       end,
       ['intelephense'] = function()
         lspconfig['intelephense'].setup({
+          completion = {
+            fullyQualifyGlobalConstants = false,
+            fullyQualifyGlobalFunctions = false,
+          },
+          environment = {
+            includePaths = {
+              vim.fn.getcwd() .. '/tests',
+            },
+          },
           root_dir = function()
             return vim.loop.cwd()
           end,

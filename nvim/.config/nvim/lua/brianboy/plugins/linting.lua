@@ -10,7 +10,6 @@ return {
       typescript = { 'biomejs' },
       javascriptreact = { 'biomejs' },
       typescriptreact = { 'biomejs' },
-      python = { 'pylint' },
     }
 
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })

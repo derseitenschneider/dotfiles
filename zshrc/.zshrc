@@ -1,7 +1,9 @@
 ######## FZF
 # 
 # Source fzf
-eval "$(fzf --zsh)"######## PLUGINS
+eval "$(fzf --zsh)"
+
+######## PLUGINS
 
 #
 # Set the directory we want to store zinit and plugins
@@ -156,6 +158,10 @@ alias lg="lazygit"
 # LS
 alias ls="eza --color=always --all --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias lsa="eza --color=always --long --all --git --icons=always"
+
+# npm
+alias nr="npm run"
+alias nx="npx"
 
 ######## SCRIPTS
 #

@@ -10,11 +10,11 @@ keymap.set({ 'i', 'v', 'c' }, 'kj', '<ESC>', { desc = 'Exit insert mode with jk'
 keymap.set('n', '<leader><CR>', ':source %<CR>', { desc = 'Source current file', noremap = false })
 
 -- Set cursor after last char after yanking and go one down
-keymap.set('v', 'Y', 'ygv<Esc>j', { noremap = true, silent = true })
+keymap.set('v', 'Y', 'ygv<Esc>o<CR><Esc>', { noremap = true, silent = true })
 
 -- Set cursor after last char after yanking, go one down and paste
 -- yanked section.
-keymap.set('v', 'C', 'ygv<Esc>jp', { noremap = true, silent = true })
+keymap.set('v', 'C', 'ygv<Esc>o<Esc>p', { noremap = true, silent = true })
 
 -- Move visually selected blocks up and down
 keymap.set('v', 'J', ':m \'>+1<C>gv=gv')

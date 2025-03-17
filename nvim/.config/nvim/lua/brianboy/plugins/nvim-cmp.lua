@@ -18,9 +18,7 @@ return {
   },
   config = function()
     local cmp = require('cmp')
-
     local luasnip = require('luasnip')
-
     local lspkind = require('lspkind')
 
     -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
@@ -40,7 +38,7 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       mapping = cmp.mapping.preset.insert({
-        ['<C-o>'] = cmp.mapping.complete(), -- previous suggestion
+        ['<C-o>'] = cmp.mapping.complete(), -- opens cmp to see all suggestions
         ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
         ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),

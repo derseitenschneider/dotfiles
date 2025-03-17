@@ -26,6 +26,7 @@ keymap.set('x', '<leader>p', [["_dP]], { desc = 'Keeps the pasted word in regist
 -- File & window management
 keymap.set('n', '<leader>w', ':wa<enter>', { desc = 'Write all buffers', noremap = false })
 keymap.set('n', '<leader>cc', ':wqa<enter>', { desc = 'Write and quit all buffers', noremap = false })
+keymap.set('n', '<leader>q', ':q<enter>', { desc = 'Quit current buffer', noremap = false })
 
 -- Center cursor on linewrap, halfpage jump and search next/prev
 keymap.set('n', 'J', 'mzJ`z', { desc = 'Keeps cursor when line wrapping.' })

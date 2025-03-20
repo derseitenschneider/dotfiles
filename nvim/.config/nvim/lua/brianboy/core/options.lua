@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd('FileType', {
 opt.mouse = 'a'
 
 -- Show mode
-opt.showmode = true
+opt.showmode = false
 
 opt.showtabline = 1
 
@@ -81,4 +81,33 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
   end,
+})
+
+-- Tailwind: auto sort on save
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'html',
+    'javascript',
+    'typescript',
+    'javascriptreact',
+    'typescriptreact',
+    'vue',
+    'svelte',
+    'php',
+    'astro',
+  },
+  callback = function(event)
+    -- Create a buffer-local autocmd for this specific buffer
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      buffer = event.buf,
+      callback = function()
+        -- Check if the command exists before trying to use it
+        pcall(function()
+          vim.cmd('TailwindSort')
+        end)
+      end,
+      desc = 'Sort Tailwind CSS classes before saving',
+    })
+  end,
+  desc = 'Set up TailwindSort for relevant filetypes',
 })

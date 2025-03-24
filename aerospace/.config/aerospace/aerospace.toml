@@ -165,47 +165,47 @@ alt-shift-l = ['join-with right', 'mode main']
 check-further-callbacks = true
 run = 'layout floating'
 
-# Eleno - Move to worksace E layout tiling
-[[on-window-detected]]
-if.app-id = "com.google.Chrome.app.lkjpifchofgggignkknhndfeoahbapmi"
-run = ['layout tiling','move-node-to-workspace E']
-
-# Amazing Slow Downder - Move to workspace F
-[[on-window-detected]]
-if.app-id = "com.ronimusic.amazingslowdownerMAS"
-run =  'move-node-to-workspace F'
-
-# WhatsApp - Move to workspace F
-[[on-window-detected]]
-if.app-id = "net.whatsapp.WhatsApp "
-run =  'move-node-to-workspace F'
-
-# Drum Beats - Move to workspace F
-[[on-window-detected]]
-if.app-id = "com.ninebuzz.drumbeatsmac"
-run =  'move-node-to-workspace F'
-
-# Kitty - Move to workspace T
-[[on-window-detected]]
-if.app-id = "net.kovidgoyal.kitty"
-run =  ['layout tiling','move-node-to-workspace T']
-
-# Ghostty - Move to workspace T
-[[on-window-detected]]
-if.app-id = "com.mitchellh.ghostty"
-run =  ['layout tiling','move-node-to-workspace T']
-
-# Browser - Tiling window
-[[on-window-detected]]
-if.app-id = "com.google.Chrome"
-run =  'layout tiling'
-
-# Mail - Move to workspace M
-[[on-window-detected]]
-if.app-id = "com.apple.mail"
-run =  'layout tiling'
-
-# Spotify - Tiling window and move to workspace S
-[[on-window-detected]]
-if.app-id = "com.spotify.client"
-run =  ['layout tiling','move-node-to-workspace S']
+# # Eleno - Move to worksace E layout tiling
+# [[on-window-detected]]
+# if.app-id = "com.google.Chrome.app.lkjpifchofgggignkknhndfeoahbapmi"
+# run = ['layout tiling','move-node-to-workspace E']
+#
+# # Amazing Slow Downder - Move to workspace F
+# [[on-window-detected]]
+# if.app-id = "com.ronimusic.amazingslowdownerMAS"
+# run =  'move-node-to-workspace F'
+#
+# # WhatsApp - Move to workspace F
+# [[on-window-detected]]
+# if.app-id = "net.whatsapp.WhatsApp "
+# run =  'move-node-to-workspace F'
+#
+# # Drum Beats - Move to workspace F
+# [[on-window-detected]]
+# if.app-id = "com.ninebuzz.drumbeatsmac"
+# run =  'move-node-to-workspace F'
+#
+# # Kitty - Move to workspace T
+# [[on-window-detected]]
+# if.app-id = "net.kovidgoyal.kitty"
+# run =  ['layout tiling','move-node-to-workspace T']
+#
+# # Ghostty - Move to workspace T
+# [[on-window-detected]]
+# if.app-id = "com.mitchellh.ghostty"
+# run =  ['layout tiling','move-node-to-workspace T']
+#
+# # Browser - Tiling window
+# [[on-window-detected]]
+# if.app-id = "com.google.Chrome"
+# run =  'layout tiling'
+#
+# # Mail - Move to workspace M
+# [[on-window-detected]]
+# if.app-id = "com.apple.mail"
+# run =  'layout tiling'
+#
+# # Spotify - Tiling window and move to workspace S
+# [[on-window-detected]]
+# if.app-id = "com.spotify.client"
+# run =  ['layout tiling','move-node-to-workspace S']

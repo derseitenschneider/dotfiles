@@ -86,3 +86,6 @@ keymap.set('n', '<leader>qc', ':cclose<CR>', { noremap = true, silent = true })
 
 -- Run the run script
 keymap.set('n', '<leader>r', ':Run<CR>', { noremap = true, silent = true })
+
+-- Open Oil.nvim
+vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })

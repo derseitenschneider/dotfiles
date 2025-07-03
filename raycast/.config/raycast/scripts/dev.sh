@@ -12,7 +12,8 @@ aerospace workspace --fail-if-noop T
 
 # Open Chrome window
 open -n -a "Google Chrome" --args --new-window
+raycast windows left half
 
-# Open ghostty and attach to tmux session
-# If tmux session doesn't exist, it will create one
+# Open ghostty 
 open -n -a "ghostty" 
+raycast windows right half

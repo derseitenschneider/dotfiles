@@ -11,6 +11,8 @@ return {
       { trig = 'ptest', descr = 'Playwright test snippet' },
       fmt(
         [[
+import test from "@playwright/test";
+
 test('{}', async ({{ {} }}) => {{
   {}
 }});
@@ -30,6 +32,8 @@ test('{}', async ({{ {} }}) => {{
       { trig = 'ptest', descr = 'Playwright test snippet' },
       fmt(
         [[
+import test from "@playwright/test";
+
 test('{}', async ({{ {} }}) => {{
   {}
 }});

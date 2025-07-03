@@ -144,7 +144,7 @@ alias v='nvim'
 alias vv='nvim .'
 
 # Lnav
-alias lnav='TERM=xterm lnav'
+alias lnav='TERM=xterm-256color lnav'
 
 # Git
 alias ga="git add -A"

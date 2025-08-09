@@ -28,6 +28,7 @@ return {
       },
     })
 
+    -- Mason-lspconfig setup (disable automatic_enable for Neovim < 0.11.0)
     mason_lspconfig.setup({
       ensure_installed = {
         'ts_ls',
@@ -38,7 +39,8 @@ return {
         'emmet_ls',
         'intelephense',
       },
-      automatic_installation = true,
+      automatic_installation = false, -- Don't automatically install detected servers
+      automatic_enable = false, -- Disable automatic enabling (requires Neovim 0.11.0+)
     })
 
     mason_tool_installer.setup({
@@ -120,201 +122,147 @@ return {
     -- Capabilities
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    -- LSP server setups
-    mason_lspconfig.setup_handlers({
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-          handlers = handlers,
-        })
-      end,
-      ['svelte'] = function()
-        lspconfig['svelte'].setup({
-          capabilities = capabilities,
-          handlers = handlers,
-          on_attach = function(client, bufnr)
-            vim.api.nvim_create_autocmd('BufWritePost', {
-              pattern = { '*.js', '*.ts' },
-              callback = function(ctx)
-                client.notify('$/onDidChangeTsOrJsFile', { uri = ctx.match })
-              end,
-            })
-          end,
-        })
-      end,
-      ['graphql'] = function()
-        lspconfig['graphql'].setup({
-          capabilities = capabilities,
-          handlers = handlers,
-          filetypes = { 'graphql', 'gql', 'svelte', 'typescriptreact', 'javascriptreact' },
-        })
-      end,
-      ['emmet_ls'] = function()
-        lspconfig['emmet_ls'].setup({
-          capabilities = capabilities,
-          handlers = handlers,
-          filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less', 'svelte' },
-        })
-      end,
-      ['lua_ls'] = function()
-        lspconfig['lua_ls'].setup({
-          capabilities = capabilities,
-          handlers = handlers,
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { 'vim' },
-              },
-              completion = {
-                callSnippet = 'Replace',
-              },
+    -- Manual LSP server configurations (since we can't use setup_handlers in v2.0.0+)
+    local servers = {
+      ts_ls = {},
+      html = {},
+      cssls = {},
+      tailwindcss = {},
+      emmet_ls = {
+        filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less', 'svelte' },
+      },
+      lua_ls = {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { 'vim' },
+            },
+            completion = {
+              callSnippet = 'Replace',
             },
           },
-        })
-      end,
-      ['denols'] = function()
-        lspconfig.denols.setup({
-          root_dir = lspconfig.util.root_pattern('deno.json', 'deno.jsonc'),
-        })
-      end,
-      ['intelephense'] = function()
-        lspconfig['intelephense'].setup({
-          completion = {
-            fullyQualifyGlobalConstants = false,
-            fullyQualifyGlobalFunctions = false,
-          },
-          environment = {
-            includePaths = {
-              vim.fn.getcwd() .. '/tests',
+        },
+      },
+      intelephense = {
+        init_options = {
+          licenceKey = '005T4H00WXQP92N',
+        },
+        on_init = function(client)
+          client.server_capabilities.documentFormattingProvider = false
+        end,
+        settings = {
+          intelephense = {
+            stubs = {
+              'apache',
+              'bcmath',
+              'bz2',
+              'calendar',
+              'com_dotnet',
+              'Core',
+              'ctype',
+              'curl',
+              'date',
+              'dba',
+              'dom',
+              'enchant',
+              'exif',
+              'FFI',
+              'fileinfo',
+              'filter',
+              'fpm',
+              'ftp',
+              'gd',
+              'gettext',
+              'gmp',
+              'hash',
+              'iconv',
+              'imap',
+              'intl',
+              'json',
+              'ldap',
+              'libxml',
+              'mbstring',
+              'meta',
+              'mysqli',
+              'oci8',
+              'odbc',
+              'openssl',
+              'pcntl',
+              'pcre',
+              'PDO',
+              'pdo_ibm',
+              'pdo_mysql',
+              'pdo_pgsql',
+              'pdo_sqlite',
+              'pgsql',
+              'Phar',
+              'posix',
+              'pspell',
+              'readline',
+              'Reflection',
+              'session',
+              'shmop',
+              'SimpleXML',
+              'snmp',
+              'soap',
+              'sockets',
+              'sodium',
+              'SPL',
+              'sqlite3',
+              'standard',
+              'superglobals',
+              'sysvmsg',
+              'sysvsem',
+              'sysvshm',
+              'tidy',
+              'tokenizer',
+              'xml',
+              'xmlreader',
+              'xmlrpc',
+              'xmlwriter',
+              'xsl',
+              'Zend OPcache',
+              'zip',
+              'zlib',
+              'wordpress',
+              'phpunit',
+              'polylang',
             },
-          },
-          root_dir = function()
-            return vim.loop.cwd()
-          end,
-          capabilities = capabilities,
-          handlers = handlers,
-          init_options = {
-            licenceKey = '005T4H00WXQP92N',
-          },
-          on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-          end,
-          settings = {
+            diagnostics = {
+              enable = true,
+              typeErrors = true,
+              undefinedClassConstants = true,
+              undefinedConstants = true,
+              undefinedFunctions = true,
+              undefinedMethods = true,
+              undefinedProperties = true,
+              undefinedTypes = true,
+              embeddedLanguage = false,
+              unusedSymbols = false,
+            },
             format = {
               enable = false,
             },
-            intelephense = {
-              stubs = {
-                'apache',
-                'bcmath',
-                'bz2',
-                'calendar',
-                'com_dotnet',
-                'Core',
-                'ctype',
-                'curl',
-                'date',
-                'dba',
-                'dom',
-                'enchant',
-                'exif',
-                'FFI',
-                'fileinfo',
-                'filter',
-                'fpm',
-                'ftp',
-                'gd',
-                'gettext',
-                'gmp',
-                'hash',
-                'iconv',
-                'imap',
-                'intl',
-                'json',
-                'ldap',
-                'libxml',
-                'mbstring',
-                'meta',
-                'mysqli',
-                'oci8',
-                'odbc',
-                'openssl',
-                'pcntl',
-                'pcre',
-                'PDO',
-                'pdo_ibm',
-                'pdo_mysql',
-                'pdo_pgsql',
-                'pdo_sqlite',
-                'pgsql',
-                'Phar',
-                'posix',
-                'pspell',
-                'readline',
-                'Reflection',
-                'session',
-                'shmop',
-                'SimpleXML',
-                'snmp',
-                'soap',
-                'sockets',
-                'sodium',
-                'SPL',
-                'sqlite3',
-                'standard',
-                'superglobals',
-                'sysvmsg',
-                'sysvsem',
-                'sysvshm',
-                'tidy',
-                'tokenizer',
-                'xml',
-                'xmlreader',
-                'xmlrpc',
-                'xmlwriter',
-                'xsl',
-                'Zend OPcache',
-                'zip',
-                'zlib',
-                'wordpress',
-                'phpunit',
-                'polylang',
-              },
-              diagnostics = {
-                enable = true,
-                -- Disable style-related diagnostics in Intelephense
-                typeErrors = true,
-                undefinedClassConstants = true,
-                undefinedConstants = true,
-                undefinedFunctions = true,
-                undefinedMethods = true,
-                undefinedProperties = true,
-                undefinedTypes = true,
-                -- Disable documentation-related diagnostics
-                embeddedLanguage = false,
-                unusedSymbols = false,
-              },
-              format = {
-                enable = false,
-              },
-              files = {
-                maxSize = 10000000,
-              },
+            files = {
+              maxSize = 10000000,
             },
           },
-        })
-      end,
-      ['biome'] = function()
-        lspconfig.biome.setup({
-          capabilities = capabilities,
-          handlers = handlers,
-          on_attach = function(client, bufnr)
-            if client.server_capabilities.documentFormattingProvider then
-              vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
-            end
-          end,
-        })
-      end,
-    })
+        },
+      },
+      biome = {
+        on_attach = function(client, bufnr)
+          if client.server_capabilities.documentFormattingProvider then
+            vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+          end
+        end,
+      },
+    }
+
+    -- Setup all servers
+    for server, config in pairs(servers) do
+      config.capabilities = capabilities
+      config.handlers = handlers
+      lspconfig[server].setup(config)
+    end
   end,
 }

@@ -202,3 +202,7 @@ else
   tmux new_window;
   clear
 fi
+export PATH="/usr/local/opt/php@8.3/bin:$PATH"
+
+
+alias claude="/Users/brianboy/.claude/local/claude"

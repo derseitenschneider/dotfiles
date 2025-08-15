@@ -1,0 +1,20 @@
+{
+  "model": "opusplan",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "input=$(cat); username=$(whoami); git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'no-git'); current_dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); model_name=$(echo \"$input\" | jq -r '.model.display_name // .model.id'); printf \"\\033[2m%s@%s ⎇ %s | Model: %s\\033[0m\" \"$username\" \"$(basename \"$current_dir\")\" \"$git_branch\" \"$model_name\""
+  }
+}

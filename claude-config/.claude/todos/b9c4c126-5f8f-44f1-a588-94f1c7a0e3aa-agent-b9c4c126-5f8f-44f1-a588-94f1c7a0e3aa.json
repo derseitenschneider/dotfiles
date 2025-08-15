@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Analyze current blog:tipps.md file structure",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create improved version with better structure and detail",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Add WordPress category requirement to the workflow",
+    "status": "completed",
+    "id": "3"
+  }
+]

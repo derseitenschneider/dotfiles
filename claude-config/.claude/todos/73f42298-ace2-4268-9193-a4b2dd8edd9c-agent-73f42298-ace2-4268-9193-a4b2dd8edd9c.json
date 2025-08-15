@@ -1,0 +1,37 @@
+[
+  {
+    "content": "Research and create blog post on 'Improvisation lehren: Ein 9-Schritte-Plan für alle Instrumente'",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Review post for quality and adherence to guidelines",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Finalize post and save to blog directory",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Check off topic in blogpost-ideas-checklist.md",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Upload post to WordPress with category 'Tipps'",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Configure SEO settings in Yoast",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Generate featured image prompt and alt text",
+    "status": "completed",
+    "id": "7"
+  }
+]

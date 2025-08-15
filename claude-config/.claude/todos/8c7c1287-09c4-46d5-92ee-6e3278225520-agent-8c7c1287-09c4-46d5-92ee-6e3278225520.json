@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Translate all UI text to German in React components",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Update PHP translation strings to German",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Rebuild assets with German translations",
+    "status": "completed",
+    "id": "3"
+  }
+]

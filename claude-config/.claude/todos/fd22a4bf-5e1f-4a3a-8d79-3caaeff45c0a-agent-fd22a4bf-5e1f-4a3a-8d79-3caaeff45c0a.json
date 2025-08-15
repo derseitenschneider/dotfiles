@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Examine the recent commit to identify testing features that were added",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Remove testing configuration files and dependencies",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Remove test directories and test files",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Clean up any testing-related code from existing files",
+    "status": "completed",
+    "id": "4"
+  }
+]

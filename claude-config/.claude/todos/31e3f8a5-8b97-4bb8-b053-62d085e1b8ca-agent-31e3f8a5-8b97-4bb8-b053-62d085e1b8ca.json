@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Reset local main branch to match remote origin/main",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Verify local and remote branches are synchronized",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Confirm working tree is clean and ready for future work",
+    "status": "completed",
+    "id": "3"
+  }
+]

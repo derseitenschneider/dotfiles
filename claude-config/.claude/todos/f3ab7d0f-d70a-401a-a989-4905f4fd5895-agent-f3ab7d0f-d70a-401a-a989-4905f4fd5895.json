@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze the Claude config mess",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Unstow claude-config package",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Move project command to proper location",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Remove mistaken ~/. directory",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Re-stow claude-config correctly",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Verify final structure",
+    "status": "completed",
+    "id": "6"
+  }
+]

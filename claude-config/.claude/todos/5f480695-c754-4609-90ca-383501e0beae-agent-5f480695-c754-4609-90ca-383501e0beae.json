@@ -1,0 +1,42 @@
+[
+  {
+    "content": "Select unchecked topic from blogpost-ideas-checklist.md",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create blog post content using marketing-copywriter agent",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Review and revise the created post",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Save final blog post to blog directory",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Check off topic in blogpost-ideas-checklist.md",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Upload post to WordPress with Tipps category",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Configure Yoast SEO settings",
+    "status": "completed",
+    "id": "7"
+  },
+  {
+    "content": "Create featured image prompt and alt text",
+    "status": "completed",
+    "id": "8"
+  }
+]

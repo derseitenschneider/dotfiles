@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Fix remaining PHPCS errors in GutenbergACFIntegration",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Fix PHPCS errors in NotificationMailer",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Fix PHPCS errors in ImageQualityManager",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Add missing documentation comments",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Run PHPStan analysis on codebase",
+    "status": "completed",
+    "id": "5"
+  }
+]

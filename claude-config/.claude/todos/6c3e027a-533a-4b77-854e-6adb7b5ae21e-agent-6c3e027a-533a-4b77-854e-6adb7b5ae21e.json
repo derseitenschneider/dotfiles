@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Fix quote conversion happening inside HTML attributes",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Modify apply_text_corrections_to_plain_text to preserve HTML tags",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Only convert quotes in plain text content",
+    "status": "completed",
+    "id": "3"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "content": "Fetch next unchecked topic from blog ideas checklist",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create blog post content using marketing-copywriter agent",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Review and revise content for quality and guidelines compliance",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Check off topic in checklist and finalize post",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Upload to WordPress with proper formatting and category",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Configure Yoast SEO settings",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Generate featured image prompts",
+    "status": "completed",
+    "id": "7"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Create README.md for spec overview and navigation",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create implementation-plan.md with detailed roadmap",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Create test-templates directory with template files",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Create progress.md for tracking implementation",
+    "status": "pending",
+    "id": "4"
+  },
+  {
+    "content": "Create decisions.md for technical decisions log",
+    "status": "pending",
+    "id": "5"
+  }
+]

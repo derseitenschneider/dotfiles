@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Add missing properties ($group, $position) to ACFAuthorRequirement class",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Replace $title/$description with proper init_language() method",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Remove unnecessary methods (get_title, get_description, get_js_status)",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Clean up debug logging once working",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Test the final implementation",
+    "status": "completed",
+    "id": "5"
+  }
+]

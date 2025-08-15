@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Fix hook timing to use publishpress_checklists_load_addons",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Use correct filter name and priority",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Test the integration",
+    "status": "completed",
+    "id": "3"
+  }
+]

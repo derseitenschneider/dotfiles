@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Update workflow to exclude test files from zip",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Commit and push changes",
+    "status": "completed",
+    "id": "2"
+  }
+]

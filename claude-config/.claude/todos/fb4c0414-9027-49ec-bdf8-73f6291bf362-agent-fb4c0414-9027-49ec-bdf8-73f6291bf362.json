@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Stage all remaining changes",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Commit all remaining changes",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Push to remote",
+    "status": "completed",
+    "id": "3"
+  }
+]

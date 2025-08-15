@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Test for false positives - Break Button component to verify test failure",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Test for false positives - Break mock factories to verify test failure",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Test for false positives - Break MSW handlers to verify test failure",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Revert all changes and verify tests pass again",
+    "status": "completed",
+    "id": "4"
+  }
+]

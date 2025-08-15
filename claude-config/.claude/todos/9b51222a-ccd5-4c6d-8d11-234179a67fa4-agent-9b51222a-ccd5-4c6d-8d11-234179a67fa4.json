@@ -1,0 +1,77 @@
+[
+  {
+    "content": "Setup: Start development server and verify environment",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Setup: Create QA directory structure for screenshots",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Setup: Verify Playwright and authentication credentials",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Testing: Login and save authentication state",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Testing: Student Management - Full CRUD operations",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Testing: Group Management - Full CRUD operations",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Testing: Lesson Planning - Full CRUD operations",
+    "status": "completed",
+    "id": "7"
+  },
+  {
+    "content": "Testing: Notes System - Full CRUD with drag-drop",
+    "status": "completed",
+    "id": "8"
+  },
+  {
+    "content": "Testing: Repertoire - Full CRUD operations",
+    "status": "completed",
+    "id": "9"
+  },
+  {
+    "content": "Testing: Timetable - Full CRUD operations",
+    "status": "completed",
+    "id": "10"
+  },
+  {
+    "content": "Testing: Messages - Send, reply, mark, delete",
+    "status": "completed",
+    "id": "11"
+  },
+  {
+    "content": "Testing: Settings - Test all toggles and preferences",
+    "status": "completed",
+    "id": "12"
+  },
+  {
+    "content": "Testing: Test all modals and dropdowns",
+    "status": "completed",
+    "id": "13"
+  },
+  {
+    "content": "Testing: Mobile viewport testing",
+    "status": "completed",
+    "id": "14"
+  },
+  {
+    "content": "Testing: Final cleanup and screenshot copying",
+    "status": "completed",
+    "id": "15"
+  }
+]

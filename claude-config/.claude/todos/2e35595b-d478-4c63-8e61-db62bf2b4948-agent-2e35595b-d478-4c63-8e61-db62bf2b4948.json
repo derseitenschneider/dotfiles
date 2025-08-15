@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Fix lesson layout padding - reduce by half",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Find and fix delete repertoire item button order + add close button",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Revert create repertoire item spacing changes",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Make student drawer names more granular with German labels",
+    "status": "completed",
+    "id": "7"
+  },
+  {
+    "content": "Apply same day selection fix to UpdateStudents component",
+    "status": "completed",
+    "id": "10"
+  },
+  {
+    "content": "Change delete lesson drawer to bottom-up instead of right",
+    "status": "completed",
+    "id": "14"
+  }
+]

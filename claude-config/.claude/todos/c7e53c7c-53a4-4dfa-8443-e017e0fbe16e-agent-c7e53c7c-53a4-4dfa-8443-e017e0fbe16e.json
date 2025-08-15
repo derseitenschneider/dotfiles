@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Debug why LazyGit opens empty floating panel",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Check terminal and shell settings",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Fix LazyGit configuration",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Research LazyGit GitHub issues for terminal problems",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Check recent plugin updates that might conflict",
+    "status": "completed",
+    "id": "5"
+  }
+]

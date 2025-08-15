@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Create proper MediaHubApiRepository unit tests that import the real class",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create proper ContentBrowser unit tests that import the real class",
+    "status": "pending",
+    "id": "2"
+  },
+  {
+    "content": "Create proper FileImporter unit tests that import the real class",
+    "status": "pending",
+    "id": "3"
+  },
+  {
+    "content": "Test that all real classes work with proper mocking",
+    "status": "completed",
+    "id": "4"
+  }
+]

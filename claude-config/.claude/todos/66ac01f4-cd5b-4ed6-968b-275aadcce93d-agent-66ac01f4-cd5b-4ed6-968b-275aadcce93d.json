@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Install @modelcontextprotocol/server-playwright globally",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Configure Playwright MCP in Claude Code settings",
+    "status": "completed",
+    "id": "2"
+  }
+]

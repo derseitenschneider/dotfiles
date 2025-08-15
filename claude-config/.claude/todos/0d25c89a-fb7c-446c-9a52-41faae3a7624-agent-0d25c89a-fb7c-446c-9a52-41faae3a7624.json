@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Create 10 lessons for Anna Schmidt (Piano)",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create 10 lessons for Max Müller (Guitar)",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Create 10 lessons for Sophie Weber (Violin)",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Create 10 lessons for Lukas Fischer (Drums)",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Create 10 lessons for Emma Bauer (Voice)",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Verify all lessons were created successfully",
+    "status": "completed",
+    "id": "6"
+  }
+]

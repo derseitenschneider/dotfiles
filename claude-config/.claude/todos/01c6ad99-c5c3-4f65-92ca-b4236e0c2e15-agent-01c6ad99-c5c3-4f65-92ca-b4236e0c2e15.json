@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Run typecheck on app folder",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Fix any typecheck errors found",
+    "status": "completed",
+    "id": "2"
+  }
+]

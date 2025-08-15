@@ -1,0 +1,42 @@
+[
+  {
+    "content": "Fetch next unchecked topic from blogpost-ideas-checklist.md",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Use marketing-copywriter agent to research and draft blog post on 'Zeitmanagement für Musiklehrer'",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Review and revise post for quality and guidelines adherence",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Save final post to blog directory with proper naming",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Check off topic in blogpost-ideas-checklist.md",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Upload post to WordPress as block-based post in 'Tipps' category",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Configure Yoast SEO settings",
+    "status": "completed",
+    "id": "7"
+  },
+  {
+    "content": "Generate AI image prompt and featured image details",
+    "status": "completed",
+    "id": "8"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "content": "Fix validate_author_field method to handle new attachments where get_field_object returns false",
+    "status": "completed",
+    "id": "fix-new-attachment-validation"
+  }
+]

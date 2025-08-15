@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Update .gitignore for local MCP configuration",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create local .claude_config for directory-specific MCP setup",
+    "status": "completed",
+    "id": "2"
+  }
+]

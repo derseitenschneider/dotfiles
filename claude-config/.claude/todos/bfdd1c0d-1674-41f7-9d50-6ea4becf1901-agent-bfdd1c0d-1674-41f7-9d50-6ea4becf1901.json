@@ -1,0 +1,37 @@
+[
+  {
+    "content": "Research existing blog posts and WordPress site structure",
+    "status": "completed",
+    "id": "1"
+  },
+  {
+    "content": "Create blog post 1: Digital transformation in music education",
+    "status": "completed",
+    "id": "2"
+  },
+  {
+    "content": "Create blog post 2: Building stronger teacher-student relationships",
+    "status": "completed",
+    "id": "3"
+  },
+  {
+    "content": "Create blog post 3: Modern practice techniques for instrumental students",
+    "status": "completed",
+    "id": "4"
+  },
+  {
+    "content": "Create blog post 4: Setting up a successful home music studio",
+    "status": "completed",
+    "id": "5"
+  },
+  {
+    "content": "Create blog post 5: Seasonal music teaching strategies",
+    "status": "completed",
+    "id": "6"
+  },
+  {
+    "content": "Upload all 5 blog posts to WordPress",
+    "status": "completed",
+    "id": "7"
+  }
+]

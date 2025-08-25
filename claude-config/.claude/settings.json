@@ -11,10 +11,76 @@
           }
         ]
       }
+    ],
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Ping.aiff"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Pop.aiff"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Hero.aiff"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Morse.aiff"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Purr.aiff"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude-code-docs/claude-docs-helper.sh hook-check"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
     "type": "command",
-    "command": "input=$(cat); username=$(whoami); git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'no-git'); current_dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); model_name=$(echo \"$input\" | jq -r '.model.display_name // .model.id'); printf \"\\033[2m%s@%s ⎇ %s | Model: %s\\033[0m\" \"$username\" \"$(basename \"$current_dir\")\" \"$git_branch\" \"$model_name\""
+    "command": "input=$(cat); username=$(whoami); hostname=$(hostname -s); current_dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); model_name=$(echo \"$input\" | jq -r '.model.display_name // .model.id'); current_time=$(date +%H:%M:%S); cd \"$current_dir\" 2>/dev/null; if git rev-parse --git-dir >/dev/null 2>&1; then git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); git_status=$(git status --porcelain 2>/dev/null); if [ -n \"$git_status\" ]; then git_indicator=\"⎇ $git_branch*\"; else git_indicator=\"⎇ $git_branch\"; fi; else git_indicator=\"no-git\"; fi; printf \"\\033[2m%s@%s | %s | %s | %s | Model: %s\\033[0m\" \"$username\" \"$hostname\" \"$(basename \"$current_dir\")\" \"$git_indicator\" \"$current_time\" \"$model_name\""
   }
 }

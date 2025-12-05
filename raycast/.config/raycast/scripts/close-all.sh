@@ -19,7 +19,4 @@ for app in $running_apps; do
     fi
 done
 
-# Use AeroSpace to close any remaining windows
-aerospace close-all-windows-but-current
-
 echo "All applications closed!"

@@ -1,3 +1,11 @@
 raycast/.config/raycast/extensions
 stripe/.config/stripe/config.toml
 .DS_Store
+node_modules
+
+# Claude session data (machine-specific)
+*.jsonl
+**/statsig/
+
+# Zed editor databases
+*.mdb

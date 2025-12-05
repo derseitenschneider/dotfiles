@@ -206,3 +206,13 @@ export PATH="/usr/local/opt/php@8.3/bin:$PATH"
 
 
 alias claude="/Users/brianboy/.claude/local/claude"
+
+# bun completions
+[ -s "/Users/brianboy/.bun/_bun" ] && source "/Users/brianboy/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/brianboy/.antigravity/antigravity/bin:$PATH"

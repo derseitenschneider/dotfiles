@@ -9,6 +9,7 @@ This is a personal dotfiles repository managed with GNU Stow. **Extreme caution 
 ## Primary Responsibility: Dotfiles Manager
 
 Your main role is to help manage dotfiles by:
+
 1. Finding unstowed configurations in the home directory
 2. Adding them to this repository with correct stow structure
 3. Stowing them properly with symlinks
@@ -19,7 +20,8 @@ Your main role is to help manage dotfiles by:
 ## GNU Stow Structure Rules
 
 This repository uses GNU Stow for symlink management:
-- **First directory level**: Package name (arbitrary namespace like `nvim`, `tmux`, `zshrc`)  
+
+- **First directory level**: Package name (arbitrary namespace like `nvim`, `tmux`, `zshrc`)
 - **Second level onwards**: Exact mirror of where it should be symlinked in home directory
 - Examples:
   - `nvim/.config/nvim/init.lua` → `~/.config/nvim/init.lua`
@@ -29,6 +31,7 @@ This repository uses GNU Stow for symlink management:
 ## Safety-First Workflow for Adding Dotfiles
 
 ### 1. Discovery Phase
+
 ```bash
 # Find potential unstowed configs
 find ~/.config -maxdepth 1 -type d | while read dir; do
@@ -46,19 +49,23 @@ ls -la ~/.config/[app_name]
 ```
 
 ### 2. Planning Phase
+
 - Show exact package structure that will be created
 - Identify any conflicts with existing files
 - Present full plan to user for explicit approval
 
 ### 3. Mandatory Dry Run Phase
+
 ```bash
 # ALWAYS run this before actual stow
 stow -n -v [package_name]
 ```
+
 - Review all warnings and conflicts
 - Get explicit user confirmation before proceeding
 
 ### 4. Execution Phase (Only After Approval)
+
 ```bash
 # Create package with proper structure
 mkdir [package_name]
@@ -75,6 +82,7 @@ ls -la ~/path/to/config
 ## Conflict Resolution
 
 If `stow -n` reports conflicts:
+
 1. **STOP immediately**
 2. Show user the conflicting files
 3. Options:
@@ -147,8 +155,9 @@ find ~ -type l ! -exec test -e {} \; -print
 ## High-Risk Configurations - Extra Caution Required
 
 These configurations require double confirmation due to potential system impact:
+
 - **Shell configs** (`.zshrc`, `.bashrc`) - can break terminal access
-- **Git configs** (`.gitconfig`) - affects all repositories  
+- **Git configs** (`.gitconfig`) - affects all repositories
 - **SSH configs** (`.ssh/config`) - can break remote access
 - **Neovim** - editor used for system administration
 
@@ -171,23 +180,25 @@ These configurations require double confirmation due to potential system impact:
 ## Current Architecture
 
 ### Development Environment
+
 - **Editor**: Neovim with extensive plugin configuration (see `nvim/.config/nvim/CLAUDE.md`)
 - **Shell**: Zsh with custom configuration
-- **Terminal**: Multiple options (Alacritty, Ghostty, Kitty, iTerm2)
+- **Terminal**: Mainly Ghostty but iTerm2 for backup
 - **Multiplexer**: Tmux with Catppuccin theme
-- **Window Manager**: Aerospace for tiling
 - **Prompt**: Starship and Powerlevel10k configurations
 
 ### Key Tools (from Brewfile)
-- **Core utilities**: bat, eza, fd, fzf, ripgrep, tree, yazi
+
+- **Core utilities**: bat, eza, fd, fzf, ripgrep, tree
 - **Development**: neovim, node, php, composer, python, deno
-- **Git workflow**: gh, lazygit  
+- **Git workflow**: gh, lazygit
 - **Databases**: mysql, postgresql@14
 - **Languages**: PHP with phpcs, Node.js, Python 3.10/3.12
 
 ## Rollback Procedures
 
 Keep track of all operations in each session:
+
 - Document packages stowed: `echo "[package]" >> .session-log`
 - Undo with: `stow -D [package]`
 - Restore from backups if created
@@ -196,6 +207,7 @@ Keep track of all operations in each session:
 ## Emergency Recovery
 
 If dotfiles break the system:
+
 1. Use a new terminal session or TTY
 2. Remove problematic symlinks: `rm ~/.config/problematic-app`
 3. Unstow the package: `cd ~/.dotfiles && stow -D [package]`
@@ -205,6 +217,7 @@ If dotfiles break the system:
 ## Development Workflow
 
 When modifying existing configurations:
+
 1. Edit files in `~/.dotfiles/[package]/`
 2. Changes are immediately reflected due to symlinks
 3. Test changes thoroughly
@@ -212,3 +225,4 @@ When modifying existing configurations:
 5. Document significant changes in commit messages
 
 Remember: This repository contains the foundation of the development environment. Every change should be deliberate, tested, and reversible.
+

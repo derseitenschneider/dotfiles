@@ -9,7 +9,7 @@ adjust-cell-height = 20%
 # WINDOW
 window-decoration = none
 window-padding-x = 4
-window-padding-y = 8
+window-padding-y = 20
 # background-opacity = 0.99
 # background-blur = 20
 
@@ -18,3 +18,4 @@ cursor-invert-fg-bg = true
 
 # SYSTEM
 confirm-close-surface = false
+keybind = shift+enter=text:\x1b\r

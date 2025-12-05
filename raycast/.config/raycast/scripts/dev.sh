@@ -7,11 +7,8 @@
 # @raycast.packageName Development
 # @raycast.icon 👨‍💻
 
-# Switch to workspace T
-aerospace workspace --fail-if-noop T 
-
 # Open Chrome window
-open -n -a "Google Chrome" --args --new-window
+open -n -a "Google Chrome" --args --new-window --incognito
 raycast windows left half
 
 # Open ghostty 

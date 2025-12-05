@@ -1,5 +1,5 @@
 {
-  "model": "opusplan",
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -82,5 +82,6 @@
   "statusLine": {
     "type": "command",
     "command": "input=$(cat); username=$(whoami); hostname=$(hostname -s); current_dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); model_name=$(echo \"$input\" | jq -r '.model.display_name // .model.id'); current_time=$(date +%H:%M:%S); cd \"$current_dir\" 2>/dev/null; if git rev-parse --git-dir >/dev/null 2>&1; then git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); git_status=$(git status --porcelain 2>/dev/null); if [ -n \"$git_status\" ]; then git_indicator=\"⎇ $git_branch*\"; else git_indicator=\"⎇ $git_branch\"; fi; else git_indicator=\"no-git\"; fi; printf \"\\033[2m%s@%s | %s | %s | %s | Model: %s\\033[0m\" \"$username\" \"$hostname\" \"$(basename \"$current_dir\")\" \"$git_indicator\" \"$current_time\" \"$model_name\""
-  }
+  },
+  "alwaysThinkingEnabled": false
 }

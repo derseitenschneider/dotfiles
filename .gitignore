@@ -22,3 +22,10 @@ karabiner/.config/karabiner/automatic_backups/
 # Test and temporary files
 nvim/.config/nvim/test-markdown.md
 nvim/.config/nvim/global_packages_backup.txt
+
+# lnav session data and defaults
+lnav/.config/lnav/*.history
+lnav/.config/lnav/*.db
+lnav/.config/lnav/view-info-*.json
+lnav/.config/lnav/configs/default/
+lnav/.config/lnav/formats/default/

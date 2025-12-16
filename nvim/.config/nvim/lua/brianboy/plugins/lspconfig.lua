@@ -38,6 +38,7 @@ return {
         'lua_ls',
         'emmet_ls',
         'intelephense',
+        'rust_analyzer',
       },
       automatic_installation = false, -- Don't automatically install detected servers
       automatic_enable = false, -- Disable automatic enabling (requires Neovim 0.11.0+)
@@ -49,6 +50,7 @@ return {
         'stylua',
         'phpcs',
         'phpcbf',
+        'rustfmt',
       },
     })
 
@@ -255,6 +257,21 @@ return {
             vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
           end
         end,
+      },
+      rust_analyzer = {
+        settings = {
+          ['rust-analyzer'] = {
+            checkOnSave = {
+              command = 'clippy',
+            },
+            cargo = {
+              allFeatures = true,
+            },
+            procMacro = {
+              enable = true,
+            },
+          },
+        },
       },
     }
 

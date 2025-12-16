@@ -1,3 +1,0 @@
-/usr/local/Cellar/node/23.3.0/lib
-└── corepack@0.29.4
-

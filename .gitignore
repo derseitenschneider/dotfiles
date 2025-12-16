@@ -6,6 +6,19 @@ node_modules
 # Claude session data (machine-specific)
 *.jsonl
 **/statsig/
+**/projects/
+**/shell-snapshots/
+**/todos/
 
-# Zed editor databases
+# Zed editor databases and temp files
 *.mdb
+zed/.config/zed/.tmp*
+zed/.config/zed/embeddings/
+
+# Backup files
+*.bak
+karabiner/.config/karabiner/automatic_backups/
+
+# Test and temporary files
+nvim/.config/nvim/test-markdown.md
+nvim/.config/nvim/global_packages_backup.txt

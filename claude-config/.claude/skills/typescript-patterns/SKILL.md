@@ -166,6 +166,5 @@ import MongoDB from "mongodb";
 
 ## Organization
 
-- Keep types with related code (not in `types/` directories)
 - Only export types that are part of public API
 - Use `ReturnType` and `Parameters` to access private types

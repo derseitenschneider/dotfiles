@@ -1,4 +1,15 @@
 {
   "version": 2,
-  "plugins": {}
+  "plugins": {
+    "hookify@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/6d3752c000e2",
+        "version": "6d3752c000e2",
+        "installedAt": "2025-12-19T06:52:39.327Z",
+        "lastUpdated": "2025-12-19T06:52:50.492Z",
+        "isLocal": true
+      }
+    ]
+  }
 }

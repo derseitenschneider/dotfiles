@@ -84,8 +84,10 @@
     "type": "command",
     "command": "input=$(cat); username=$(whoami); current_dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); model_name=$(echo \"$input\" | jq -r '.model.display_name // .model.id'); ESC=$(printf '\\033'); cd \"$current_dir\" 2>/dev/null; git_info=\"\"; if git rev-parse --git-dir >/dev/null 2>&1; then git_branch=$(git --no-optional-locks rev-parse --abbrev-ref HEAD 2>/dev/null); git_status=$(git --no-optional-locks status --porcelain 2>/dev/null); staged=$(echo \"$git_status\" | grep -c '^[AMDR]' 2>/dev/null || echo 0); modified=$(echo \"$git_status\" | grep -c '^.[M]' 2>/dev/null || echo 0); deleted=$(echo \"$git_status\" | grep -c '[D]' 2>/dev/null || echo 0); untracked=$(echo \"$git_status\" | grep -c '^??' 2>/dev/null || echo 0); git_status_str=\"\"; [ \"$staged\" -gt 0 ] 2>/dev/null && git_status_str=\"${git_status_str} ${ESC}[32mA:${staged}${ESC}[0m\"; [ \"$modified\" -gt 0 ] 2>/dev/null && git_status_str=\"${git_status_str} ${ESC}[33mM:${modified}${ESC}[0m\"; [ \"$deleted\" -gt 0 ] 2>/dev/null && git_status_str=\"${git_status_str} ${ESC}[31mD:${deleted}${ESC}[0m\"; [ \"$untracked\" -gt 0 ] 2>/dev/null && git_status_str=\"${git_status_str} ${ESC}[36mU:${untracked}${ESC}[0m\"; git_info=\" ${ESC}[36m$git_branch*${ESC}[0m${git_status_str}\"; fi; short_dir=$(echo \"$current_dir\" | awk -F'/' '{n=NF; if(n<=3) print; else {printf \"…/\"; for(i=n-2;i<=n;i++){printf \"%s\", $i; if(i<n) printf \"/\"}}}'); if [ -n \"$git_info\" ]; then printf \"${ESC}[34m%s${ESC}[0m | [${ESC}[35m%s${ESC}[0m] |%s | ${ESC}[2m%s${ESC}[0m\" \"$username\" \"$short_dir\" \"$git_info\" \"$model_name\"; else printf \"${ESC}[34m%s${ESC}[0m | [${ESC}[35m%s${ESC}[0m] | ${ESC}[2m%s${ESC}[0m\" \"$username\" \"$short_dir\" \"$model_name\"; fi"
   },
-  "alwaysThinkingEnabled": true,
   "enabledPlugins": {
-    "hookify@claude-plugins-official": true
-  }
+    "hookify@claude-plugins-official": true,
+    "ast-grep@ast-grep-marketplace": true,
+    "feature-dev@claude-code-plugins": true
+  },
+  "alwaysThinkingEnabled": true
 }

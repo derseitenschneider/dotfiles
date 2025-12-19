@@ -10,6 +10,16 @@
         "lastUpdated": "2025-12-19T06:52:50.492Z",
         "isLocal": true
       }
+    ],
+    "ast-grep@ast-grep-marketplace": [
+      {
+        "scope": "user",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/ast-grep-marketplace/ast-grep/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2025-12-19T08:24:06.730Z",
+        "lastUpdated": "2025-12-19T08:24:06.730Z",
+        "isLocal": true
+      }
     ]
   }
 }

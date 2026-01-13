@@ -186,6 +186,24 @@ npm-build() {
 
 alias build='npm-build'
 
+# Web search with w3m and DuckDuckGo
+# Usage: s your search query
+s() {
+    local query="${*// /+}"
+    w3m "https://duckduckgo.com/?q=${query}"
+}
+
+# Quick Claude prompt without interactive mode
+# Usage: ai your question here
+ai() {
+    claude -p "$*"
+}
+
+# Quick Gemini prompt without interactive mode
+# Usage: gem your question here
+gem() {
+    gemini "$*"
+}
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

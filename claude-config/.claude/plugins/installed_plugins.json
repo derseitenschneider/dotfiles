@@ -4,11 +4,10 @@
     "hookify@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/6d3752c000e2",
-        "version": "6d3752c000e2",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/f70b65538da0",
+        "version": "f70b65538da0",
         "installedAt": "2025-12-19T06:52:39.327Z",
-        "lastUpdated": "2025-12-19T06:52:50.492Z",
-        "isLocal": true
+        "lastUpdated": "2026-01-13T05:36:12.305Z"
       }
     ],
     "ast-grep@ast-grep-marketplace": [
@@ -17,8 +16,26 @@
         "installPath": "/Users/brianboy/.claude/plugins/cache/ast-grep-marketplace/ast-grep/1.0.0",
         "version": "1.0.0",
         "installedAt": "2025-12-19T08:24:06.730Z",
-        "lastUpdated": "2025-12-19T08:24:06.730Z",
-        "isLocal": true
+        "lastUpdated": "2025-12-19T08:24:06.730Z"
+      }
+    ],
+    "feature-dev@claude-code-plugins": [
+      {
+        "scope": "user",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-code-plugins/feature-dev/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2025-12-19T08:31:28.767Z",
+        "lastUpdated": "2025-12-19T08:31:28.767Z",
+        "gitCommitSha": "52115592ba30e818ba147d7fdfd47ee367f81708"
+      }
+    ],
+    "rust-analyzer-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/rust-analyzer-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-01-10T09:28:36.778Z",
+        "lastUpdated": "2026-01-10T09:28:36.778Z"
       }
     ]
   }

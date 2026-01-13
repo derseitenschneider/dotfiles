@@ -4,7 +4,7 @@ vim.g.maplocalleader = ' '
 local keymap = vim.keymap -- for conciseness
 
 -- Set kj as escape substitute
-keymap.set({ 'i', 'v', 'c' }, 'kj', '<ESC>', { desc = 'Exit insert mode with jk' })
+-- keymap.set({ 'i', 'v', 'c' }, 'kj', '<ESC>', { desc = 'Exit insert mode with jk' })
 
 -- Source file with space + enter
 keymap.set('n', '<leader><CR>', ':source %<CR>', { desc = 'Source current file', noremap = false })

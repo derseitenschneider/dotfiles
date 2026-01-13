@@ -1,5 +1,7 @@
 # THEME
-theme = catppuccin-mocha
+# theme = catppuccin-mocha
+# theme = Monokai Remastered
+theme = Adventure
 
 # FONT
 font-family = CaskaydiaCove NFM Regular

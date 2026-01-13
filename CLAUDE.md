@@ -225,4 +225,3 @@ When modifying existing configurations:
 5. Document significant changes in commit messages
 
 Remember: This repository contains the foundation of the development environment. Every change should be deliberate, tested, and reversible.
-

@@ -163,6 +163,10 @@ alias lsa="eza --color=always --long --all --git --icons=always"
 alias nr="npm run"
 alias nx="npx"
 
+# Claude
+alias cc="claude"
+alias ccd="claude --dangerously-skip-permissions"
+
 ######## SCRIPTS
 #
 # Build scripts

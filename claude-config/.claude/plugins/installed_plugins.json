@@ -4,10 +4,10 @@
     "hookify@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/f70b65538da0",
-        "version": "f70b65538da0",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/96276205880a",
+        "version": "96276205880a",
         "installedAt": "2025-12-19T06:52:39.327Z",
-        "lastUpdated": "2026-01-13T05:36:12.305Z"
+        "lastUpdated": "2026-01-16T06:59:31.745Z"
       }
     ],
     "ast-grep@ast-grep-marketplace": [
@@ -36,6 +36,17 @@
         "version": "1.0.0",
         "installedAt": "2026-01-10T09:28:36.778Z",
         "lastUpdated": "2026-01-10T09:28:36.778Z"
+      }
+    ],
+    "retrospective@retrospective-marketplace": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/brianboy/Repositories/personal/eleno",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/retrospective-marketplace/retrospective/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-01-14T06:03:26.639Z",
+        "lastUpdated": "2026-01-14T06:03:26.639Z",
+        "gitCommitSha": "cf3c254640237e1f932693e3a2aae734d32e4fe8"
       }
     ]
   }

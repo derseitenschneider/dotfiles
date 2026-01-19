@@ -1,7 +1,16 @@
+######## TERMINAL
+#
+# Disable flow control (frees Ctrl-s for tmux prefix)
+stty -ixon
+
 ######## FZF
-# 
+#
 # Source fzf
 eval "$(fzf --zsh)"
+
+# Fix Claude Code path (remove broken alias if exists)
+unalias claude 2>/dev/null
+alias claude='/opt/homebrew/bin/claude'
 
 ######## PLUGINS
 
@@ -227,7 +236,6 @@ fi
 export PATH="/usr/local/opt/php@8.3/bin:$PATH"
 
 
-alias claude="/Users/brianboy/.claude/local/claude"
 
 # bun completions
 [ -s "/Users/brianboy/.bun/_bun" ] && source "/Users/brianboy/.bun/_bun"

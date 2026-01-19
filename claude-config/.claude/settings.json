@@ -1,6 +1,5 @@
 {
   "includeCoAuthoredBy": false,
-  "model": "opus",
   "hooks": {
     "Stop": [
       {

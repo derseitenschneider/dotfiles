@@ -9,6 +9,13 @@ node_modules
 **/projects/
 **/shell-snapshots/
 **/todos/
+**/debug/
+claude-config/.claude/cache/
+claude-config/.claude/file-history/
+claude-config/.claude/image-cache/
+claude-config/.claude/plans/
+claude-config/.claude/stats-cache.json
+claude-config/.claude/plugins/cache/
 
 # Zed editor databases and temp files
 *.mdb

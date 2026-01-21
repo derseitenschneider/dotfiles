@@ -16,6 +16,12 @@ claude-config/.claude/image-cache/
 claude-config/.claude/plans/
 claude-config/.claude/stats-cache.json
 claude-config/.claude/plugins/cache/
+claude-config/.claude/chrome/
+claude-config/.claude/paste-cache/
+claude-config/.claude/telemetry/
+claude-config/.claude/plugins/install-counts-cache.json
+claude-config/.claude/settings.local.json
+*/.claude/settings.local.json
 
 # Zed editor databases and temp files
 *.mdb
@@ -36,3 +42,10 @@ lnav/.config/lnav/*.db
 lnav/.config/lnav/view-info-*.json
 lnav/.config/lnav/configs/default/
 lnav/.config/lnav/formats/default/
+
+# Python cache
+**/__pycache__/
+
+# SSH known hosts (privacy)
+ssh/.ssh/known_hosts
+ssh/.ssh/known_hosts.old

@@ -8,9 +8,8 @@ stty -ixon
 # Source fzf
 eval "$(fzf --zsh)"
 
-# Fix Claude Code path (remove broken alias if exists)
-unalias claude 2>/dev/null
-alias claude='/opt/homebrew/bin/claude'
+# Ensure local bin is in PATH early (for Claude Code, pipx, etc.)
+export PATH="$HOME/.local/bin:$PATH"
 
 ######## PLUGINS
 
@@ -176,6 +175,9 @@ alias nx="npx"
 alias cc="claude"
 alias ccd="claude --dangerously-skip-permissions"
 
+# wp-local
+alias wpl="/Users/brianboy/dev/wp-local/scripts/wp"
+
 ######## SCRIPTS
 #
 # Build scripts
@@ -220,9 +222,6 @@ gem() {
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-
-# Created by `pipx` on 2024-10-07 14:14:33
-export PATH="$PATH:/Users/brianboy/.local/bin"
 
 if tmux has-session -t my-session 2>/dev/null; then
   tmux attach-session -t my-session; clear

@@ -58,3 +58,4 @@ lnav/.config/lnav/formats/default/
 # SSH known hosts (privacy)
 ssh/.ssh/known_hosts
 ssh/.ssh/known_hosts.old
+ssh/.ssh/ssh-morntag

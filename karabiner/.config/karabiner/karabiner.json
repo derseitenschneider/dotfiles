@@ -6,6 +6,7 @@
                 "rules": [
                     {
                         "description": "Homerow Mods: F/J as Shift",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {

@@ -4,10 +4,10 @@
     "hookify@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/96276205880a",
-        "version": "96276205880a",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/hookify/bd041495bd2a",
+        "version": "bd041495bd2a",
         "installedAt": "2025-12-19T06:52:39.327Z",
-        "lastUpdated": "2026-01-16T06:59:31.745Z"
+        "lastUpdated": "2026-03-11T11:41:27.999Z"
       }
     ],
     "ast-grep@ast-grep-marketplace": [
@@ -47,6 +47,17 @@
         "installedAt": "2026-01-14T06:03:26.639Z",
         "lastUpdated": "2026-01-14T06:03:26.639Z",
         "gitCommitSha": "cf3c254640237e1f932693e3a2aae734d32e4fe8"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "project",
+        "installPath": "/Users/brianboy/.claude/plugins/cache/claude-plugins-official/frontend-design/bd041495bd2a",
+        "version": "bd041495bd2a",
+        "installedAt": "2026-03-11T15:53:00.581Z",
+        "lastUpdated": "2026-03-11T15:53:00.581Z",
+        "gitCommitSha": "bd041495bd2a1f3e21317f37277b2f5aa152b759",
+        "projectPath": "/Users/brianboy/dev/personal/eleno"
       }
     ]
   }

@@ -20,6 +20,15 @@ claude-config/.claude/chrome/
 claude-config/.claude/paste-cache/
 claude-config/.claude/telemetry/
 claude-config/.claude/plugins/install-counts-cache.json
+claude-config/.claude/plugins/installed_plugins.json
+claude-config/.claude/plugins/known_marketplaces.json
+claude-config/.claude/plugins/marketplaces/
+claude-config/.claude/backups/
+claude-config/.claude/gsd-file-manifest.json
+claude-config/.claude/mcp-needs-auth-cache.json
+claude-config/.claude/package.json
+claude-config/.claude/statusline-debug.json
+claude-config/.claude/tasks/
 claude-config/.claude/settings.local.json
 */.claude/settings.local.json
 

@@ -43,6 +43,14 @@
             "command": "afplay /System/Library/Sounds/Hero.aiff"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$HOME/.claude/hooks/gsd-check-update.js\""
+          }
+        ]
       }
     ],
     "SubagentStop": [
@@ -77,6 +85,16 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/brianboy/.claude/hooks/gsd-context-monitor.js\""
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
@@ -89,5 +107,7 @@
     "feature-dev@claude-code-plugins": true,
     "rust-analyzer-lsp@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "voiceEnabled": false,
+  "skipDangerousModePermissionPrompt": true
 }

@@ -223,14 +223,16 @@ gem() {
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
-if tmux has-session -t my-session 2>/dev/null; then
-  tmux attach-session -t my-session; clear
-elif tmux ls 2>/dev/null | grep -q '^'; then
-  tmux attach; clear
-else
-  tmux new-session -s my-session;
-  tmux new_window;
-  clear
+if [[ "$(uname)" == "Darwin" ]]; then
+  if tmux has-session -t my-session 2>/dev/null; then
+    tmux attach-session -t my-session; clear
+  elif tmux ls 2>/dev/null | grep -q '^'; then
+    tmux attach; clear
+  else
+    tmux new-session -s my-session;
+    tmux new_window;
+    clear
+  fi
 fi
 export PATH="/usr/local/opt/php@8.3/bin:$PATH"
 

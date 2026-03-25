@@ -43,14 +43,6 @@
             "command": "afplay /System/Library/Sounds/Hero.aiff"
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$HOME/.claude/hooks/gsd-check-update.js\""
-          }
-        ]
       }
     ],
     "SubagentStop": [
@@ -74,27 +66,6 @@
           }
         ]
       }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Read",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude-code-docs/claude-docs-helper.sh hook-check"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"/Users/brianboy/.claude/hooks/gsd-context-monitor.js\""
-          }
-        ]
-      }
     ]
   },
   "statusLine": {
@@ -103,11 +74,19 @@
   },
   "enabledPlugins": {
     "hookify@claude-plugins-official": true,
-    "ast-grep@ast-grep-marketplace": true,
-    "feature-dev@claude-code-plugins": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "last30days@last30days-skill": true
+  },
+  "extraKnownMarketplaces": {
+    "last30days-skill": {
+      "source": {
+        "source": "github",
+        "repo": "mvanhorn/last30days-skill"
+      }
+    }
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
   "voiceEnabled": false,
   "skipDangerousModePermissionPrompt": true
 }

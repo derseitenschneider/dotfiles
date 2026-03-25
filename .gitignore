@@ -16,6 +16,8 @@ claude-config/.claude/image-cache/
 claude-config/.claude/plans/
 claude-config/.claude/stats-cache.json
 claude-config/.claude/plugins/cache/
+claude-config/.claude/plugins/blocklist.json
+claude-config/.claude/sessions/
 claude-config/.claude/chrome/
 claude-config/.claude/paste-cache/
 claude-config/.claude/telemetry/

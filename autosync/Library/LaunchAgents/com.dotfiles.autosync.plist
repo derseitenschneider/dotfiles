@@ -9,13 +9,8 @@
 		<string>/bin/bash</string>
 		<string>/Users/brianboy/.config/scripts/dotfiles-autosync.sh</string>
 	</array>
-	<key>StartCalendarInterval</key>
-	<dict>
-		<key>Hour</key>
-		<integer>23</integer>
-		<key>Minute</key>
-		<integer>0</integer>
-	</dict>
+	<key>StartInterval</key>
+	<integer>3600</integer>
 	<key>WorkingDirectory</key>
 	<string>/Users/brianboy/.dotfiles</string>
 	<key>EnvironmentVariables</key>

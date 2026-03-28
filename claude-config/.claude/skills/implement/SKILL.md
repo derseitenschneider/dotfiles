@@ -47,7 +47,7 @@ Spawn a `reliability-engineer` subagent as reviewer. See [AGENTS.md — Reviewer
 
 ## Step 4 — UI Review (if applicable)
 
-Only if the plan includes UI changes. Use Playwright CLI (`/playwright-cli` skill) to visually inspect the affected pages — not Chrome MCP tools. Start the dev server if not running, navigate to the affected route, and take text snapshots to verify layout, content, and responsiveness match the plan's requirements.
+Only if the plan includes UI changes. Use browser-use (`/browser-use` skill) to visually inspect the affected pages. Start the dev server if not running, navigate to the affected route, and take snapshots to verify layout, content, and responsiveness match the plan's requirements.
 
 ## Step 5 — Project Housekeeping
 

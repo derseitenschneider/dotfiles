@@ -248,3 +248,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Added by Antigravity
 export PATH="/Users/brianboy/.antigravity/antigravity/bin:$PATH"
+
+# Browser-Use
+export PATH="/Users/brianboy/.browser-use-env/bin:/Users/brianboy/.local/bin:$PATH"

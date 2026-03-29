@@ -1,0 +1,65 @@
+# Fix Workflow Reference
+
+## Step Classification Decision Tree
+
+```
+Step has `run:` key?
+├── Yes → References `${{ secrets.* }}`?
+│   ├── Yes → INFRASTRUCTURE
+│   └── No → Command targets remote service? (curl to prod URL, ftp, ssh, scp, rsync to server)
+│       ├── Yes → INFRASTRUCTURE
+│       └── No → LOCALLY REPRODUCIBLE
+└── No (has `uses:` key) → INFRASTRUCTURE
+    Exception: `uses: ./.github/actions/...` → read the referenced action.yml, apply this tree to its steps
+```
+
+## Common Infrastructure Failure Patterns
+
+### Deploy failures (FTP, S3, cloud)
+- Check credentials in GitHub repo secrets (Settings > Secrets and variables > Actions)
+- Verify target server is reachable
+- Check disk space on hosting server
+- Often transient — suggest `gh run rerun <id>`
+
+### Health check / smoke test failures
+- Verify the deployed service is actually running (visit URL manually)
+- Check server logs for crash errors
+- May need more startup time — suggest increasing delay before health check
+
+### Artifact upload/download failures
+- Usually transient GitHub infrastructure issues
+- Suggest re-running the workflow: `gh run rerun <id>`
+
+### Release/tag creation failures
+- Check `GITHUB_TOKEN` has `contents: write` permission
+- Check if the release tag already exists: `gh release list`
+- Verify token hasn't expired
+
+### Dependency install failures
+- Often transient registry issues — re-run the workflow
+- Check if lock file is out of sync — run the install command locally and commit the updated lock file
+- Check for private registry auth issues in secrets
+
+### Database / migration failures
+- Requires remote DB credentials — cannot reproduce locally
+- Report the failing migration and suggest checking DB state manually
+
+## Edge Cases
+
+### Composite actions
+If a step uses `uses: ./.github/actions/<name>`, read `.github/actions/<name>/action.yml` to find the actual `run:` commands. Apply the classification tree to those commands.
+
+### Reusable workflows
+If a job uses `uses: ./.github/workflows/<file>`, read that workflow file and analyze its steps as if they were in the parent workflow.
+
+### Multi-line `run:` blocks
+The `run:` value may contain multiple commands joined by `&&`, `;`, or newlines. Correlate the `--log-failed` output to identify which specific command within the block failed. Run that command locally rather than the entire block.
+
+### Expired or missing logs
+If `gh run view <id> --log-failed` returns empty or errors, the logs may have expired (GitHub retains logs for 90 days). Suggest: `gh run rerun <id>` to generate fresh logs.
+
+### Branch no longer exists
+If the failing run's branch has been deleted, do not attempt to check out. Report the failure with full context and note the branch no longer exists.
+
+### Same failure across multiple branches
+After deduplication, if a workflow fails on multiple branches with identical errors, fix on the current branch and note that other branches likely need the same fix or cherry-pick.

@@ -129,6 +129,10 @@
           {
             "type": "command",
             "command": "afplay /System/Library/Sounds/Glass.aiff"
+          },
+          {
+            "type": "command",
+            "command": "tmux set-option -w -t \"$TMUX_PANE\" @claude-waiting 1 2>/dev/null; tmux set-option -s -t \"$TMUX_PANE\" @session-claude-waiting 1 2>/dev/null || true"
           }
         ]
       }
@@ -140,6 +144,10 @@
           {
             "type": "command",
             "command": "afplay /System/Library/Sounds/Ping.aiff"
+          },
+          {
+            "type": "command",
+            "command": "tmux set-option -w -t \"$TMUX_PANE\" @claude-waiting 1 2>/dev/null; tmux set-option -s -t \"$TMUX_PANE\" @session-claude-waiting 1 2>/dev/null || true"
           }
         ]
       }
@@ -151,6 +159,10 @@
           {
             "type": "command",
             "command": "afplay /System/Library/Sounds/Pop.aiff"
+          },
+          {
+            "type": "command",
+            "command": "tmux set-option -w -t \"$TMUX_PANE\" @claude-waiting 0 2>/dev/null; bash ~/.config/scripts/claude-clear-waiting.sh 2>/dev/null || true"
           }
         ]
       }

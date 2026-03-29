@@ -29,7 +29,7 @@ Parse arguments from `ARGUMENTS`:
 
 4. **Sentry**: Use `mcp__sentry__search_issues` with query `is:unresolved`. If Sentry MCP is unavailable, skip and notify user. Apply time filter if specified.
 5. **GitHub**: Run `gh issue list --repo derseitenschneider/eleno --label bug --state open --json number,title,body,url`. Apply time filter if specified.
-6. **Deduplicate**: Cross-reference Sentry issues and GitHub issues by title/description similarity. Cross-reference both against the BUG_FIXES.md known-fixed set. Mark duplicates as "Skipped".
+6. **Deduplicate**: Cross-reference Sentry issues and GitHub issues by title/description similarity. Cross-reference both against the BUG_FIXES.md known-fixed set. **Only skip a GitHub issue if its ID appears in BUG_FIXES.md AND the issue is currently closed on GitHub.** If an issue was logged as fixed but is still open (i.e. reopened or the fix was insufficient), do NOT skip it — assess it normally, noting in the report that a prior fix exists.
 7. **Cap**: Process max 10 issues per run. If more exist, note the overflow count in the report.
 
 ### Phase 3: Assess each issue

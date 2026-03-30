@@ -128,7 +128,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Glass.aiff"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Glass.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/complete.oga; fi"
           },
           {
             "type": "command",
@@ -143,7 +143,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Ping.aiff"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Ping.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/message.oga; fi"
           },
           {
             "type": "command",
@@ -158,7 +158,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Pop.aiff"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Pop.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/bell.oga; fi"
           },
           {
             "type": "command",
@@ -173,7 +173,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Hero.aiff"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Hero.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/dialog-information.oga; fi"
           }
         ]
       }
@@ -184,7 +184,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Morse.aiff"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Morse.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/message-new-instant.oga; fi"
           }
         ]
       }
@@ -195,7 +195,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Purr.aiff"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Purr.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga; fi"
           }
         ]
       }

@@ -12,7 +12,6 @@ return {
     local mason = require('mason')
     local mason_lspconfig = require('mason-lspconfig')
     local mason_tool_installer = require('mason-tool-installer')
-    local lspconfig = require('lspconfig')
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
 
     local keymap = vim.keymap -- for conciseness
@@ -28,7 +27,7 @@ return {
       },
     })
 
-    -- Mason-lspconfig setup (disable automatic_enable for Neovim < 0.11.0)
+    -- Mason-lspconfig setup
     mason_lspconfig.setup({
       ensure_installed = {
         'ts_ls',
@@ -40,8 +39,8 @@ return {
         'intelephense',
         'rust_analyzer',
       },
-      automatic_installation = false, -- Don't automatically install detected servers
-      automatic_enable = false, -- Disable automatic enabling (requires Neovim 0.11.0+)
+      automatic_installation = false,
+      automatic_enable = false,
     })
 
     mason_tool_installer.setup({
@@ -115,16 +114,10 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
     end
 
-    -- Handler configuration
-    local handlers = {
-      ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
-      ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
-    }
-
     -- Capabilities
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
-    -- Manual LSP server configurations (since we can't use setup_handlers in v2.0.0+)
+    -- Use vim.lsp.config + vim.lsp.enable (Neovim 0.11+ native API)
     local servers = {
       ts_ls = {},
       html = {},
@@ -276,11 +269,13 @@ return {
       },
     }
 
-    -- Setup all servers
+    -- Configure and enable all servers using native vim.lsp API
+    local server_names = {}
     for server, config in pairs(servers) do
       config.capabilities = capabilities
-      config.handlers = handlers
-      lspconfig[server].setup(config)
+      vim.lsp.config(server, config)
+      table.insert(server_names, server)
     end
+    vim.lsp.enable(server_names)
   end,
 }

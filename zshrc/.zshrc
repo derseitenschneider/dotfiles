@@ -253,4 +253,6 @@ export PATH="/Users/brianboy/.antigravity/antigravity/bin:$PATH"
 export PATH="/Users/brianboy/.browser-use-env/bin:/Users/brianboy/.local/bin:$PATH"
 
 # fnm (Fast Node Manager)
-eval "$(fnm env --use-on-cd)"
+command -v fnm >/dev/null && eval "$(fnm env --use-on-cd)"
+
+export PATH="$HOME/bin:$PATH"

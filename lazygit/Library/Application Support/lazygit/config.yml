@@ -1,0 +1,6 @@
+gui:
+  theme:
+    selectedLineBgColor:
+      - "#313244" # Catppuccin surface0
+    selectedRangeBgColor:
+      - "#313244"

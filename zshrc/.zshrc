@@ -174,6 +174,10 @@ alias nx="npx"
 # Claude
 alias cc="claude"
 alias ccd="claude --dangerously-skip-permissions"
+function cwd { claude --dangerously-skip-permissions --worktree "$@"; }
+
+# devserver
+alias ds='ssh brian@devserver -t "tmux attach 2>/dev/null || tmux new-session"'
 
 # wp-local
 alias wpl="/Users/brianboy/dev/wp-local/scripts/wp"

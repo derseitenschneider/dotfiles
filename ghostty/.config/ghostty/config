@@ -3,18 +3,25 @@ theme = catppuccin-mocha
 
 # FONT
 font-family = CaskaydiaCove NFM Regular
-font-size = 19
+font-size = 18
 adjust-cell-height = 20%
 
 # WINDOW
 macos-titlebar-style = tabs
 window-padding-x = 4
 window-padding-y = 20
+window-padding-balance = true
 # background-opacity = 0.99
 # background-blur = 20
 
 # CURSOR
 cursor-invert-fg-bg = true
+
+# CLIPBOARD
+copy-on-select = clipboard
+
+# SCROLLING
+mouse-scroll-multiplier = 2
 
 # SYSTEM
 confirm-close-surface = false

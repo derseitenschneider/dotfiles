@@ -172,6 +172,7 @@ alias nr="npm run"
 alias nx="npx"
 
 # Claude
+export CLAUDE_CODE_NO_FLICKER=1
 alias cc="claude"
 alias ccd="claude --dangerously-skip-permissions"
 function cwd { claude --dangerously-skip-permissions --worktree "$@"; }

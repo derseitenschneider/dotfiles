@@ -24,5 +24,6 @@ copy-on-select = clipboard
 mouse-scroll-multiplier = 2
 
 # SYSTEM
-confirm-close-surface = false
+confirm-close-surface = true
+desktop-notifications = true
 keybind = shift+enter=text:\x1b\r

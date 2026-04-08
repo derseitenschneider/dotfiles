@@ -78,6 +78,8 @@ wpl pull mysite --exclude-plugin local-plugin             # Protect a plugin
 wpl pull mysite --dry-run                                 # Preview changes
 ```
 
+**Table prefix auto-detection:** After DB import, clone/pull verify the actual table prefix by scanning imported tables. If the prefix differs from what was detected remotely (e.g., remote WP-CLI silently fell back to `wp_`), it warns and fixes `wp-config.php` automatically.
+
 See [REFERENCE.md](REFERENCE.md) for full flag details, remote operations, site structure, and troubleshooting.
 
 ## WordPress defaults (auto-configured)

@@ -27,7 +27,7 @@ Clone a WordPress site from a remote server via SSH.
 | `--skip-db` | Skip database export/import |
 | `--dry-run` | Preview what would happen |
 
-**What it does:** Validates SSH + WP-CLI, detects remote config (domain, protocol, table prefix, multisite), rsyncs wp-content, imports DB, search-replaces URLs, deactivates all plugins, saves config to `.remote`.
+**What it does:** Validates SSH + WP-CLI, detects remote config (domain, protocol, table prefix, multisite), rsyncs wp-content, imports DB, search-replaces URLs, deactivates all plugins, saves config to `.remote`. After DB import, auto-detects the actual table prefix from imported tables (via `_users` table). If it differs from the remotely detected prefix, warns and fixes `wp-config.php` automatically.
 
 ### `wpl pull <name> [options]`
 Sync updates from linked remote (requires prior clone).

@@ -1,8 +1,8 @@
 {
-  "includeCoAuthoredBy": false,
   "env": {
     "ENABLE_TOOL_SEARCH": "true"
   },
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash(git add:*)",
@@ -223,7 +223,9 @@
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
-  "showThinkingSummaries": true,
+  "showClearContextOnPlanAccept": true,
+  "plansDirectory": "./plans",
   "voiceEnabled": false,
+  "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true
 }

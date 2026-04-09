@@ -21,6 +21,7 @@ Clone a WordPress site from a remote server via SSH.
 | `--path <remote-path>` | **Required.** Remote WordPress root path |
 | `--exclude-plugin <name>` | Don't copy this plugin (repeatable, saved) |
 | `--exclude-theme <name>` | Don't copy this theme (repeatable, saved) |
+| `--exclude-path <path>` | Don't copy this wp-content path — raw rsync pattern relative to `wp-content/` (repeatable, saved) |
 | `--dev-plugin <name>` | Protect local dev plugin from rsync (repeatable, saved) |
 | `--dev-theme <name>` | Protect local dev theme from rsync (repeatable, saved) |
 | `--skip-uploads` | Skip media/uploads directory (faster) |
@@ -39,11 +40,14 @@ Sync updates from linked remote (requires prior clone).
 | `--skip-uploads` | Skip media/uploads directory |
 | `--exclude-plugin <name>` | Protect plugin from overwrite (saved for future pulls) |
 | `--exclude-theme <name>` | Protect theme from overwrite (saved for future pulls) |
-| `--include-plugin <name>` | One-time override of a saved exclusion |
-| `--clear-excludes` | Clear all saved exclusions |
+| `--exclude-path <path>` | Protect a wp-content path from overwrite — raw rsync pattern relative to `wp-content/` (saved) |
+| `--include-plugin <name>` | One-time override of a saved plugin exclusion |
+| `--clear-excludes` | Clear all saved exclusions (plugins, themes, paths) |
 | `--dry-run` | Preview what would happen |
 
-**Exclusion persistence:** `--exclude-plugin` saves to `.remote` and applies on all future pulls. Use `--include-plugin` for one-time override or `--clear-excludes` to reset all.
+**Exclusion persistence:** `--exclude-plugin`, `--exclude-theme`, and `--exclude-path` save to `.remote` and apply on all future pulls. Use `--include-plugin` for one-time override of a plugin exclusion or `--clear-excludes` to reset all.
+
+**Excluding arbitrary folders:** `--exclude-path` takes a raw rsync pattern relative to `wp-content/`, e.g. `--exclude-path ai1wm-backups/` or `--exclude-path updraft/`. Useful for skipping large backup folders that aren't plugins or themes. `ai1wm-backups/` is already excluded by default.
 
 **Plugin state management:** Active plugins are snapshot before DB import, then restored after. Plugins removed from filesystem are skipped gracefully.
 
@@ -117,6 +121,7 @@ DEV_PLUGINS="plugin-a plugin-b"
 DEV_THEMES="theme-a"
 EXCLUDE_PLUGINS="plugin-c"
 EXCLUDE_THEMES=""
+EXCLUDE_PATHS="updraft/ backups/"
 ```
 
 ---
@@ -175,7 +180,10 @@ These are never synced from remote during clone/pull:
 - `cache/`, `*/cache/` — Cache directories
 - `upgrade/` — WordPress upgrade files
 - `wflogs/` — Wordfence logs
+- `ai1wm-backups/` — All-in-One WP Migration backup archives
 - `mu-plugins/auto-login.php` — Local auto-login plugin
+
+Add more per-site exclusions with `--exclude-path <path>` on `clone` or `pull`.
 
 ---
 

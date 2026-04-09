@@ -75,6 +75,7 @@ wpl pull mysite                                           # Full sync
 wpl pull mysite --db-only                                 # Database only
 wpl pull mysite --skip-db                                 # Files only
 wpl pull mysite --exclude-plugin local-plugin             # Protect a plugin
+wpl pull mysite --exclude-path updraft/                   # Skip a wp-content folder (saved)
 wpl pull mysite --dry-run                                 # Preview changes
 ```
 

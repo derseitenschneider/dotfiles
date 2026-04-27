@@ -1,9 +1,4 @@
 {
-  "agent_servers": {
-    "claude-acp": {
-      "type": "registry"
-    }
-  },
   "outline_panel": {
     "dock": "left"
   },
@@ -11,7 +6,7 @@
     "dock": "left"
   },
   "agent": {
-    "dock": "left",
+    "dock": "right",
     "favorite_models": [],
     "model_parameters": []
   },
@@ -22,13 +17,13 @@
   "session": {
     "trust_all_worktrees": true
   },
-  "theme": "One Dark Pro",
+  "theme": "Gruvbox Dark",
   "vim_mode": false,
   "ui_font_size": 18,
   "buffer_font_size": 18,
   "buffer_font_family": "Fira Code",
   "ui_font_family": "Fira Code",
-  "relative_line_numbers": "enabled",
+  "relative_line_numbers": true,
   "tab_bar": {
     "show": false
   },

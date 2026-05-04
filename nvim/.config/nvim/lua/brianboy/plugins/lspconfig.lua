@@ -49,7 +49,6 @@ return {
         'stylua',
         'phpcs',
         'phpcbf',
-        'rustfmt',
       },
     })
 

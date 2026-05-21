@@ -1,0 +1,14 @@
+{
+  "pid": 13829,
+  "version": "2.1.146",
+  "jsonPath": "/Users/brianboy/.claude/daemon.json",
+  "logPath": "/Users/brianboy/.claude/daemon.log",
+  "startedAt": 1779332062156,
+  "origin": "transient",
+  "spawnedBy": {
+    "label": "claude",
+    "cwd": "/Users/brianboy/dev/personal/life",
+    "pid": 48775
+  },
+  "procStart": "Thu May 21 02:54:18 2026"
+}

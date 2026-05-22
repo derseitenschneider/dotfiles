@@ -17,12 +17,13 @@ Orchestrate a test-first implementation pipeline using subagents. You are the or
    - `api/` → `composer test` (Pest PHP)
    - Other → check `package.json`/`composer.json`/`pyproject.toml`
 5. **Assess plan specificity.** If the plan provides exact implementation code, skip Step 1 (test-first adds no value when tests are prescribed). Jump to a combined test+implement step instead.
+6. **Set up the implementation-notes path.** Compute `notes_path = ./.implement-notes/<YYYY-MM-DD>-<slug>.md` where `<slug>` is the plan filename basename without extension, or a 2–3 word kebab slug derived from the work if there is no plan file. Do NOT create the file yet — subagents create it lazily on first append. Ensure project-root `.gitignore` contains `.implement-notes/`; if missing, append it. Pass `notes_path` to every subagent — see [AGENTS.md — Notes Contract](AGENTS.md#notes-contract).
 
 ## Step 1 — Test Agent (skip if plan is prescriptive)
 
 Spawn a `testing-expert` subagent. See [AGENTS.md — Test Agent](AGENTS.md#test-agent) for the full prompt. Do NOT use worktree isolation — agents must share the working directory.
 
-Hand it: the plan, relevant codebase context, existing test conventions (read a few existing test files), test command, and learnings from "Test Agent Patterns."
+Hand it: the plan, relevant codebase context, existing test conventions (read a few existing test files), test command, learnings from "Test Agent Patterns," and `notes_path` with the Notes Contract.
 
 **Gate:** Run the test command. New tests must FAIL. Existing tests must still PASS. If new tests already pass, they're not testing anything new — flag this.
 
@@ -30,18 +31,18 @@ Hand it: the plan, relevant codebase context, existing test conventions (read a 
 
 Spawn a `fullstack-feature-builder` subagent (or `reliability-engineer` for infra/perf work). See [AGENTS.md — Implement Agent](AGENTS.md#implement-agent). Do NOT use worktree isolation.
 
-Hand it: the plan, failing tests (or test specs from plan), codebase context, CLAUDE.md conventions, and learnings from "Implementer Patterns."
+Hand it: the plan, failing tests (or test specs from plan), codebase context, CLAUDE.md conventions, learnings from "Implementer Patterns," and `notes_path` with the Notes Contract.
 
 **Gate:** Run full test suite. All tests (new + existing) must PASS. If any pre-existing test breaks, fix before proceeding.
 
 ## Step 3 — Review Loop
 
-Spawn a `reliability-engineer` subagent as reviewer. See [AGENTS.md — Reviewer](AGENTS.md#reviewer) for the full prompt and report format.
+Spawn a `reliability-engineer` subagent as reviewer. See [AGENTS.md — Reviewer](AGENTS.md#reviewer) for the full prompt and report format. Hand it `notes_path` with the Notes Contract.
 
 **Loop rules:**
 - `STATUS: PASS` → proceed to Step 4
 - `STATUS: ISSUES_FOUND` → **adjudicate as orchestrator first.** Check each issue against the plan:
-  - If the plan explicitly describes the flagged behavior as intended → override to PASS with rationale
+  - If the plan explicitly describes the flagged behavior as intended → override to PASS with rationale, and append the override to `notes_path` under a `## Adjudication` section
   - If the issue is genuine → send report to implement agent, fix, re-run tests, re-review
 - **Max 2 iterations.** If unresolved after 2 cycles, stop and surface to user.
 
@@ -60,7 +61,13 @@ Check CLAUDE.md for mandatory post-implementation steps. Common ones:
 
 Append to `implement-learnings.md` — see [AGENTS.md — Learnings Format](AGENTS.md#learnings-format). Move patterns that haven't recurred in 3+ runs to "Resolved."
 
-## Step 7 — Final Report
+## Step 7 — Render implementation notes (if any)
+
+If the `notes_path` markdown file exists at this point, render a styled HTML companion at the same path with `.html` extension. The HTML is a single self-contained file with inline CSS (no JS, no CDN, no syntax highlighting). Use the template and conversion rules in [AGENTS.md — Notes HTML Template](AGENTS.md#notes-html-template).
+
+If the `.md` file does not exist, skip this step entirely — nothing was worth noting.
+
+## Step 8 — Final Report
 
 ```
 ## Implement Run — [feature name]
@@ -71,11 +78,14 @@ UI review: [passed / skipped / needs manual check]
 ### What was built
 [1-3 sentence summary]
 
-### Reviewer notes
-[Non-critical observations]
-
 ### Learnings added
 [What was appended]
 ```
 
-If blocked, replace with explanation and decision needed.
+If the notes file was rendered, append one more line below the report:
+
+```
+Notes: http://127.0.0.1:51234/<absolute-path-to-.implement-notes/...html>
+```
+
+If blocked, replace the report with explanation and decision needed.

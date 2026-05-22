@@ -34,6 +34,14 @@ claude-config/.claude/tasks/
 claude-config/.claude/settings.local.json
 */.claude/settings.local.json
 
+# Claude daemon runtime state
+claude-config/.claude/.last-cleanup
+claude-config/.claude/daemon.lock
+claude-config/.claude/daemon.log
+claude-config/.claude/daemon.status.json
+claude-config/.claude/daemon/
+claude-config/.claude/jobs/*/
+
 # Zed editor databases and temp files
 *.mdb
 zed/.config/zed/.tmp*

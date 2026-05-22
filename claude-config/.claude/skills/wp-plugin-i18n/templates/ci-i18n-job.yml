@@ -1,0 +1,44 @@
+# Drop this job into your GitHub Actions workflow file (e.g. .github/workflows/quality-gate.yml).
+# Replace {slug} with your plugin slug. Adjust PHP_VERSION env var or hardcode the version below.
+#
+# Blocks on:  POT-freshness diff (somebody added/edited a string without regenerating the POT).
+# Warns on:   untranslated msgstr entries in any locale .po (acceptable to ship a string with
+#             empty msgstr — falls back to source language).
+#
+# The diff invocation strips the volatile POT-Creation-Date header line so the gate doesn't
+# flap on every CI run.
+
+i18n:
+  name: i18n freshness
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP + WP-CLI
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        tools: wp-cli
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Regenerate POT
+      run: composer i18n:pot
+
+    - name: Fail if POT content changed (ignoring volatile POT-Creation-Date)
+      run: |
+        diff \
+          <(git show HEAD:languages/{slug}.pot | grep -v '^"POT-Creation-Date:') \
+          <(grep -v '^"POT-Creation-Date:' languages/{slug}.pot)
+
+    - name: Warn on untranslated strings
+      run: |
+        for po in languages/{slug}-*.po; do
+          [ -f "$po" ] || continue
+          empty=$(msgattrib --untranslated "$po" | grep -c '^msgid' || true)
+          # msgattrib output always has one leading "msgid" header line; subtract it.
+          if [ "$empty" -gt 1 ]; then
+            echo "::warning file=$po::$((empty - 1)) untranslated strings"
+          fi
+        done

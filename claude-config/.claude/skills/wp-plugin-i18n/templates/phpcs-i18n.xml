@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+    Merge this rule into your existing phpcs.xml (alongside whatever WordPress
+    ruleset you already use). Replace {slug} with your plugin slug.
+
+    Catches:
+      - Missing text-domain on __() / _e() / esc_html__() / etc.
+      - Wrong text-domain (typo or stale legacy domain)
+      - Non-literal first argument to __() (e.g. __( $var, '...' ))
+      - String interpolation inside the translatable literal
+      - Missing /* translators: ... */ comment when the string has placeholders
+-->
+<rule ref="WordPress.WP.I18n">
+    <properties>
+        <property name="text_domain" type="array">
+            <element value="{slug}"/>
+        </property>
+    </properties>
+</rule>

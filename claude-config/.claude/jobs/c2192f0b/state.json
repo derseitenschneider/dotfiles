@@ -1,16 +1,16 @@
 {
   "state": "blocked",
-  "detail": "Und ist es ein echtes Hindernis, oder das nächste Schutzmanöver deines Systems, das nicht will, dass du dich hilfsbedürftig zeigst?",
+  "detail": "presented 3 backup encryption options (iCloud+ADP, git-crypt on private GitHub, encrypted disk image); awaiting user choice",
   "tempo": "blocked",
   "inFlight": {
     "tasks": 0,
     "queued": 0,
     "kinds": []
   },
-  "needs": "Und ist es ein echtes Hindernis, oder das nächste Schutzmanöver deines Systems, das nicht will, dass du dich hilfsbedürftig zeigst?",
+  "needs": "which backup option do you want? (1: iCloud+ADP, 2: git-crypt, or 3: encrypted disk image)",
   "output": null,
   "children": null,
-  "linkScanOffset": 379290,
+  "linkScanOffset": 989964,
   "linkScanPath": "/Users/brianboy/.claude/projects/-Users-brianboy-dev-personal-life/3cbae3b4-121b-4176-b42e-2b6db837d82d.jsonl",
   "template": "bg",
   "respawnFlags": [
@@ -32,6 +32,6 @@
   "providerEnv": {},
   "backend": "daemon",
   "createdAt": "2026-05-20T14:07:37.879Z",
-  "updatedAt": "2026-05-21T06:29:44.986Z",
+  "updatedAt": "2026-05-22T07:09:45.986Z",
   "firstTerminalAt": "2026-05-20T19:00:14.101Z"
 }

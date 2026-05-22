@@ -22,3 +22,21 @@
 [2026-05-21T02:54:22.211Z] [bg] bg adopt: adopted=1 respawned=0 dead=0
 [2026-05-21T02:54:22.212Z] [bg] bg orphan-spare reap: 1
 [2026-05-21T02:54:22.220Z] [bg] bg spare spawned host pid=15995
+[2026-05-21T07:45:46.647Z] [supervisor] auth: proactive refresh starting
+[2026-05-21T07:45:46.720Z] [supervisor] auth: scheduling proactive refresh in 28502s
+[2026-05-21T07:45:46.720Z] [supervisor] auth: token still valid (cross-process refresh or not yet due)
+[2026-05-21T15:48:42.948Z] [supervisor] auth: proactive refresh starting
+[2026-05-21T15:48:43.780Z] [supervisor] auth: scheduling proactive refresh in 28560s
+[2026-05-21T15:48:43.780Z] [supervisor] auth: proactive refresh succeeded
+[2026-05-21T21:40:35.887Z] [supervisor] binary at /Users/brianboy/.local/bin/claude changed (/Users/brianboy/.local/share/claude/versions/2.1.146 → /Users/brianboy/.local/share/claude/versions/2.1.147) — self-restarting for upgrade
+[2026-05-21T21:40:35.888Z] [supervisor] shutting down
+[2026-05-21T21:40:39.400Z] [supervisor] ─── daemon start ─── version=2.1.147 pid=13484 origin=transient
+[2026-05-21T21:40:39.420Z] [supervisor] auth: scheduling proactive refresh in 7444s
+[2026-05-21T21:40:39.420Z] [supervisor] auth: scheduling proactive refresh in 7444s
+[2026-05-21T21:40:39.428Z] [supervisor] workers=0
+[2026-05-21T21:40:39.446Z] [bg] bg adopt: adopted=1 respawned=0 dead=0
+[2026-05-21T21:40:39.447Z] [bg] bg orphan-spare reap: 1
+[2026-05-21T21:40:39.452Z] [bg] bg spare spawned host pid=15639
+[2026-05-21T23:52:52.855Z] [supervisor] auth: proactive refresh starting
+[2026-05-21T23:52:53.667Z] [supervisor] auth: scheduling proactive refresh in 28560s
+[2026-05-21T23:52:53.667Z] [supervisor] auth: proactive refresh succeeded

@@ -294,6 +294,10 @@
   "effortLevel": "xhigh",
   "showClearContextOnPlanAccept": true,
   "plansDirectory": "./plans",
+  "voice": {
+    "enabled": false,
+    "mode": "hold"
+  },
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
   "agentPushNotifEnabled": true,

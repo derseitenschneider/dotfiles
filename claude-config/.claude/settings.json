@@ -124,7 +124,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "Stop": [
       {
@@ -292,7 +292,7 @@
     }
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "showClearContextOnPlanAccept": true,
   "plansDirectory": "./plans",
   "voice": {

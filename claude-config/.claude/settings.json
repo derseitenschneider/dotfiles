@@ -124,6 +124,7 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "Stop": [
       {
@@ -295,13 +296,12 @@
   "showClearContextOnPlanAccept": true,
   "plansDirectory": "./plans",
   "voice": {
-    "enabled": false,
+    "enabled": true,
     "mode": "hold"
   },
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": false,
-  "model": "fable"
+  "voiceEnabled": true
 }

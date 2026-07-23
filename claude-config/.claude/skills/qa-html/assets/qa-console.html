@@ -1,0 +1,723 @@
+<title>QA console</title>
+<style>
+  :root {
+    --bg: #f1f5f4;
+    --surface: #ffffff;
+    --surface-2: #e9f0ee;
+    --ink: #0f201e;
+    --ink-2: #51625f;
+    --ink-3: #7c8d8a;
+    --hairline: #d8e2df;
+    --hairline-strong: #c3d0cd;
+    --accent: #0c8577;
+    --accent-ink: #ffffff;
+    --accent-soft: #d3ebe7;
+
+    --pass: #16794a;      --pass-bg: #dcf3e7;   --pass-line:#8fd3b3;
+    --needs: #a55a06;     --needs-bg:#fbeed6;   --needs-line:#eec27a;
+    --fail: #b81f2b;      --fail-bg: #fbe0e2;   --fail-line:#efa3a8;
+    --na:   #5c6b78;      --na-bg:   #e6ebef;   --na-line:  #c1cbd3;
+    --info: #0c8577;      --info-bg: #d3ebe7;   --info-line:#8ccec5;
+
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 2px rgba(16,32,30,.04), 0 4px 16px rgba(16,32,30,.05);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1413;
+      --surface: #111d1b;
+      --surface-2: #172523;
+      --ink: #e6efed;
+      --ink-2: #9aaba7;
+      --ink-3: #6f817d;
+      --hairline: #243330;
+      --hairline-strong: #30423e;
+      --accent: #2fd4bf;
+      --accent-ink: #05201c;
+      --accent-soft: #113330;
+
+      --pass: #46d391;      --pass-bg:#0f2a20;    --pass-line:#1f5a41;
+      --needs:#f4c15c;      --needs-bg:#2c2210;   --needs-line:#6b5320;
+      --fail: #f68a90;      --fail-bg:#2c1417;    --fail-line:#6e2b30;
+      --na:   #9fb0bb;      --na-bg:  #1c262c;    --na-line:  #38474f;
+      --info: #2fd4bf;      --info-bg:#113330;    --info-line:#1d5a53;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.32);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#f1f5f4; --surface:#fff; --surface-2:#e9f0ee; --ink:#0f201e; --ink-2:#51625f; --ink-3:#7c8d8a;
+    --hairline:#d8e2df; --hairline-strong:#c3d0cd; --accent:#0c8577; --accent-ink:#fff; --accent-soft:#d3ebe7;
+    --pass:#16794a; --pass-bg:#dcf3e7; --pass-line:#8fd3b3; --needs:#a55a06; --needs-bg:#fbeed6; --needs-line:#eec27a;
+    --fail:#b81f2b; --fail-bg:#fbe0e2; --fail-line:#efa3a8; --na:#5c6b78; --na-bg:#e6ebef; --na-line:#c1cbd3;
+    --info:#0c8577; --info-bg:#d3ebe7; --info-line:#8ccec5;
+    --shadow:0 1px 2px rgba(16,32,30,.04),0 4px 16px rgba(16,32,30,.05);
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b1413; --surface:#111d1b; --surface-2:#172523; --ink:#e6efed; --ink-2:#9aaba7; --ink-3:#6f817d;
+    --hairline:#243330; --hairline-strong:#30423e; --accent:#2fd4bf; --accent-ink:#05201c; --accent-soft:#113330;
+    --pass:#46d391; --pass-bg:#0f2a20; --pass-line:#1f5a41; --needs:#f4c15c; --needs-bg:#2c2210; --needs-line:#6b5320;
+    --fail:#f68a90; --fail-bg:#2c1417; --fail-line:#6e2b30; --na:#9fb0bb; --na-bg:#1c262c; --na-line:#38474f;
+    --info:#2fd4bf; --info-bg:#113330; --info-line:#1d5a53;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.32);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.5;
+    -webkit-font-smoothing: antialiased; font-size: 15px;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 120px; }
+
+  /* ---- header ---- */
+  header.top {
+    position: sticky; top: 0; z-index: 30;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .top-inner { max-width: 1000px; margin: 0 auto; padding: 14px 20px; }
+  .title-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  h1 { font-size: 19px; margin: 0; font-weight: 680; letter-spacing: -.01em; }
+  .ver { font-family: var(--mono); font-size: 12px; color: var(--ink-2);
+    background: var(--surface-2); border:1px solid var(--hairline); padding: 1px 7px; border-radius: 6px; }
+  .saved { margin-left: auto; font-size: 12px; color: var(--ink-3); font-family: var(--mono); display:flex; align-items:center; gap:6px; }
+  .saved .dot { width:7px; height:7px; border-radius:50%; background: var(--pass); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pass) 22%, transparent); }
+
+  .summary { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+    font-size: 12.5px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--hairline);
+    background: var(--surface); color: var(--ink-2); font-family: var(--sans); user-select: none;
+    transition: border-color .12s, background .12s;
+  }
+  .chip:hover { border-color: var(--hairline-strong); }
+  .chip .n { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .chip .swatch { width: 9px; height: 9px; border-radius: 3px; }
+  .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+  .sw-pass{background:var(--pass)} .sw-needs{background:var(--needs)} .sw-fail{background:var(--fail)} .sw-na{background:var(--na)} .sw-untested{background:var(--ink-3)}
+
+  .progress { height: 6px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin-top: 12px; display:flex; }
+  .progress i { display:block; height:100%; }
+  .progress .p-pass{background:var(--pass)} .progress .p-needs{background:var(--needs)} .progress .p-fail{background:var(--fail)} .progress .p-na{background:var(--na)}
+
+  .actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  button.act {
+    font-family: var(--sans); font-size: 13px; font-weight: 550; cursor: pointer;
+    border: 1px solid var(--hairline-strong); background: var(--surface); color: var(--ink);
+    padding: 8px 14px; border-radius: var(--radius-sm); transition: background .12s, border-color .12s, transform .06s;
+  }
+  button.act:hover { border-color: var(--accent); }
+  button.act:active { transform: translateY(1px); }
+  button.act.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  button.act.primary:hover { filter: brightness(1.06); }
+  button.act.ghost { color: var(--ink-2); }
+  .spacer { flex: 1; }
+
+  /* ---- intro note ---- */
+  .intro {
+    margin-top: 22px; background: var(--surface); border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 14px 16px;
+    font-size: 13.5px; color: var(--ink-2); box-shadow: var(--shadow);
+  }
+  .intro b { color: var(--ink); font-weight: 620; }
+  .intro code { font-family: var(--mono); font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; color: var(--ink); }
+
+  /* ---- fix prompt ---- */
+  details.fixprompt {
+    margin-top: 14px; background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  }
+  details.fixprompt > summary {
+    list-style: none; cursor: pointer; padding: 13px 16px; display: flex; align-items: center; gap: 10px;
+    font-size: 13.5px; font-weight: 600; color: var(--ink); user-select: none;
+  }
+  details.fixprompt > summary::-webkit-details-marker { display: none; }
+  details.fixprompt > summary::before {
+    content: "▸"; color: var(--ink-3); font-size: 12px; transition: transform .14s; display: inline-block;
+  }
+  details.fixprompt[open] > summary::before { transform: rotate(90deg); }
+  details.fixprompt > summary:hover { background: var(--surface-2); }
+  .fp-hint { font-weight: 450; color: var(--ink-3); font-size: 12.5px; }
+  .fp-state {
+    margin-left: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 999px; font-weight: 600;
+    color: var(--ink-3); background: var(--surface-2); border: 1px solid var(--hairline);
+  }
+  .fp-state[data-edited="1"] { color: var(--info); background: var(--info-bg); border-color: var(--info-line); }
+  .fp-body { padding: 0 16px 14px; border-top: 1px solid var(--hairline); }
+  .fp-body p { margin: 12px 0 0; font-size: 12.5px; color: var(--ink-2); }
+  .fp-body textarea { min-height: 180px; font-family: var(--mono); font-size: 12px; line-height: 1.55; }
+  .fp-actions { display: flex; gap: 8px; margin-top: 10px; }
+
+  /* ---- section ---- */
+  section.grp { margin-top: 30px; }
+  .grp-head { display: flex; align-items: baseline; gap: 12px; margin: 0 2px 12px; }
+  .grp-num { font-family: var(--mono); font-size: 12px; color: var(--ink-3); font-weight: 600; }
+  .grp-title { font-size: 16px; font-weight: 640; letter-spacing: -.01em; margin: 0; }
+  .grp-meter { margin-left: auto; font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  .item {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius);
+    padding: 15px 16px; margin-bottom: 10px; box-shadow: var(--shadow);
+    border-left: 3px solid var(--hairline);
+    transition: border-color .14s;
+  }
+  .item[data-status="pass"]  { border-left-color: var(--pass); }
+  .item[data-status="needs"] { border-left-color: var(--needs); }
+  .item[data-status="fail"]  { border-left-color: var(--fail); }
+  .item[data-status="na"]    { border-left-color: var(--na); }
+
+  .item-top { display: flex; gap: 14px; align-items: flex-start; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-title { font-size: 14.5px; font-weight: 600; letter-spacing: -.005em; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .item-how { font-size: 12.5px; color: var(--ink-2); margin-top: 5px; }
+  .item-how code, .tag-key { font-family: var(--mono); font-size: 11.5px; background: var(--surface-2); border:1px solid var(--hairline); padding: 0 5px; border-radius: 5px; color: var(--ink); }
+
+  .flag { font-family: var(--mono); font-size: 10px; letter-spacing:.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+  .flag.t-pass  { color: var(--pass);  background: var(--pass-bg);  border:1px solid var(--pass-line); }
+  .flag.t-needs { color: var(--needs); background: var(--needs-bg); border:1px solid var(--needs-line); }
+  .flag.t-fail  { color: var(--fail);  background: var(--fail-bg);  border:1px solid var(--fail-line); }
+  .flag.t-na    { color: var(--na);    background: var(--na-bg);    border:1px solid var(--na-line); }
+  .flag.t-info  { color: var(--info);  background: var(--info-bg);  border:1px solid var(--info-line); }
+
+  /* status segmented control */
+  .seg { display: inline-flex; border: 1px solid var(--hairline-strong); border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .seg button {
+    font-family: var(--sans); font-size: 12px; font-weight: 560; cursor: pointer; border: none;
+    background: var(--surface); color: var(--ink-2); padding: 6px 10px; border-right: 1px solid var(--hairline);
+    transition: background .1s, color .1s;
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button:hover { background: var(--surface-2); }
+  .seg button[aria-pressed="true"] { color: #fff; }
+  .seg button.s-pass[aria-pressed="true"]  { background: var(--pass); color:#fff; }
+  .seg button.s-needs[aria-pressed="true"] { background: var(--needs); color:#fff; }
+  .seg button.s-fail[aria-pressed="true"]  { background: var(--fail); color:#fff; }
+  .seg button.s-na[aria-pressed="true"]    { background: var(--na); color:#fff; }
+  @media (prefers-color-scheme: dark) {
+    .seg button.s-pass[aria-pressed="true"], .seg button.s-needs[aria-pressed="true"],
+    .seg button.s-fail[aria-pressed="true"], .seg button.s-na[aria-pressed="true"] { color: #08110f; }
+  }
+  :root[data-theme="dark"] .seg button[aria-pressed="true"] { color:#08110f; }
+  :root[data-theme="light"] .seg button[aria-pressed="true"] { color:#fff; }
+
+  textarea {
+    width: 100%; margin-top: 11px; resize: vertical; min-height: 38px;
+    font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--ink);
+    background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--radius-sm);
+    padding: 9px 11px; transition: border-color .12s, background .12s;
+  }
+  textarea::placeholder { color: var(--ink-3); }
+  textarea:focus { outline: none; border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px var(--accent-soft); }
+  textarea.has-text { background: var(--surface); border-color: var(--hairline-strong); }
+
+  .item.hide { display: none; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  /* toast + dialog */
+  .toast {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 10px; font-size: 13.5px; font-weight: 550;
+    box-shadow: 0 8px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 60;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  dialog {
+    border: 1px solid var(--hairline-strong); border-radius: var(--radius); padding: 0; background: var(--surface); color: var(--ink);
+    max-width: 720px; width: calc(100% - 40px); box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  }
+  dialog::backdrop { background: rgba(8,16,15,.5); backdrop-filter: blur(2px); }
+  .dlg-head { padding: 14px 18px; border-bottom: 1px solid var(--hairline); font-weight: 620; font-size: 15px; display:flex; align-items:center; gap:10px; }
+  .dlg-body { padding: 16px 18px; }
+  .dlg-body p { margin: 0 0 12px; font-size: 13.5px; color: var(--ink-2); }
+  .dlg-body textarea { min-height: 320px; margin: 0; font-family: var(--mono); font-size: 12px; }
+  .dlg-foot { padding: 12px 18px; border-top: 1px solid var(--hairline); display: flex; gap: 8px; justify-content: flex-end; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 640px) {
+    .item-top { flex-direction: column; gap: 10px; }
+    .seg { width: 100%; }
+    .seg button { flex: 1; }
+  }
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="title-row">
+      <!-- INJECT: header chrome (eyebrow / h1 / version badge) -->
+      <span class="eyebrow">QA</span>
+      <h1>Feature under test</h1>
+      <span class="ver">branch · build</span>
+      <!-- /INJECT -->
+      <span class="saved" id="saved"><span class="dot"></span> saved locally</span>
+    </div>
+    <div class="summary" id="summary"></div>
+    <div class="progress" id="progress" title="review progress"></div>
+    <div class="actions">
+      <button class="act primary" id="copyBtn">Copy for agent</button>
+      <button class="act" id="dlBtn">Download .md</button>
+      <button class="act ghost" id="promptBtn">Fix prompt</button>
+      <div class="spacer"></div>
+      <button class="act ghost" id="themeBtn" title="Toggle light / dark">Theme</button>
+      <button class="act ghost" id="resetBtn">Reset all</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <!-- INJECT: intro copy — what this run covers, how to work it, anything the tester must know up front -->
+    Work down each surface, set a status, and write what you saw. Everything saves to <b>this browser</b> automatically —
+    nothing is sent anywhere, so export from the same browser you tested in. When you are done, hit
+    <b>Copy for agent</b>: it exports your flagged items first as a ready-to-paste worklist, led by the fix prompt below.
+    <!-- /INJECT -->
+  </div>
+
+  <details class="fixprompt" id="fixPromptBox">
+    <summary>
+      <span>Fix prompt <span class="fp-hint">— leads the export; edit before you copy</span></span>
+      <span class="fp-state" id="fpState">default</span>
+    </summary>
+    <div class="fp-body">
+      <p>This briefing is pasted at the top of the export, so the receiving agent can start from that paste alone. Tune it — scope, ground rules, anything it must not touch.</p>
+      <textarea id="fixPrompt" spellcheck="false"></textarea>
+      <div class="fp-actions"><button class="act ghost" id="fpReset">Restore default</button></div>
+    </div>
+  </details>
+
+  <div id="sections"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<dialog id="copyDlg">
+  <div class="dlg-head">Copy this to the agent</div>
+  <div class="dlg-body">
+    <p>Clipboard access was blocked, so select all and copy manually (Cmd/Ctrl-A, Cmd/Ctrl-C):</p>
+    <textarea id="copyArea" readonly></textarea>
+  </div>
+  <div class="dlg-foot">
+    <button class="act" id="copyDlgClose">Close</button>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ==================== INJECT: begin ====================
+     Everything the model authors lives between these markers.
+     Nothing below the end marker should need editing.
+     ======================================================= */
+
+  const CONFIG = {
+    // Namespaces localStorage. Unique per QA run, or two consoles collide.
+    slug: "example-qa-v1",
+    // H1 of the exported Markdown.
+    exportTitle: "Feature under test — QA handoff",
+    // Filename for "Download .md".
+    exportFilename: "feature-qa.md",
+    // One line of context under the summary in the export. "" to omit.
+    exportContext: "",
+  };
+
+  // Flag pill vocabulary — caller-defined. tone ∈ pass | needs | fail | na | info
+  const FLAGS = {
+    risk:    { label: "high risk",   tone: "fail"  },
+    unknown: { label: "unverified",  tone: "needs" },
+    checked: { label: "spot-checked", tone: "pass" },
+  };
+
+  // Default fix prompt. Editable in the page; the user's edit wins and persists.
+  const DEFAULT_FIX_PROMPT = `You are picking up hand-testing QA for <feature> in <repo> (branch <branch>).
+
+Everything under "Worklist" below is a defect or rough edge a human actually observed. The passed / N/A / untested sections are context only — do not work them.
+
+For each worklist item, top to bottom:
+1. Reproduce it before you change anything. Do not fix from the description alone.
+2. Fix the root cause, not the symptom.
+3. Add or extend a test that would have caught it.
+4. Log the fix per this repo's bug-fix convention (see CLAUDE.md).
+
+Ground rules:
+- Stay inside the surface under test: <paths>. Ask before touching anything outside it.
+- Ask before schema changes, dependency bumps, or anything needing a deploy.
+- If an item is ambiguous or you cannot reproduce it, ask instead of guessing.
+- Report at the end: what you fixed, what you skipped, and why.`;
+
+  // QA items. id must be stable + human-meaningful (localStorage is keyed by it).
+  // { id, t: title, how: how-to-test, key?: short code tag, flags?: [key of FLAGS] }
+  const QA = [
+    { id:"surface-a", title:"Surface A", items:[
+      { id:"a-happy", t:"The primary happy path completes end to end", how:"Open the feature, run the main action with valid input, and confirm the expected result appears without a reload.", flags:["checked"] },
+      { id:"a-empty", t:"Empty state renders instead of a blank panel", how:"Open the feature with no records yet — an explanatory empty state should show, not an empty box or a spinner that never resolves.", key:"EmptyState" },
+    ]},
+    { id:"surface-b", title:"Surface B", items:[
+      { id:"b-validation", t:"Invalid input shows an inline, specific error", how:"Submit the form with a deliberately invalid value. The error must name the field and the problem, and must not clear the rest of the form.", flags:["unknown"] },
+      { id:"b-mobile", t:"Layout holds at 375px wide", how:"Narrow the window to phone width. Nothing overflows horizontally, no control is cut off or unreachable.", flags:["risk"] },
+    ]},
+  ];
+
+  /* ==================== INJECT: end ==================== */
+
+  const STATUSES = [
+    { k:"pass",  label:"Pass" },
+    { k:"needs", label:"Needs work" },
+    { k:"fail",  label:"Fail" },
+    { k:"na",    label:"N/A" },
+  ];
+  const NS = "qa:" + CONFIG.slug;
+  const STORE = NS + ":state";
+  const STORE_PROMPT = NS + ":fixprompt";
+  const STORE_THEME = NS + ":theme";
+
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { state = {}; }
+
+  const allItems = QA.flatMap(s => s.items.map(i => ({ ...i, section: s.title })));
+  const $ = sel => document.querySelector(sel);
+
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {}
+    flashSaved();
+  }
+  let savedT;
+  function flashSaved() {
+    const el = $("#saved"); if (!el) return;
+    el.style.opacity = "1";
+    clearTimeout(savedT);
+    savedT = setTimeout(() => { el.style.opacity = ".55"; }, 900);
+  }
+
+  let filter = "all";
+
+  function get(id) { return state[id] || { status:"", notes:"" }; }
+
+  function render() {
+    const root = $("#sections");
+    root.innerHTML = "";
+    QA.forEach((sec, si) => {
+      const secEl = document.createElement("section");
+      secEl.className = "grp";
+      const done = sec.items.filter(i => get(i.id).status).length;
+      secEl.innerHTML =
+        `<div class="grp-head">
+           <span class="grp-num">${String(si+1).padStart(2,"0")}</span>
+           <h2 class="grp-title">${sec.title}</h2>
+           <span class="grp-meter">${done}/${sec.items.length}</span>
+         </div>`;
+      sec.items.forEach(it => secEl.appendChild(renderItem(it)));
+      root.appendChild(secEl);
+    });
+    applyFilter();
+    renderSummary();
+  }
+
+  function flagPills(it) {
+    return (it.flags || [])
+      .map(f => FLAGS[f])
+      .filter(Boolean)
+      .map(f => `<span class="flag t-${f.tone}">${f.label}</span>`)
+      .join("");
+  }
+
+  function renderItem(it) {
+    const st = get(it.id);
+    const el = document.createElement("div");
+    el.className = "item";
+    el.dataset.id = it.id;
+    if (st.status) el.dataset.status = st.status;
+
+    const key = it.key ? `<span class="tag-key">${escapeHtml(it.key)}</span>` : "";
+
+    const seg = STATUSES.map(s =>
+      `<button class="s-${s.k}" data-st="${s.k}" aria-pressed="${st.status===s.k}" title="${s.label}">${s.label}</button>`
+    ).join("");
+
+    el.innerHTML =
+      `<div class="item-top">
+         <div class="item-main">
+           <div class="item-title">${it.t} ${flagPills(it)}</div>
+           <div class="item-how">${it.how} ${key}</div>
+         </div>
+         <div class="seg" role="group" aria-label="status">${seg}</div>
+       </div>
+       <textarea placeholder="Notes for the agent — what you saw, what to fix…">${escapeHtml(st.notes || "")}</textarea>`;
+
+    const ta = el.querySelector("textarea");
+    if (st.notes) ta.classList.add("has-text");
+    ta.addEventListener("input", () => {
+      const cur = get(it.id);
+      state[it.id] = { status: cur.status || "", notes: ta.value };
+      ta.classList.toggle("has-text", !!ta.value.trim());
+      autoGrow(ta);
+      save();
+      renderSummary();
+    });
+    requestAnimationFrame(() => autoGrow(ta));
+
+    el.querySelectorAll(".seg button").forEach(b => {
+      b.addEventListener("click", () => {
+        const cur = get(it.id);
+        const next = cur.status === b.dataset.st ? "" : b.dataset.st;
+        state[it.id] = { status: next, notes: cur.notes || "" };
+        if (next) el.dataset.status = next; else el.removeAttribute("data-status");
+        el.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x.dataset.st === next));
+        save();
+        render(); // refresh meters + summary + filter
+      });
+    });
+    return el;
+  }
+
+  function autoGrow(ta, min) {
+    const floor = min || 38;
+    ta.style.height = "auto";
+    ta.style.height = Math.max(floor, ta.scrollHeight + 2) + "px";
+  }
+
+  function counts() {
+    const c = { pass:0, needs:0, fail:0, na:0, untested:0 };
+    allItems.forEach(i => {
+      const s = get(i.id).status;
+      if (s) c[s]++; else c.untested++;
+    });
+    return c;
+  }
+
+  function renderSummary() {
+    const c = counts();
+    const total = allItems.length;
+    const meta = [
+      { k:"pass",  sw:"sw-pass",  label:"Pass" },
+      { k:"needs", sw:"sw-needs", label:"Needs work" },
+      { k:"fail",  sw:"sw-fail",  label:"Fail" },
+      { k:"na",    sw:"sw-na",    label:"N/A" },
+      { k:"untested", sw:"sw-untested", label:"Untested" },
+    ];
+    const sumEl = $("#summary");
+    sumEl.innerHTML =
+      meta.map(m =>
+        `<button class="chip" data-filter="${m.k}" aria-pressed="${filter===m.k}">
+           <span class="swatch ${m.sw}"></span>${m.label}<span class="n">${c[m.k]}</span>
+         </button>`).join("") +
+      `<button class="chip" data-filter="all" aria-pressed="${filter==='all'}" style="margin-left:auto">All <span class="n">${total}</span></button>`;
+
+    sumEl.querySelectorAll(".chip").forEach(ch => {
+      ch.addEventListener("click", () => {
+        filter = (filter === ch.dataset.filter && ch.dataset.filter !== "all") ? "all" : ch.dataset.filter;
+        applyFilter();
+        sumEl.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x.dataset.filter === filter));
+      });
+    });
+
+    const prog = $("#progress");
+    const pct = k => (total ? c[k] / total * 100 : 0).toFixed(3) + "%";
+    prog.innerHTML =
+      `<i class="p-pass" style="width:${pct('pass')}"></i>
+       <i class="p-needs" style="width:${pct('needs')}"></i>
+       <i class="p-fail" style="width:${pct('fail')}"></i>
+       <i class="p-na" style="width:${pct('na')}"></i>`;
+  }
+
+  function applyFilter() {
+    document.querySelectorAll(".item").forEach(el => {
+      const s = get(el.dataset.id).status || "untested";
+      const show = filter === "all" || s === filter;
+      el.classList.toggle("hide", !show);
+    });
+    // hide empty sections under a filter
+    document.querySelectorAll("section.grp").forEach(sec => {
+      const anyVisible = sec.querySelector(".item:not(.hide)");
+      sec.style.display = anyVisible ? "" : "none";
+    });
+  }
+
+  // ---------- fix prompt ----------
+  function loadFixPrompt() {
+    let saved = null;
+    try { saved = localStorage.getItem(STORE_PROMPT); } catch (e) {}
+    return saved === null ? DEFAULT_FIX_PROMPT : saved;
+  }
+  function fixPromptState() {
+    const ta = $("#fixPrompt");
+    const badge = $("#fpState");
+    const edited = ta.value.trim() !== DEFAULT_FIX_PROMPT.trim();
+    badge.textContent = edited ? "edited" : "default";
+    badge.dataset.edited = edited ? "1" : "0";
+  }
+  function initFixPrompt() {
+    const ta = $("#fixPrompt");
+    ta.value = loadFixPrompt();
+    fixPromptState();
+    requestAnimationFrame(() => autoGrow(ta, 180));
+    ta.addEventListener("input", () => {
+      try { localStorage.setItem(STORE_PROMPT, ta.value); } catch (e) {}
+      autoGrow(ta, 180);
+      fixPromptState();
+      flashSaved();
+    });
+    $("#fpReset").addEventListener("click", () => {
+      ta.value = DEFAULT_FIX_PROMPT;
+      try { localStorage.removeItem(STORE_PROMPT); } catch (e) {}
+      autoGrow(ta, 180);
+      fixPromptState();
+      toast("Fix prompt restored");
+    });
+    $("#promptBtn").addEventListener("click", () => {
+      const box = $("#fixPromptBox");
+      box.open = true;
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => { ta.focus(); autoGrow(ta, 180); }, 250);
+    });
+  }
+
+  // ---------- export ----------
+  const STATUS_MARK = { pass:"[PASS]", needs:"[NEEDS WORK]", fail:"[FAIL]", na:"[N/A]" };
+
+  function buildMarkdown() {
+    const c = counts();
+    const stamp = new Date().toISOString().slice(0,16).replace("T"," ") + " UTC";
+    const lines = [];
+    lines.push(`# ${CONFIG.exportTitle}`);
+    lines.push("");
+
+    const prompt = ($("#fixPrompt").value || "").trim();
+    if (prompt) { lines.push(prompt); lines.push(""); lines.push("---"); lines.push(""); }
+
+    lines.push(`**Summary:** ${c.pass} pass · ${c.needs} needs work · ${c.fail} fail · ${c.na} n/a · ${c.untested} untested (of ${allItems.length}). Exported ${stamp}.`);
+    lines.push("");
+    if (CONFIG.exportContext) { lines.push(CONFIG.exportContext); lines.push(""); }
+
+    const withStatus = k => allItems.filter(i => get(i.id).status === k);
+    const detail = (i) => {
+      const s = get(i.id);
+      const out = [`### ${STATUS_MARK[s.status]} ${i.section} — ${i.t}`];
+      out.push(`*How to test:* ${i.how}${i.key ? ` (\`${i.key}\`)` : ""}`);
+      out.push(`*Notes:* ${s.notes && s.notes.trim() ? s.notes.trim() : "_(none)_"}`);
+      out.push("");
+      return out.join("\n");
+    };
+
+    const fails = withStatus("fail");
+    const needs = withStatus("needs");
+    lines.push("## Worklist — fix these");
+    lines.push("");
+    if (fails.length || needs.length) {
+      fails.forEach(i => lines.push(detail(i)));
+      needs.forEach(i => lines.push(detail(i)));
+    } else {
+      lines.push("_No items flagged fail or needs-work._");
+      lines.push("");
+    }
+
+    const pass = withStatus("pass");
+    if (pass.length) {
+      lines.push("## Passed");
+      lines.push("");
+      pass.forEach(i => {
+        const n = get(i.id).notes;
+        lines.push(`- **${i.section} — ${i.t}**${n && n.trim() ? " — " + n.trim() : ""}`);
+      });
+      lines.push("");
+    }
+
+    const na = withStatus("na");
+    if (na.length) {
+      lines.push("## Not applicable");
+      lines.push("");
+      na.forEach(i => {
+        const n = get(i.id).notes;
+        lines.push(`- ${i.section} — ${i.t}${n && n.trim() ? " — " + n.trim() : ""}`);
+      });
+      lines.push("");
+    }
+
+    const untestedNotes = allItems.filter(i => !get(i.id).status && (get(i.id).notes||"").trim());
+    if (untestedNotes.length) {
+      lines.push("## Untested but noted");
+      lines.push("");
+      untestedNotes.forEach(i => lines.push(`- ${i.section} — ${i.t} — ${get(i.id).notes.trim()}`));
+      lines.push("");
+    }
+
+    const untestedCount = allItems.filter(i => !get(i.id).status).length;
+    if (untestedCount) {
+      lines.push(`> ${untestedCount} item(s) left untested — not reviewed, not a pass.`);
+      lines.push("");
+    }
+    return lines.join("\n");
+  }
+
+  async function copyForAgent() {
+    const md = buildMarkdown();
+    try {
+      await navigator.clipboard.writeText(md);
+      toast("Copied — paste into a fresh agent session");
+    } catch (e) {
+      const dlg = $("#copyDlg");
+      $("#copyArea").value = md;
+      dlg.showModal();
+      $("#copyArea").select();
+    }
+  }
+
+  function download() {
+    const md = buildMarkdown();
+    const blob = new Blob([md], { type:"text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = CONFIG.exportFilename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast("Downloaded " + CONFIG.exportFilename);
+  }
+
+  let toastT;
+  function toast(msg) {
+    const el = $("#toast");
+    el.textContent = msg; el.classList.add("show");
+    clearTimeout(toastT);
+    toastT = setTimeout(() => el.classList.remove("show"), 2200);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
+  }
+
+  // theme toggle (coexists with the host toggle; both set data-theme)
+  function initTheme() {
+    let saved = null;
+    try { saved = localStorage.getItem(STORE_THEME); } catch (e) {}
+    if (saved) document.documentElement.setAttribute("data-theme", saved);
+    $("#themeBtn").addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme");
+      const isDark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+      const next = isDark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem(STORE_THEME, next); } catch (e) {}
+    });
+  }
+
+  $("#copyBtn").addEventListener("click", copyForAgent);
+  $("#dlBtn").addEventListener("click", download);
+  $("#copyDlgClose").addEventListener("click", () => $("#copyDlg").close());
+  $("#resetBtn").addEventListener("click", () => {
+    if (confirm("Clear all statuses and notes? This can't be undone.")) {
+      state = {}; save(); filter = "all"; render(); toast("Reset");
+    }
+  });
+
+  initTheme();
+  initFixPrompt();
+  render();
+})();
+</script>

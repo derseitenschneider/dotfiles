@@ -143,8 +143,7 @@ cask "clickup"
 cask "docker-desktop"
 # Client for the Dropbox cloud storage service
 cask "dropbox"
-# AI-powered development workspace for macOS
-cask "alltuner/tap/factoryfloor"
+cask "factoryfloor"
 # Web browser
 cask "firefox"
 cask "font-caskaydia-cove-nerd-font"

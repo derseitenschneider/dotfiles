@@ -198,3 +198,5 @@ Add more per-site exclusions with `--exclude-path <path>` on `clone` or `pull`.
 | Plugin changes not showing | Plugin must be mounted via `--plugin` flag or be in `wp-content/plugins/` |
 | MariaDB SSL errors | Already handled via `--skip-ssl` in docker-compose |
 | Traefik routing wrong container | Check `traefik.docker.network=wp-local` label on container |
+| `Unknown collation: 'utf8mb4_0900_ai_ci'` on clone/pull | Already handled — `import_db_direct` rewrites MySQL 8 `utf8mb4_0900_*` collations to `utf8mb4_unicode_ci` before import |
+| Wrong table prefix after pull (site shows scaffold data) | Old `wp_*` tables from the local scaffold install can confuse prefix auto-detection when the remote uses a custom prefix — drop the stale `wp_*` core tables and `wp config set table_prefix <prefix>` |

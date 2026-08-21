@@ -137,6 +137,8 @@ brew "zsh-completions"
 brew "zsh-vi-mode"
 # The AI coding agent built for the terminal.
 brew "anomalyco/tap/opencode", trusted: true
+# Command-line interface for 1Password
+cask "1password-cli"
 # Productivity platform for tasks, docs, goals, and chat
 cask "clickup"
 # App to build and share containerised applications and microservices

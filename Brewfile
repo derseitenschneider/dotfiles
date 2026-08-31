@@ -103,6 +103,8 @@ brew "reattach-to-user-namespace"
 brew "repomix"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
 # Safe, concurrent, practical language
 brew "rust"
 # Cross-shell prompt for astronauts

@@ -165,6 +165,8 @@ cask "kitty"
 cask "microsoft-edge"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# Self-hosted daemon for AI coding agents
+cask "paseo"
 # Control your tools with a few keystrokes
 cask "raycast"
 # App that enables mouse-free UI interaction

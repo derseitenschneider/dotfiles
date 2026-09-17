@@ -1,0 +1,31 @@
+{
+  "draft_id": "6b3dc67e-3cc2-4648-82d4-afddbb258557",
+  "created_at": "2026-09-17T03:34:46.423Z",
+  "source_session_id": "98750cb7-418f-4d1b-9805-6b29f967cba7",
+  "cwd": "/Users/brianboy/.superset/worktrees/cc3901ca-a062-429c-9b72-041224c28e8e/glimmer-hydrogen",
+  "model": "claude-fable-5-1",
+  "cli_version": "2.1.272",
+  "os": "darwin arm64",
+  "request_ids": [
+    "req_011Cf8JrWbUfSNzVBetnWAYf",
+    "req_011Cf8Js7ukUsVqJmdMeZgb2",
+    "req_011Cf8JvQBd6L6KsGt2MvjzF"
+  ],
+  "type": "bug",
+  "title": "Fable subagents stall with \"no progress for 600s\" three times in a row; Opus subagents in the same session complete",
+  "details": "- **What happened:** Three consecutive background subagents launched with `model: \"fable\"` ended with `Agent stalled: no progress for 600s (stream watchdog did not recover)`. The first stalled after emitting a 21 KB Write tool call that never executed (file absent on disk, content recoverable from the transcript). The second stalled after 13 read-only Bash calls, the third after 21 Bash calls, both without file changes. Six Opus subagents in the same session completed normally. No hung child processes (psql/less) were found afterwards.\n- **What the user said:** User didn't comment; observed by the model.\n- **Repro:** Launch an Agent with subagent_type general-purpose, model fable, a long prompt (~1.5k words) involving many Bash calls (psql, stripe CLI, curl) against a local stack; wait ~10 min.\n- **Evidence:** task ids a993868ec93765c44, ad1d556c54c728e45, accdc50dbc59d8dc1; transcripts under ~/.claude/projects/-Users-brianboy--superset-worktrees-cc3901ca-…/98750cb7-…/subagents/; session 2026-09-16/17.",
+  "area": "Agent tool / subagents",
+  "task_category": "code_edit",
+  "trigger": "model_judgment",
+  "effort": "high",
+  "thinking_type": "adaptive",
+  "message_count": 1840,
+  "assistant_turn_count": 111,
+  "subagent_count": 10,
+  "transcript_ref": {
+    "session_file": "/Users/brianboy/.claude/projects/-Users-brianboy--superset-worktrees-cc3901ca-a062-429c-9b72-041224c28e8e-glimmer-hydrogen/98750cb7-418f-4d1b-9805-6b29f967cba7.jsonl",
+    "message_range": null,
+    "project_dir_key": "-Users-brianboy--superset-worktrees-cc3901ca-a062-429c-9b72-041224c28e8e-glimmer-hydrogen"
+  },
+  "status": "queued"
+}

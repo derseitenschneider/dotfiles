@@ -1,0 +1,14 @@
+{
+  "lastUpdated": 1789737822889,
+  "plugins": [
+    {
+      "pluginId": "plugin_0155zZVATbJU3jHUmPP9NvMC",
+      "name": "cowork-plugin-management",
+      "description": "Create, customize, and manage plugins tailored to your organization's tools and workflows. Configure MCP servers, adjust plugin behavior, and adapt templates to match how your team works.",
+      "version": "0038",
+      "updatedAt": "2026-09-16T00:04:15.946839Z",
+      "marketplaceName": "knowledge-work-plugins",
+      "installationPreference": "available"
+    }
+  ]
+}

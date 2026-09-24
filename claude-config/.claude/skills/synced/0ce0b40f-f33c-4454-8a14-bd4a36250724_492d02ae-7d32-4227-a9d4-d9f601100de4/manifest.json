@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1790139241802,
+  "lastUpdated": 1790207300963,
   "skills": [
     {
       "skillId": "docs",
@@ -55,8 +55,9 @@
       "skillId": "skill_01DtWwFKjSGF749RhDg5Kabu",
       "name": "morntag-angebot",
       "description": "Begleitet Simea Schritt für Schritt von einem Kundengespräch zu einem fertigen morntag-Angebot — nach der wertschätzenden Kundengespräch-Methode und mit Pauschalpreisen statt Stundensätzen. Nutze diesen Skill immer, wenn Simea ein Kundengespräch nachbereiten will, ein Angebot für einen (potenziellen) Kunden erstellen, überarbeiten oder durchdenken will, nach Preisen/Optionen für ein Projekt oder Vorprojekt fragt, Wertsignale aus einem Gespräch sortieren will, oder Sätze sagt wie «mach mir ein Angebot für...», «lass uns das Gespräch mit [Kunde] nachbereiten», «wie würdest du das bepreisen?», «brauch ein Vorprojekt-Angebot», oder eine Kundenanfrage/ein Transkript teilt und fragt, was sie anbieten soll. Gilt explizit NICHT für Rechnungsstellung, Buchhaltung oder Bexio-Administration abseits der Angebotstexte.",
-      "source": "custom",
-      "updatedAt": "2026-07-06T12:19:31.809869Z"
+      "source": "plugin",
+      "updatedAt": "2026-07-06T12:19:31.809741Z",
+      "backingPluginId": "plugin_01Ghtqxix5uu89AYeidQzaGE"
     },
     {
       "skillId": "skill-creator",

@@ -12,14 +12,12 @@ tap "stripe/stripe-cli"
 tap "supabase/tap"
 # Run your GitHub Actions locally
 brew "act"
-# TIFF library and utilities
-brew "libtiff"
-# New file format for still image compression
-brew "jpeg-xl"
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# TIFF library and utilities
+brew "libtiff"
 # Remove large files or passwords from Git history like git-filter-branch
 brew "bfg"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
@@ -28,6 +26,8 @@ brew "btop"
 brew "cocoapods"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima"
+# New file format for still image compression
+brew "jpeg-xl"
 # General-purpose scripting language
 brew "php"
 # Dependency Manager for PHP
@@ -38,6 +38,8 @@ brew "deno"
 brew "dnsmasq"
 # Isolated development environments using Docker
 brew "docker-compose"
+# Perl lib for reading and writing EXIF metadata
+brew "exiftool"
 # Modern, maintained replacement for ls
 brew "eza"
 # Simple, fast and user-friendly alternative to find
@@ -68,6 +70,8 @@ brew "httpd"
 brew "httpie"
 # Get events and tasks from the macOS calendar database
 brew "ical-buddy"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Simple terminal UI for git commands

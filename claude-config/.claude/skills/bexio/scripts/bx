@@ -1,0 +1,132 @@
+#!/bin/bash
+# bx: browser-use bound to one Bexio session in the logged-in Chrome profile.
+# Machine-specific values live in the three variables below and nowhere else in the skill.
+SESSION="${BEXIO_SESSION:-bexio}"
+PROFILE="${BEXIO_PROFILE:-Default}"   # the morntag.com Chrome profile, see `browser-use profile list`
+BASE="https://office.bexio.com"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
+usage() {
+  cat <<'EOF'
+Reading
+  bx go PATH|URL            open a page (e.g. /index.php/kb_invoice/list), wait, check the login
+  bx list [REGEX]           rows of the open list page, filtered
+  bx read                   the open document: heading, status, contact id, positions, totals
+  bx texts                  title, header, footer of the open document
+  bx conditions             Konditionen of the open document
+  bx scan euch|du           wrong address form and ß in header, positions, footer
+Writing (drafts only)
+  bx new offer|invoice CONTACT_ID "Titel" ["Kontaktperson"]   fill the new-document dialog, no number yet
+  bx weiter                 submit that dialog. This assigns the AN/RE number.
+  bx add-text FILE [--optional]                 text position from an HTML file
+  bx add-pos FILE PRICE [--optional] [--unit N] priced position, quantity 1 (unit 1 = Stk)
+  bx edit-pos ROW_ID --expect TEXT [--html FILE] [--price P]  change a saved position
+  bx set-texts HEADER_FILE|- FOOTER_FILE|-      header and footer on the Texte tab ("-" keeps one)
+Plumbing
+  bx call 'JS'              eval an expression with the helpers loaded (window.__bx)
+  bx js FILE                eval a JS file
+  bx press "Label" [tag]    click the element with exactly this visible text (default tag: button)
+  bx wait [SECONDS]         default 4
+  bx shot FILE.png          full-page screenshot
+  bx close                  close the browser session
+  bx ...                    anything else goes to browser-use in this session
+EOF
+}
+
+active() { browser-use sessions 2>/dev/null | awk '{print $1}' | grep -qx "$SESSION"; }
+bu() {
+  if active; then browser-use --session "$SESSION" "$@"; else browser-use --session "$SESSION" --profile "$PROFILE" "$@"; fi
+}
+ev() { bu eval "$1" 2>&1 | sed '1s/^result: //'; }
+call() { ev "$(cat "$HERE/helpers.js")" >/dev/null; ev "$1"; }
+pause() { bu python "browser.wait(${1:-4})" >/dev/null 2>&1; }
+js_string() { jq -Rs . < "$1"; }   # file content as a JS string literal
+press() {
+  local idx
+  idx=$(bu state | grep -B1 -E "^[[:space:]]+$1[[:space:]]*$" | grep -o "\[[0-9]*\]<${2:-button}" | head -1 | tr -dc '0-9')
+  [ -n "$idx" ] || { echo "no <${2:-button}> with text \"$1\" on this page" >&2; return 1; }
+  bu click "$idx" >/dev/null
+}
+need_file() { [ -f "$1" ] || { echo "file not found: $1" >&2; exit 1; }; }
+
+cmd="${1:-help}"; [ $# -gt 0 ] && shift
+case "$cmd" in
+  help|-h|--help) usage ;;
+
+  go)
+    url="$1"; case "$url" in http*) ;; *) url="$BASE$url" ;; esac
+    bu open "$url" >/dev/null 2>&1; pause "${2:-4}"
+    where=$(call "__bx.where()")
+    echo "$where"
+    case "$where" in
+      office.bexio.com*) ;;
+      *) echo "NOT LOGGED IN to Bexio in Chrome profile \"$PROFILE\". Stop here. Brian logs in himself, then retry." >&2; exit 2 ;;
+    esac ;;
+
+  list)       call "__bx.list($(printf '%s' "${1:-}" | jq -Rs .))" ;;
+  read)       call "__bx.read()" ;;
+  texts)      call "__bx.texts()" ;;
+  conditions) call "__bx.conditions()" ;;
+  scan)       call "__bx.scan('${1:-euch}')" ;;
+
+  new)
+    kind="$1"; contact="$2"; title="$3"; person="${4:-}"
+    case "$kind" in offer|invoice) ;; *) echo "bx new offer|invoice CONTACT_ID \"Titel\" [\"Kontaktperson\"]" >&2; exit 1 ;; esac
+    case "$contact" in ''|*[!0-9]*) echo "CONTACT_ID must be the numeric id from /kontakt/show/id/<n>" >&2; exit 1 ;; esac
+    bu open "$BASE/index.php/kb_$kind/edit/contact_id/$contact" >/dev/null 2>&1; pause 4
+    call "__bx.fillNew($(printf '%s' "$title" | jq -Rs .), $(printf '%s' "$person" | jq -Rs .))"
+    echo "Check the line above. No number is assigned yet. 'bx weiter' creates the draft." ;;
+
+  weiter)
+    press "Weiter" || exit 1
+    pause 5
+    call "location.pathname + ' | ' + ((document.body.innerText.match(/(Angebot|Rechnung) [A-Z]{2}-\d+[^\n]*/) || ['no document heading found'])[0])" ;;
+
+  add-text)
+    file="$1"; need_file "$file"; opt=false; [ "${2:-}" = "--optional" ] && opt=true
+    [ "$(call "__bx.formOpen('Text')")" = "open" ] || { call "addPosition('KbPositionText', false); 'form opening'" >/dev/null; pause 3; }
+    call "__bx.addText($(js_string "$file"), $opt)"
+    pause 4 ;;
+
+  add-pos)
+    file="$1"; price="$2"; need_file "$file"; shift 2
+    case "$price" in ''|*[!0-9.]*) echo "PRICE must be plain, e.g. 1700.00 (no apostrophe, no CHF)" >&2; exit 1 ;; esac
+    opt=false; unit=1
+    while [ $# -gt 0 ]; do case "$1" in --optional) opt=true ;; --unit) unit="$2"; shift ;; esac; shift; done
+    # A new invoice already shows an empty priced row after "Weiter".
+    [ "$(call "__bx.formOpen('Custom')")" = "open" ] || { call "addPosition('KbPositionCustom', false); 'form opening'" >/dev/null; pause 3; }
+    out=$(call "__bx.fillCustom($(js_string "$file"), '$price', $opt, '$unit')")
+    echo "$out"
+    case "$out" in '{'*) call "__bx.saveCustom()"; pause 4 ;; *) exit 1 ;; esac ;;
+
+  edit-pos)
+    row="$1"; shift; expect=""; html=null; price=null
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --expect) expect="$2"; shift ;;
+        --html) need_file "$2"; html=$(js_string "$2"); shift ;;
+        --price) price="'$2'"; shift ;;
+      esac; shift
+    done
+    [ -n "$expect" ] || { echo "--expect TEXT is required: a phrase the position holds now" >&2; exit 1; }
+    case "$row" in *Text*) type=Text ;; *Custom*) type=Custom ;; *) echo "ROW_ID like position_KbPositionText1019" >&2; exit 1 ;; esac
+    call "__bx.openEdit('$row')"; pause 3
+    call "__bx.edit('$type', $(printf '%s' "$expect" | jq -Rs .), $html, $price)"
+    pause 4 ;;
+
+  set-texts)
+    h=null; f=null
+    [ "${1:--}" != "-" ] && { need_file "$1"; h=$(js_string "$1"); }
+    [ "${2:--}" != "-" ] && { need_file "$2"; f=$(js_string "$2"); }
+    call "__bx.tab('Texte')"; pause 3
+    call "__bx.setTexts($h, $f)"
+    pause 4 ;;
+
+  call)  call "$1" ;;
+  js)    need_file "$1"; ev "$(cat "$1")" ;;
+  press) press "$@" ;;
+  wait)  pause "${1:-4}" ;;
+  shot)  bu screenshot --full "$1" ;;
+  close) browser-use --session "$SESSION" close ;;
+  *)     bu "$cmd" "$@" ;;
+esac

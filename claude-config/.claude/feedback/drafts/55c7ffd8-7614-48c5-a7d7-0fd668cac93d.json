@@ -1,0 +1,31 @@
+{
+  "draft_id": "55c7ffd8-7614-48c5-a7d7-0fd668cac93d",
+  "created_at": "2026-09-30T09:49:35.147Z",
+  "source_session_id": "7aea274a-7ff3-4ab7-b260-a75a6581ce3b",
+  "cwd": "/Users/brianboy/dev/work/maintenance-clients",
+  "model": "claude-opus-5-5",
+  "cli_version": "2.1.284",
+  "os": "darwin arm64",
+  "request_ids": [
+    "req_011CfZR1GyinRiVNgPgtn5JX",
+    "req_011CfZR1WY41wTZjr2wt9b3d",
+    "req_011CfZR2SnMpGRBAfUNHKt11"
+  ],
+  "type": "bug",
+  "title": "claude.ai Gmail connector wraps every URL in drafts into google.com/url redirects",
+  "details": "- **What happened:** Drafts created via the Gmail MCP store every URL as `https://www.google.com/url?q=<url>&source=gmail&ust=…&sa=E`. This applies to plain-text `body`, to explicit `<a href>` in `htmlBody`, and to bare domains without a scheme (these are also turned into http://). Expected: URLs stored as written. `update_draft` on a reply draft also moved it into a new thread.\n- **What the user said:** \"This always happens whenever you post links in an email that you write. It always gets prepended with the Google URL and then has a tail afterwards with source, Gmail and UST and stuff like this.\"\n- **Repro:** create_draft with replyToMessageId and body containing `https://example.myrdbx.io` → get_draft shows the wrapped URL. update_draft with htmlBody `<a href=\"https://…\">` → href is wrapped as well, and threadId changes.\n- **Evidence:** 2026-09-30 ~09:47–09:49 UTC; draft ids r-2688931245503184806 (deleted) and r-1253554154979123949.",
+  "area": "claude.ai Gmail connector (create_draft / update_draft)",
+  "task_category": "other",
+  "trigger": "model_judgment",
+  "effort": "high",
+  "thinking_type": "adaptive",
+  "message_count": 2217,
+  "assistant_turn_count": 164,
+  "subagent_count": 0,
+  "transcript_ref": {
+    "session_file": "/Users/brianboy/.claude/projects/-Users-brianboy-dev-work-maintenance-clients/7aea274a-7ff3-4ab7-b260-a75a6581ce3b.jsonl",
+    "message_range": null,
+    "project_dir_key": "-Users-brianboy-dev-work-maintenance-clients"
+  },
+  "status": "queued"
+}

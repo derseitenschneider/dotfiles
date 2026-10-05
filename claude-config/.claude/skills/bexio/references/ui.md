@@ -1,7 +1,7 @@
 # Bexio UI through browser-use
 
-What worked when agents created an offer draft (2026-09-29) and an invoice draft (2026-10-01), plus read-only checks on
-2026-10-01. `bx` is `scripts/bx` in this skill. Items no agent has run yet are listed under "Unverified" at the end.
+What worked when agents created an offer draft (2026-09-29) and invoice drafts (2026-10-01, 2026-10-05 incl.
+`bx weiter`, `bx add-pos`, `bx set-texts` on an invoice), plus read-only checks on 2026-10-01. `bx` is `scripts/bx` in this skill. Items no agent has run yet are listed under "Unverified" at the end.
 
 ## This machine
 
@@ -146,8 +146,9 @@ position written by Bexio, keep the Auftrag's title and get the du default heade
 
 Issuing is Brian's step. On 2026-10-01 he asked an agent to do it once: `<a title="Rechnung ist gestellt">` on the
 show page, no confirm dialog, status went to Offen. The PDF came from `/index.php/kb_invoice/getPdf/id/<n>` with
-`curl` and the session cookies (`browser-use cookies export`, delete the cookie file afterwards). The skill's
-default stays: stop at the draft.
+`curl` and the session cookies (`browser-use cookies export`, delete the cookie file afterwards). On 2026-10-05 the same `getPdf` URL also
+returned the PDF of a **draft** (RE-01827): numbered, no draft watermark, QR bill included, good for attaching to a
+mail draft Brian sends after issuing. The skill's default stays: stop at the draft.
 
 ## Unverified
 
@@ -160,8 +161,6 @@ item up.
 
 - `bx press "Teilrechnung N erstellen" a` and `"Rechnung erstellen"` on an Auftrag: whether a dialog comes first,
   when the number is assigned, what the draft looks like.
-- `bx set-texts` on an invoice. The fields `kb_item[header]` and `kb_item[footer]` exist on an invoice draft; the
-  save button label was not seen.
 - PDF page break: `addPosition('KbPositionPagebreak', true)` is the menu's handler. Page breaks in existing
   offers were added by hand.
 - Switching off «Angebot Total anzeigen» (`kb_item[show_total]` on the Einstellungen tab, button «Einstellungen

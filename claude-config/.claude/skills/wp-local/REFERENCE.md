@@ -135,7 +135,7 @@ EXCLUDE_PATHS="updraft/ backups/"
 | Multisite subdomain | `http://<sub>.<name>.test` |
 | Network admin | `http://<name>.test/wp-admin/network/` |
 | phpMyAdmin | `http://pma.test` |
-| Traefik dashboard | `http://localhost:8080` |
+| Traefik dashboard | `http://localhost:8081` |
 
 DNS: dnsmasq routes `*.test` → `127.0.0.1`. Traefik auto-routes to the correct container via Docker labels.
 
@@ -162,7 +162,7 @@ Access via:
 ## Docker architecture
 
 Core infrastructure (shared):
-- **Traefik v3.0** — Reverse proxy on port 80, dashboard on 8080
+- **Traefik v3.7** — Reverse proxy on port 80, dashboard on host port 8081 (v3.7+ required for Docker ≥ 29)
 - **phpMyAdmin** — Database GUI on pma.test
 - **Network** — `wp-local` bridge network connects all containers
 
@@ -192,7 +192,9 @@ Add more per-site exclusions with `--exclude-path <path>` on `clone` or `pull`.
 | Issue | Solution |
 |-------|----------|
 | Site not loading at `<name>.test` | `sudo dscacheutil -flushcache` and check dnsmasq: `sudo brew services list` |
-| Containers won't start | Check Colima: `colima status`, start with `colima start` |
+| Containers won't start | macOS: `colima status` / `colima start`. Linux: `docker info`, `sudo systemctl start docker` |
+| `rm: Permission denied` on destroy (Linux) | Container-written files are uid 33; `wp destroy` falls back to an alpine container to delete them |
+| Traefik 404 for every site | Check `docker logs wp-local-traefik` for `client version 1.24 is too old` → image must be traefik:v3.7+ |
 | DB connection error | Wait for DB readiness or restart: `wpl restart <name>` |
 | WP-CLI permission issues | CLI container runs as `33:33` (www-data) — ensure wp-content is writable |
 | Plugin changes not showing | Plugin must be mounted via `--plugin` flag or be in `wp-content/plugins/` |

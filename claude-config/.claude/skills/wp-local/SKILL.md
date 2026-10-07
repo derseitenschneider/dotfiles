@@ -19,7 +19,7 @@ Use the `wpl` alias (resolves to `~/dev/wp-local/scripts/wp`):
 wpl <command> <site-name> [options]
 ```
 
-**Important**: Commands use `docker-compose` (v1 with hyphen), NOT `docker compose`.
+**Important**: The script calls `docker-compose`; on hosts without the v1 binary a shim maps it to `docker compose` (v2). Works on macOS (Colima) and Linux (native Docker).
 
 ## Command cheatsheet
 

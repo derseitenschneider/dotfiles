@@ -1,16 +1,32 @@
+######## AGENT SHELL
+#
+# Claude Code sets CLAUDECODE=1 in the shells it spawns. Those shells only get
+# PATH/env setup: no aliases (eza/bat inject ANSI noise), prompt, plugins,
+# completions, keybindings, vim mode, history or zoxide. `no_nomatch` keeps an
+# unquoted, unmatched glob from aborting the whole command. Interactive shells
+# (CLAUDECODE unset) behave exactly as before.
+_agent_shell=
+if [[ -n "$CLAUDECODE" ]]; then
+  _agent_shell=1
+  setopt no_nomatch
+fi
+
 ######## TERMINAL
 #
-# Disable flow control (frees Ctrl-s for tmux prefix)
-stty -ixon
+if [[ -z "$_agent_shell" ]]; then
+  # Disable flow control (frees Ctrl-s for tmux prefix)
+  stty -ixon
 
-######## FZF
-#
-# Source fzf
-eval "$(fzf --zsh)"
+  ######## FZF
+  #
+  # Source fzf
+  eval "$(fzf --zsh)"
+fi
 
 # Ensure local bin is in PATH early (for Claude Code, pipx, etc.)
 export PATH="$HOME/.local/bin:$PATH"
 
+if [[ -z "$_agent_shell" ]]; then
 ######## PLUGINS
 
 #
@@ -45,6 +61,7 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+fi
 
 ######## EXPORTS
 #
@@ -59,6 +76,7 @@ export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agen
 # Make nvim the default editor
 export EDITOR='nvim'
 
+if [[ -z "$_agent_shell" ]]; then
 ######## KEYBINDINGS
 #
 # fzf-repo shortcut
@@ -87,6 +105,7 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
+fi
 
 
 # ######## FD
@@ -111,6 +130,13 @@ _fzf_compgen_dir() {
   fd --type=d --hidden --exclude 'node_modules' . "$1"
 }
 
+# Python (kept for agent shells too: Ubuntu has no bare `python`)
+alias python=python3
+
+# Claude
+export CLAUDE_CODE_NO_FLICKER=1
+
+if [[ -z "$_agent_shell" ]]; then
 # Stripe completion
 fpath=(~/.stripe $fpath)
 autoload -Uz compinit && compinit -i
@@ -144,9 +170,6 @@ alias y='yazi'
 alias ff='fzf'
 alias fv='nvim $(fzf)'
 
-# Python
-alias python=python3
-
 # Neovim
 alias v='nvim'
 alias vv='nvim .'
@@ -172,7 +195,6 @@ alias nr="npm run"
 alias nx="npx"
 
 # Claude
-export CLAUDE_CODE_NO_FLICKER=1
 alias cc="claude"
 alias ccd="claude --dangerously-skip-permissions"
 function cwd { claude --dangerously-skip-permissions --worktree "$@"; }
@@ -226,6 +248,7 @@ gem() {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+fi
 
 
 # if [[ "$(uname)" == "Darwin" ]]; then

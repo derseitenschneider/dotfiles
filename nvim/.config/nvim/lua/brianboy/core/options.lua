@@ -66,6 +66,23 @@ opt.backspace = 'indent,eol,start' -- allow backspace on indent, end of line or 
 -- clipboard
 opt.clipboard:append('unnamedplus') -- use system clipboard as default register
 
+-- Over SSH there is no clipboard tool on the server. Yank goes to the local
+-- clipboard through the terminal (OSC 52). Neovim only picks this up by itself
+-- when 'clipboard' is unset, so it is set here. Paste stays inside Neovim,
+-- because most terminals refuse to let a remote program read the clipboard:
+-- use the terminal's own paste (Cmd-V) for text copied on the local machine.
+if vim.env.SSH_TTY then
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
+  end
+  local osc52 = require('vim.ui.clipboard.osc52')
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = { ['+'] = osc52.copy('+'), ['*'] = osc52.copy('*') },
+    paste = { ['+'] = paste, ['*'] = paste },
+  }
+end
+
 -- split windows
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom

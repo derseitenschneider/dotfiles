@@ -203,7 +203,7 @@ function cwd { claude --dangerously-skip-permissions --worktree "$@"; }
 alias ds='ssh brian@devserver -t "tmux attach 2>/dev/null || tmux new-session"'
 
 # wp-local
-alias wpl="/Users/brianboy/dev/wp-local/scripts/wp"
+alias wpl="$HOME/dev/wp-local/scripts/wp"
 
 ######## SCRIPTS
 #
@@ -284,3 +284,4 @@ export PATH="/Users/brianboy/.browser-use-env/bin:/Users/brianboy/.local/bin:$PA
 command -v fnm >/dev/null && eval "$(fnm env --use-on-cd)"
 
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"

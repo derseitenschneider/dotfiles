@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1791005337235,
+  "lastUpdated": 1791329740301,
   "skills": [
     {
       "skillId": "docs",
@@ -122,14 +122,12 @@
       "name": "google-workspace",
       "description": "Read this before the first Google Drive, Docs, Sheets or Slides connector call whenever the task creates or changes a Google file. Use this skill whenever the user wants to create or change a Google Doc, Sheet or Slides file in their Google Drive. Triggers include: a request that names Google Docs, Sheets, Slides or Drive and asks to make, edit, format, copy or rename a file; a docs.google.com link with a request to change that file, even a one-line fix or suggested edits; and any follow-up change to a Google file from earlier in the chat, even \"change it\" or \"add a tab\". Includes helper scripts for document positions, cell ranges and slide layout. However, if the user asks for a doc, deck or spreadsheet without naming Google, or gives a Google file only as source material for something new, use Claude's own output type instead. Do NOT use for read-only questions about a Google file, or for Word, Excel, PowerPoint or PDF files.",
       "source": "anthropic-example",
-      "updatedAt": "2026-09-23T19:50:41.402985Z"
+      "updatedAt": "2026-10-06T23:31:35.618898Z"
     }
   ],
   "pendingClaims": [
     "87189:Tue Sep 29 11:15:49 2026/pptx",
-    "55098:Wed Sep 23 05:25:23 2026/pptx",
     "61492:Tue Sep 29 05:52:39 2026/pptx",
-    "77204:Fri Oct  2 06:17:26 2026/pptx",
     "11249:Thu Oct  1 16:04:59 2026/pptx"
   ]
 }

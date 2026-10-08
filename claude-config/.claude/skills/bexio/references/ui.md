@@ -152,7 +152,9 @@ mail draft Brian sends after issuing. The skill's default stays: stop at the dra
 
 ## Unverified
 
-The `bx` read commands and `bx new` (without `bx weiter`) were tested on 2026-10-01. The write commands (`weiter`,
+The `bx` read commands and `bx new` (without `bx weiter`) were tested on 2026-10-01. On 2026-10-07 `bx weiter`,
+`add-text`, `add-pos` and `set-texts` built offer AN-00267 end to end without problems. `bx new` with a contact
+person the contact does not have prints «not found. Options:» with an empty list; run it again without the person. The write commands (`weiter`,
 `add-text`, `add-pos`, `edit-pos`, `set-texts`) wrap the calls that created those two drafts, but the wrapper
 itself has not written a document yet. On the first real run, check each step's output and the page before the next.
 
@@ -164,7 +166,8 @@ item up.
 - PDF page break: `addPosition('KbPositionPagebreak', true)` is the menu's handler. Page breaks in existing
   offers were added by hand.
 - Switching off «Angebot Total anzeigen» (`kb_item[show_total]` on the Einstellungen tab, button «Einstellungen
-  übernehmen»).
+  übernehmen»). On AN-00267 (2026-10-07) a fresh offer already had it unchecked, so nothing was clicked; Bexio's
+  own Positionen view still shows the total. Check the box state before touching it.
 - Changing a price through `bx edit-pos … --price`.
 - Konditionen: fields are `kb_item[is_valid_from]`, `kb_item[is_valid_until]` (offer) or `kb_item[is_valid_to]`
   (invoice), `kb_item[accomplishment_date]` (Leistungszeitraum, invoice), button «Eingaben speichern». Never edited.

@@ -192,6 +192,7 @@ Add more per-site exclusions with `--exclude-path <path>` on `clone` or `pull`.
 | Issue | Solution |
 |-------|----------|
 | Site not loading at `<name>.test` | `sudo dscacheutil -flushcache` and check dnsmasq: `sudo brew services list` |
+| `too many open files in system` in any shell, or `kern.num_files` near `kern.maxfiles` | The Colima VM leaked virtiofs handles (`lsof -p $(pgrep -f Virtualization.VirtualMachine) \| wc -l`). `wpl stop --all`, then `colima restart`. If start fails with `attach disk "colima", in use by instance`, remove the stale lock `~/.colima/_lima/_disks/colima/in_use_by` and `colima start`. |
 | Containers won't start | macOS: `colima status` / `colima start`. Linux: `docker info`, `sudo systemctl start docker` |
 | `rm: Permission denied` on destroy (Linux) | Container-written files are uid 33; `wp destroy` falls back to an alpine container to delete them |
 | Traefik 404 for every site | Check `docker logs wp-local-traefik` for `client version 1.24 is too old` → image must be traefik:v3.7+ |

@@ -21,6 +21,18 @@ wpl <command> <site-name> [options]
 
 **Important**: The script calls `docker-compose`; on hosts without the v1 binary a shim maps it to `docker compose` (v2). Works on macOS (Colima) and Linux (native Docker).
 
+## Running-site awareness
+
+Every running site costs the Colima VM file handles through virtiofs, and they leak: on 2026-10-09 one
+site (sbbhistoric) held 34,000 handles, macOS hit its `kern.maxfiles` ceiling and no new shell could
+start. Brian often works on two or three projects at once, so several running sites is normal; a dozen
+idle ones is the problem. Keep the count visible and ask before changing it:
+
+1. **Before the first `wpl` command of a task**, run `wpl list`, tell Brian how many sites are running,
+   and suggest which look idle (sites no current project uses). Stop them only when he confirms.
+2. **When the task is done**, ask whether the site should stay up. Brian may still want to QA it in the
+   browser. Stop it only on his go-ahead; starting it again later is cheap.
+
 ## Command cheatsheet
 
 | Command | Usage | Purpose |

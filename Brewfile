@@ -104,6 +104,8 @@ brew "postgresql@14"
 brew "python@3.10"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.12"
+# Rsync for cloud storage
+brew "rclone"
 # Reattach process (e.g., tmux) to background
 brew "reattach-to-user-namespace"
 # Pack repository contents into a single AI-friendly file

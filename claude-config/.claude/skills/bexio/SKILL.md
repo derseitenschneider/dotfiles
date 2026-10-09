@@ -92,7 +92,7 @@ Do not change them.
 4. `bx close`.
 
 ClickUp comments, status changes and the cover mail are separate requests. Do them only when Brian asks in the same
-invocation.
+invocation; ClickUp text follows the `clickup` skill.
 
 ## When the UI does not behave as described
 

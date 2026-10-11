@@ -19,6 +19,7 @@ Writing (drafts only)
   bx new offer|invoice CONTACT_ID "Titel" ["Kontaktperson"]   fill the new-document dialog, no number yet
   bx weiter                 submit that dialog. This assigns the AN/RE number.
   bx add-text FILE [--optional]                 text position from an HTML file
+  bx add-break                                  PDF page break after the last position
   bx add-pos FILE PRICE [--optional] [--unit N] priced position, quantity 1 (unit 1 = Stk)
   bx edit-pos ROW_ID --expect TEXT [--html FILE] [--price P]  change a saved position
   bx set-texts HEADER_FILE|- FOOTER_FILE|-      header and footer on the Texte tab ("-" keeps one)
@@ -86,6 +87,10 @@ case "$cmd" in
     file="$1"; need_file "$file"; opt=false; [ "${2:-}" = "--optional" ] && opt=true
     [ "$(call "__bx.formOpen('Text')")" = "open" ] || { call "addPosition('KbPositionText', false); 'form opening'" >/dev/null; pause 3; }
     call "__bx.addText($(js_string "$file"), $opt)"
+    pause 4 ;;
+
+  add-break)
+    call "addPosition('KbPositionPagebreak', true); 'page break added'"
     pause 4 ;;
 
   add-pos)

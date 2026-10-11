@@ -121,14 +121,25 @@ Three paragraphs for a job that needs explaining:
 >
 > Umsetzung und Abnahme auf einer Testkopie, live seit 1. Oktober 2026. Pauschal wie vereinbart.
 
-Invoice from an Auftrag: Bexio writes the position («Teilrechnung 1 von Auftrag AU-00045 (33.33%)»). Leave it.
+Invoice from an Auftrag: Bexio writes the priced position («Teilrechnung 1 von Auftrag AU-00045 (33.33%)»). Leave it.
+Below it add the ordered scope as text positions, one per block so page breaks can go between them (Brian,
+2026-10-09, RE-01830): a first position with the bold line
+«Leistungsumfang gemäss Auftrag AU-00135, Option C: …», one sentence with the Pauschalpreis exkl. MwSt., then the
+bullets of the Auftrag positions one to one (do not condense; Brian's first reaction to a condensed version was
+«looks like less»), one position per block with a bold sub-line (e.g. Inhaltserweiterung, Newsletter, SEO-Nachführung),
+and a last position with the closing line that names when the next part falls due («Die zweite Teilrechnung (50 %) folgt bei
+Projektabschluss.»). Only the selected option counts; options priced 0.00 on the Auftrag are the ones the client did
+not take or that are folded into the chosen one.
 
 ## Numbers
 
 - Prices are net. VAT is 8.1 % and Bexio adds it (tax «UN81», account «3200 Erlös aus Produktion», both form
   defaults). Report net and gross to Brian.
 - Enter prices plain: `1700.00`. Bexio shows `1'700.00`.
-- Offers are valid 14 days and invoices are due after 29 days by Bexio's defaults. Leave both unless Brian says
-  otherwise.
+- Offers are valid 14 days and invoices are due after 29 days by Bexio's defaults, counted from the document
+  date. The document date is the day Brian will send it, not the day the draft is made (Brian, 2026-10-09: RE-01830
+  was drafted on a Friday for sending on Monday and should have carried Monday's date). Ask or infer the sending day
+  from the conversation, set Datum to it and move Zahlbar bis (or the offer validity) with it, keeping the default
+  span. Name both dates in the report.
 - Some clients are billed in EUR without VAT. The skill does not set currency or tax. If the
   client's last invoice is not CHF with 8.1 %, ask Brian.

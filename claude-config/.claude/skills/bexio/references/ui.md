@@ -91,6 +91,12 @@ bx add-pos zusatz-cache.html 400.00 --optional
 
 - Positions append in the order they are added, normal and optional ones in separate groups. Add them in the
   final order.
+- `bx add-break` appends a PDF page break (`addPosition('KbPositionPagebreak', true)`, no form, saved at once; the
+  row reads «PDF-Seitenumbruch»). Verified 2026-10-09 on RE-01830. Because positions only append, decide the
+  break points before adding: one text position per block, `bx add-break` where the PDF should turn the page.
+- Check the PDF without the browser: `bxapi get /2.0/kb_invoice/<id>/pdf` (or `kb_offer`) returns JSON with a
+  base64 `content`; decode it to a file and read the pages (poppler is installed, the Read tool renders PDFs).
+  A text position that runs over the page end is cut mid-sentence; a break before it fixes that.
 - After «Weiter» a new invoice already shows an empty priced row. `bx add-pos` fills that row.
 - `bx add-pos` prints what the form holds (amount, unit, price, account, tax, optional) before it saves.
 - There is no document-level save. Each position saves on its own.
@@ -117,6 +123,20 @@ Clicks the «Texte» tab, sets the TinyMCE editors `kb_item_header` and `kb_item
 These calls worked on an offer draft on 2026-09-29. The texts to use are in `texte.md`.
 
 ## Invoice from an Auftrag
+
+Setting up the part-invoice plan (worked 2026-10-09 on AU-00135): tab «Teilrechnungen» on the Auftrag page
+(`bx press "Teilrechnungen" a`) shows the form `#editPartialInvoiceForm` with «Prozentuale Werte» (default) or
+«Absolute Werte» and 50 rows of Zähler/Nenner inputs `#kb_partial_invoice_calc_partial_invoice_N_numerator` and
+`_denominator`. Set the values with jQuery and trigger `keyup` so the «Wert in Prozent» column recomputes (1/2 and
+1/2 gave 50.00 % each, Total 100.00 %), then `bx press "Speichern" button`. Do not trigger `change` on the radio
+buttons: that switched the table to the CHF view although «Prozentuale Werte» stayed checked (reload the page to
+reset). After saving, the Positionen tab shows the plan (Teilrechnung 1 offen, …) with the links «Teilrechnung 1
+erstellen» and «Teilrechnungen entfernen». Only set a plan when the Auftrag text itself names the shares.
+
+`bx press "Teilrechnung 1 erstellen" a` (2026-10-09, AU-00135 → RE-01830): no dialog, the draft opens at once
+with the number assigned, status Entwurf, Vorgängerdokument set, one position «Teilrechnung 1 von Auftrag
+AU-00135 (50.00%)» at 50 % of the net total, header and footer in the du default. `bx read` and `bx texts` work on
+it. `bx read` does not support the Auftrag page itself («not a document page»); use `bx state` and `bx shot` there.
 
 `/index.php/kb_order/show/id/<n>` shows one of two things in the right column:
 
@@ -162,7 +182,7 @@ mail draft Brian sends after issuing. The skill's default stays: stop at the dra
 ## Unverified
 
 The `bx` read commands and `bx new` (without `bx weiter`) were tested on 2026-10-01. On 2026-10-07 `bx weiter`,
-`add-text`, `add-pos` and `set-texts` built offer AN-00267 end to end without problems. On 2026-10-08 `bx edit-pos ROW --expect … --price 4800.00`
+`add-text`, `add-pos` and `set-texts` built offer AN-00267 end to end without problems. On 2026-10-09 `bx add-text`, `bx add-break` and `bx edit-pos --html` built the scope block below Bexio's Teilrechnung line on invoice draft RE-01830; totals unchanged. On 2026-10-08 `bx edit-pos ROW --expect … --price 4800.00`
 changed a price and `--html` a text position on the same draft; the totals followed. `bx new` with a contact
 person the contact does not have prints «not found. Options:» with an empty list; run it again without the person. The write commands (`weiter`,
 `add-text`, `add-pos`, `edit-pos`, `set-texts`) wrap the calls that created those two drafts, but the wrapper
@@ -171,15 +191,14 @@ itself has not written a document yet. On the first real run, check each step's 
 No agent has done the following at all. Try them when a real document needs them, check the result, then move the
 item up.
 
-- `bx press "Teilrechnung N erstellen" a` and `"Rechnung erstellen"` on an Auftrag: whether a dialog comes first,
-  when the number is assigned, what the draft looks like.
-- PDF page break: `addPosition('KbPositionPagebreak', true)` is the menu's handler. Page breaks in existing
-  offers were added by hand.
+- `"Rechnung erstellen"` on an Auftrag without a plan (never run; it would bill 100 %).
 - Switching off «Angebot Total anzeigen» (`kb_item[show_total]` on the Einstellungen tab, button «Einstellungen
   übernehmen»). On AN-00267 (2026-10-07) a fresh offer already had it unchecked, so nothing was clicked; Bexio's
   own Positionen view still shows the total. Check the box state before touching it.
 - Konditionen: fields are `kb_item[is_valid_from]`, `kb_item[is_valid_until]` (offer) or `kb_item[is_valid_to]`
   (invoice), `kb_item[accomplishment_date]` (Leistungszeitraum, invoice), button «Eingaben speichern». Never edited.
-- Reordering (rows are jQuery UI sortable), deleting or duplicating a position, a second position on an invoice.
+- Reordering (rows are jQuery UI sortable), deleting or duplicating a position.
+- Changing Datum and Zahlbar bis (or an offer's validity) on a draft. Brian did it by hand on RE-01830 on
+  2026-10-09. Find the fields (document header pencil or the Konditionen tab), set them, reload and `bx read`.
 - Invoice list page 2 (the offer URL pattern with `KbInvoiceFilter` is a guess).
 - Whether a deleted draft frees its number.

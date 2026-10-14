@@ -2,12 +2,13 @@
 
 Abschlusskommentare Brian left standing. Match their density. The first one is the current shape (2026-10-08,
 after Brian rejected a version with a bold title, a mention at the end, PR links and the open points as a
-prose clause); the older three predate the two-section rule but show the density.
+prose clause; its opening date was dropped on 2026-10-13). The older three predate the two-section and
+no-date rules but show the density; their opening dates are not the pattern.
 
 ## Handover to a teammate with open decisions (task 869dnebu8, 2026-10-08)
 
 ```
-[@Simea Merki](#user_mention#2438286) Accessibility-Check umgesetzt, Stand 8.10.2026. Plugin mcc-visual-studio 0.12.0 ist auf Staging (tvsent.ethz.ch), alles dort im Browser mit Tastatur geprüft.
+[@Simea Merki](#user_mention#2438286) Accessibility-Check umgesetzt. Plugin mcc-visual-studio 0.12.0 ist auf Staging (tvsent.ethz.ch), alles dort im Browser mit Tastatur geprüft.
 
 Erledigt
 - Überschriften: /spielregeln/, /services/, /projekt-check/ und die Projekt-Detailseiten haben jetzt eine saubere H1–H3-Struktur, optisch unverändert. Alle anderen Seiten waren bereits in Ordnung.

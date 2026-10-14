@@ -27,9 +27,11 @@ reader is Brian or a teammate who knows the client and can find the repo documen
 [examples.md](examples.md) holds the comments Brian kept. Match them.
 
 - **No title, no greeting.** The comment starts with a plain sentence, never with a bold or heading-like line and never with «Hoi», «Hallo» or similar (Brian, 2026-10-08). If it
-  addresses someone, the @-mention is the very first thing in the comment, then the sentence: outcome word
-  plus date, e.g. `Accessibility-Check umgesetzt, Stand 8.10.2026.`, `Geprüft 2026-09-18: …`,
-  `Behoben am 29.09.2026.` A second sentence may name the version or site it is live on.
+  addresses someone, the @-mention is the very first thing in the comment, then the sentence naming the
+  outcome, e.g. `Accessibility-Check umgesetzt.`, `Geprüft: Website nicht betroffen.`, `Fehler behoben.`
+  ClickUp timestamps every comment, so the opening carries no date (no `Stand …`, `am …`); a date belongs in
+  the text only when it names a different day than the comment's, e.g. when a change went live (Brian,
+  2026-10-13). A second sentence may name the version or site it is live on.
 - **Two sections** when work was done and something stays open: `Erledigt` and `Offen`, each a plain-text
   label on its own line followed by a bullet list. No bold, no markdown headings. A check with no change
   needed is a single paragraph without sections.
@@ -62,6 +64,6 @@ Otherwise post one new comment with the delta.
 
 ## Before the call
 
-Done means every line passes: no title, mention first if any, opening sentence with date, `Erledigt` and
+Done means every line passes: no title, mention first if any, opening sentence naming the outcome without a date, `Erledigt` and
 `Offen` as plain labels with bullets, only facts that change what the reader does, skipped items with
 reason, no documentation links, German with Swiss spelling, status untouched unless the prompt named one.

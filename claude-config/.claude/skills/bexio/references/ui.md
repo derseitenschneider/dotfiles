@@ -170,6 +170,12 @@ show page, no confirm dialog, status went to Offen. The PDF came from `/index.ph
 returned the PDF of a **draft** (RE-01827): numbered, no draft watermark, QR bill included, good for attaching to a
 mail draft Brian sends after issuing. The skill's default stays: stop at the draft.
 
+## Declining an offer (2026-10-14, AN-00267)
+
+Use the REST API, not the UI: `POST /2.0/kb_offer/<id>/reject` with the bxapi token, **no body and no
+Content-Type** (a `{}` JSON body returns 415). Response `{"success":true}`; `kb_item_status_id` goes from 2
+(offen) to 4 (abgelehnt). Check with `bxapi get /2.0/kb_offer/<id>`. Only on Brian's explicit request.
+
 ## Changing a contact's address (2026-10-08, unisite)
 
 - Contact page `/index.php/kontakt/show/id/<id>`: the pencil next to the name is the first `bexio-bubble` button in

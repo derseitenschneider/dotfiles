@@ -19,6 +19,11 @@ Accounting reads and manual entries (Buchungen) do not go through the browser. T
 `scripts/bxapi`, described in [references/api.md](references/api.md). Only the `morntag-accounting` skill writes
 entries, after Brian's «book it»; this skill's jobs below are documents only.
 
+API first for documents too (Brian, 2026-10-14): reading a document, fetching its PDF and changing its status
+(e.g. `POST /2.0/kb_offer/<id>/reject`, see ui.md) go through the API. The browser is for what the API cannot
+do or what has only been verified in the UI: building positions, header and footer texts, contact edits. A
+lost browser login is no reason to stop when the API covers the step.
+
 ## Limits
 
 | | |

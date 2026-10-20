@@ -29,3 +29,7 @@ Brian often reads a session from another device (his phone, or a session running
 Use this form instead of `http://127.0.0.1:51234/...` for everything under `~/claude-previews`. Files elsewhere under `$HOME` are not reachable over Tailscale: copy them into `~/claude-previews` first. Request the link with `curl` before giving it to Brian, and expect HTTP 200.
 
 How it is served: `~/.local/bin/claude-previews-server` on `127.0.0.1:51235` (LaunchAgent `com.morntag.claude-previews-tailnet` on macOS, systemd user unit `claude-previews.service` on Linux) behind `tailscale serve` on port 8444, reachable inside the tailnet only. It supports HTTP Range, so video plays on iOS. To repair or reinstall: `curl -fsS https://devserver.taile1eb2e.ts.net:8444/setup-claude-previews.sh | bash`.
+
+## Scope on client sites
+
+On client sites, add only what the task asks for. New fields, settings, content or plugins beyond it are proposals: put them to Brian in the terminal first. Fixing what is clearly broken against the task's intent is fine once Brian approves it (the `clickup` skill's triage).

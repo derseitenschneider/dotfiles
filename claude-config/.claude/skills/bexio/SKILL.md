@@ -16,8 +16,8 @@ in [references/ui.md](references/ui.md). German wording, titles, header and foot
 exists, read it too: it names real documents to model on and is kept out of git because it holds client names.
 
 Accounting reads and manual entries (Buchungen) do not go through the browser. They use the REST API through
-`scripts/bxapi`, described in [references/api.md](references/api.md). Only the `morntag-accounting` skill writes
-entries, after Brian's «book it»; this skill's jobs below are documents only.
+`scripts/bxapi`, described in [references/api.md](references/api.md). Only the `morntag-accounting` and
+`morntag-viseca` skills write entries, after Brian's «book it»; this skill's jobs below are documents only.
 
 API first for documents too (Brian, 2026-10-14): reading a document, fetching its PDF and changing its status
 (e.g. `POST /2.0/kb_offer/<id>/reject`, see ui.md) go through the API. The browser is for what the API cannot

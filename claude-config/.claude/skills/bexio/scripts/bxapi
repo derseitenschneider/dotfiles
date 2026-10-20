@@ -35,6 +35,14 @@ Writing (manual entries, no tax, CHF)
                                                batch of entries; skips rows already in the journal, stops on
                                                the first error. FILE: [{"key","date","debit","credit","amount",
                                                "text"}, ...]. R.json: the same rows plus status and entry id.
+  bxapi compound FILE.json [--dry-run] [--out R.json]
+                                               one Sammelbuchung (manual_compound_entry): the counter account
+                                               against one line per account, same text on every line. FILE:
+                                               {"key","date","text","counter":"1350","total":2374.50,
+                                               "lines":[{"account":"6500","amount":1160.60}, ...]}. The counter
+                                               is credited with the total, positive lines are debited, negative
+                                               lines credited. Skips when the counter already carries this text
+                                               and total on that date.
 Plumbing
   bxapi get PATH [k=v ...]                     raw GET, prints JSON (e.g. bxapi get /2.0/kb_invoice/123)
 """
@@ -428,6 +436,76 @@ def cmd_book(args):
         sys.exit(2)
 
 
+def compound_body(spec, accounts):
+    text, lines = spec["text"], spec["lines"]
+    if len(text) > 255:
+        die("text longer than 255 characters")
+    if not lines:
+        die("compound entry needs at least one line")
+    total = round(sum(float(l["amount"]) for l in lines), 2)
+    if abs(total - float(spec["total"])) >= 0.005:
+        die(f"lines sum to {fmt(total)}, total says {fmt(float(spec['total']))}")
+    counter = resolve_account(spec["counter"], accounts)
+    entries = [{"credit_account_id": counter["id"], "amount": total}]
+    for l in lines:
+        amt = round(float(l["amount"]), 2)
+        if amt == 0:
+            die(f"line {l['account']} has amount 0, drop it")
+        acc = resolve_account(l["account"], accounts)
+        side = "debit_account_id" if amt > 0 else "credit_account_id"
+        entries.append({side: acc["id"], "amount": abs(amt)})
+    for e in entries:
+        e.update(description=text, currency_id=CHF, currency_factor=1)
+    return {"type": "manual_compound_entry", "date": iso(spec["date"]), "entries": entries}
+
+
+def describe_compound(spec):
+    parts = "  ".join(f"{l['account']} {fmt(float(l['amount']))}" for l in spec["lines"])
+    return f"{spec['date']}  {spec['counter']} {fmt(float(spec['total']))} against  {parts}  {spec['text']}"
+
+
+def cmd_compound(args):
+    if not args:
+        die("compound FILE.json [--dry-run] [--out R.json]")
+    path, dry, out_path = args[0], flag(args, "--dry-run"), arg(args, "--out")
+    with open(path) as f:
+        spec = json.load(f)
+    for k in ("date", "text", "counter", "total", "lines"):
+        if k not in spec:
+            die(f"missing {k}")
+    spec.setdefault("key", "compound")
+    accounts = load_accounts(include_inactive=True)
+    body = compound_body(spec, accounts)
+    counter = resolve_account(spec["counter"], accounts)
+    # journal rows of a compound entry carry the counter on the opposite side of each line
+    same = [r for r in journal_rows(counter["uuid"], body["date"], body["date"])
+            if (r.get("description") or "") == spec["text"]]
+    net = round(sum(float(r["base_currency_amount"]) * (-1 if r["credit_account_id"] == counter["id"] else 1)
+                    for r in same), 2)
+    res = dict(spec)
+    if same and abs(net + float(spec["total"])) < 0.005:
+        res.update(status="exists", journal_ids=[r["id"] for r in same])
+        print(f"exists   {spec['key']:<12} {describe_compound(spec)}   (journal ids {res['journal_ids']})")
+    elif same:
+        res.update(status="conflict", journal_ids=[r["id"] for r in same])
+        print(f"CONFLICT {spec['key']:<12} {spec['counter']} already has {len(same)} rows with this text on "
+              f"{body['date']} netting {fmt(net)}; not sent")
+    elif dry:
+        res.update(status="dry_run", payload=body)
+        print(f"dry-run  {spec['key']:<12} {describe_compound(spec)}")
+        print(json.dumps(body, ensure_ascii=False, indent=1))
+    else:
+        created = call("POST", "/3.0/accounting/manual_entries", body=with_next_ref(body))
+        res.update(status="created", entry_id=created.get("id"), reference_nr=created.get("reference_nr"))
+        print(f"created  {spec['key']:<12} {describe_compound(spec)}   id={created.get('id')} ref={created.get('reference_nr')}")
+    if out_path:
+        with open(out_path, "w") as f:
+            json.dump(res, f, ensure_ascii=False, indent=1)
+        print(f"result written to {out_path}")
+    if res["status"] == "conflict":
+        sys.exit(2)
+
+
 def cmd_get(args):
     if not args:
         die("get PATH [k=v ...]")
@@ -441,7 +519,7 @@ def main():
         print(USAGE.rstrip())
         return
     cmds = {"check": cmd_check, "accounts": cmd_accounts, "journal": cmd_journal, "balance": cmd_balance,
-            "entry": cmd_entry, "book": cmd_book, "get": cmd_get}
+            "entry": cmd_entry, "book": cmd_book, "compound": cmd_compound, "get": cmd_get}
     fn = cmds.get(argv[0])
     if not fn:
         die(f"unknown command {argv[0]!r}\n{USAGE}")

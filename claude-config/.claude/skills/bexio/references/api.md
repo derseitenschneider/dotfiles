@@ -42,6 +42,18 @@ are outgoing payment orders. The bank side of a reconciliation always comes from
               "currency_id": 1, "currency_factor": 1}]}
 ```
 
+Sammelbuchung (`bxapi compound`): `"type": "manual_compound_entry"`, every line carries **either**
+`debit_account_id` **or** `credit_account_id` and the same `description`; the lines must balance. `GET` returns the
+first line (the counter, e.g. Haben 1350 with the total) with `id: null`, so summing every line's amount doubles the
+total. In the journal each line shows up as its own row with the counter on the opposite side (`6500 / 1350`), all
+with the same description; `bxapi compound` detects an existing entry by that.
+
+```json
+{"type": "manual_compound_entry", "date": "2026-08-24",
+ "entries": [{"credit_account_id": 221, "amount": 2201.25, "description": "Viseca Card SA, Abrechnung August", …},
+             {"debit_account_id": 202, "amount": 1160.60, "description": "Viseca Card SA, Abrechnung August", …}, …]}
+```
+
 No `tax_id`: morntag settles VAT with the Saldosteuersatz method, so VAT appears only on customer invoices,
 never on these bank-side entries. `bxapi entry create` and `bxapi book` build exactly this body from account
 numbers; `--dry-run` prints it without sending.
@@ -57,8 +69,8 @@ numbers; `--dry-run` prints it without sending.
 
 ## Rules
 
-- Reads are free. Manual entries are written only by the `morntag-accounting` skill after Brian's «book it»,
-  one month at a time, through `bxapi book FILE.json`, which skips rows already in the journal (same date,
-  accounts and amount) and stops at the first error.
+- Reads are free. Manual entries are written only by the `morntag-accounting` skill (through `bxapi book
+  FILE.json`, which skips rows already in the journal and stops at the first error) and the `morntag-viseca`
+  skill (through `bxapi compound FILE.json`), each after Brian's «book it», one month at a time.
 - Delete or change only entries whose ids the current run file holds. Never touch payments, bills, invoices or
   entries in a closed business year.

@@ -24,8 +24,8 @@ Brian's voice, and nothing she would have to hand back to Brian.
 
    Wait for Brian's answer. Then do the approved fixes and undo or keep extras as he said. Done when every
    item has a bucket and Brian has answered.
-3. **Draft the comment** under a header line: `Kommentar für: Simea (Mention) · Status: unverändert`. Brian
-   corrects the reader or status there.
+3. **Draft the comment** under a header line: `Kommentar für: Simea (Mention) · Status: unverändert`, with
+   the reader and mention picked by the rules in **Mentions**. Brian corrects the reader or status there.
 4. **Post** when the prompt asks for a ClickUp comment or Brian approves the draft. Every finished task gets
    a comment, even if it is only `@Simea Merki done`.
 
@@ -67,8 +67,14 @@ rewrites; match them.
 
 ## Mentions
 
-- Mention Simea when she has to approve or decide something, or to tell her a task is done. No mention means
-  "not for you", and she reads it that way.
+- Mention Simea when she has to approve or decide something. No mention means "not for you", and she reads it
+  that way.
+- Mention her to say a task is done only when she is already in the comment thread, or she created the task
+  and assigned it to Brian. A task from the support agent ("Morntag Support-Triage") shows Simea as creator
+  because the agent runs under her account. Tell those apart by the first comment, which is the agent's:
+  - Only the agent and Brian in the thread: the comment is internal documentation, no mention.
+  - Someone else active in the thread who needs to hear the outcome: mention that person.
+- When it's unclear who should be mentioned, if anyone, ask Brian in the terminal before posting.
 - Syntax: `[@Simea Merki](#user_mention#2438286)` as the very first characters of the comment
   (`[@joschua merki](#user_mention#2438292)`; others via `clickup_resolve_assignees`). `notify_all` stays off.
 - The API reads mentions back flattened (`" Text…\n@Name"` or a leading space only). The rendered comment

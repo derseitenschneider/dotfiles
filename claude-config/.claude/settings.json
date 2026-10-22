@@ -132,7 +132,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Glass.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/complete.oga; fi"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Glass.aiff; elif command -v pw-play >/dev/null; then XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)} pw-play /usr/share/sounds/freedesktop/stereo/complete.oga; fi"
           },
           {
             "type": "command",
@@ -165,7 +165,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Ping.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/message.oga; fi"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Ping.aiff; elif command -v pw-play >/dev/null; then XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)} pw-play /usr/share/sounds/freedesktop/stereo/message.oga; fi"
           },
           {
             "type": "command",
@@ -190,7 +190,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Pop.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/bell.oga; fi"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Pop.aiff; elif command -v pw-play >/dev/null; then XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)} pw-play /usr/share/sounds/freedesktop/stereo/bell.oga; fi"
           },
           {
             "type": "command",
@@ -223,7 +223,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Hero.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/dialog-information.oga; fi"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Hero.aiff; elif command -v pw-play >/dev/null; then XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)} pw-play /usr/share/sounds/freedesktop/stereo/dialog-information.oga; fi"
           }
         ]
       },
@@ -232,7 +232,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/brianboy/.claude/hooks/herdr-agent-state.sh' session",
+            "command": "bash ~/.claude/hooks/herdr-agent-state.sh session",
             "timeout": 10
           }
         ]
@@ -252,7 +252,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Morse.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/message-new-instant.oga; fi"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Morse.aiff; elif command -v pw-play >/dev/null; then XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)} pw-play /usr/share/sounds/freedesktop/stereo/message-new-instant.oga; fi"
           }
         ]
       },
@@ -271,7 +271,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Purr.aiff; elif command -v pw-play >/dev/null; then pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga; fi"
+            "command": "if command -v afplay >/dev/null; then afplay /System/Library/Sounds/Purr.aiff; elif command -v pw-play >/dev/null; then XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)} pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga; fi"
           }
         ]
       }
@@ -408,5 +408,7 @@
   "skipDangerousModePermissionPrompt": true,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "theme": "dark-daltonized",
+  "tui": "fullscreen"
 }

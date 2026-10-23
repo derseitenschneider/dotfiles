@@ -124,7 +124,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus",
+  "model": "fable",
   "hooks": {
     "Stop": [
       {
@@ -241,7 +241,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+            "command": "bash ~/.claude/hooks/dotfiles-autopull-warning.sh",
+            "timeout": 5
           }
         ]
       },
@@ -249,8 +250,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/dotfiles-autopull-warning.sh",
-            "timeout": 5
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }
@@ -409,15 +409,15 @@
   },
   "showClearContextOnPlanAccept": true,
   "plansDirectory": "./plans",
+  "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "tap"
   },
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-daltonized",
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
-  "theme": "dark-daltonized",
-  "tui": "fullscreen"
+  "voiceEnabled": true
 }

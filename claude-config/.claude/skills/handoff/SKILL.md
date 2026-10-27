@@ -37,4 +37,22 @@ open "superset://v2-workspace/$SUPERSET_WORKSPACE_ID?terminalId=<sessionId from 
 - `<Topic>` is what the next session is about in three to six words (e.g. `Frankenwein side-cart go-live`). The tab title is generated from the prompt, so lead with the topic and keep "Handoff" and dates out of it.
 - The `claude` preset runs `claude --dangerously-skip-permissions`. If the launch fails, say so and fall back to printing the path (`Not logged in` means the user has to run `superset auth login`).
 
-Either way, end by telling the user the handoff path and, if a tab was opened, that the new session is waiting for their go.
+### In a new worktree
+
+Use this instead of a tab when the user asks for a worktree, or when you hand off several code tasks for the same repo at once (sessions sharing one checkout switch branches under each other). It creates a Superset workspace with its own git worktree and branch, and starts Claude in it:
+
+```bash
+PROJECT_ID=$(superset ws list --local --json | jq -r --arg ws "$SUPERSET_WORKSPACE_ID" '.[] | select(.id == $ws) | .projectId')
+superset ws create --local --project "$PROJECT_ID" --json \
+  --name "<topic-slug>" --branch "<branch>" --skip-branch-prefix --base-branch main \
+  --agent claude --prompt "<Topic>: read <resolved handoff path> and pick up the work it describes. Start by summarising in a few lines what you will do first, then wait for my go."
+```
+
+- `<branch>` follows the repo's branch convention (read CLAUDE.md or the pre-push hook, e.g. `feature/<name>`). `--skip-branch-prefix` keeps it exactly as given.
+- When writing several handoffs in one turn, add the topic slug to each file name so they don't collide.
+- A fresh worktree holds no gitignored files (`vendor/`, `node_modules/`, `.env`, build output) unless the project has a `.superset/config.json` setup script. Say in the handoff which install commands to run first.
+- The worktree lives outside the project directory. If the app only runs from the original checkout (e.g. a WordPress plugin mounted into a local site), say so in the handoff: the session can run tests and builds, but browser checks need the original checkout or a staging deploy.
+- Add `--tag <client>` when launching several, so they share a sidebar folder.
+- The JSON returns `.workspace.id` and `.agents[0].sessionId`. Open it with `open "superset://v2-workspace/<workspace id>?terminalId=<sessionId>"`, or just give the user the workspace names when several were launched.
+
+Either way, end by telling the user the handoff path and, if a tab or workspace was opened, that the new session is waiting for their go.

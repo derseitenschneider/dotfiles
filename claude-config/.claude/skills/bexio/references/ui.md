@@ -127,8 +127,9 @@ These calls worked on an offer draft on 2026-09-29. The texts to use are in `tex
 Setting up the part-invoice plan (worked 2026-10-09 on AU-00135): tab «Teilrechnungen» on the Auftrag page
 (`bx press "Teilrechnungen" a`) shows the form `#editPartialInvoiceForm` with «Prozentuale Werte» (default) or
 «Absolute Werte» and 50 rows of Zähler/Nenner inputs `#kb_partial_invoice_calc_partial_invoice_N_numerator` and
-`_denominator`. Set the values with jQuery and trigger `keyup` so the «Wert in Prozent» column recomputes (1/2 and
-1/2 gave 50.00 % each, Total 100.00 %), then `bx press "Speichern" button`. Do not trigger `change` on the radio
+`_denominator` (rows start at 1). Set the values with jQuery and trigger `change` on the numerator and denominator
+so the «Wert in Prozent» column recomputes (on AU-00136, 2026-10-26, `keyup` alone left Total at 0.00 %; 1/2 and
+1/2 then gave 50.00 % each, Total 100.00 %), then `bx press "Speichern" button`. Do not trigger `change` on the radio
 buttons: that switched the table to the CHF view although «Prozentuale Werte» stayed checked (reload the page to
 reset). After saving, the Positionen tab shows the plan (Teilrechnung 1 offen, …) with the links «Teilrechnung 1
 erstellen» and «Teilrechnungen entfernen». Only set a plan when the Auftrag text itself names the shares.
@@ -146,6 +147,32 @@ it. `bx read` does not support the Auftrag page itself («not a document page»)
 
 Both are plain links that create a document. Do not open them to "have a look". Invoices made this way hold one
 position written by Bexio, keep the Auftrag's title and get the du default header and footer.
+
+## Offer to Auftrag (2026-10-26, AN-00262 → AU-00136, only on Brian's explicit request)
+
+- The offer was already «Bestätigt»; the status action «Auftrag erstellen» (`/index.php/kb_offer/createOrder/id/<n>`)
+  opens a dialog «Positionen wählen» with one checkbox per position (`create_delivery[KbPosition…_<id>_check]`),
+  optional ones unchecked. Tick them with `.click()`, then click the dialog's «Speichern» link (outside the form).
+  The Auftrag opens at once (status Offen, header/footer in the du default).
+- Ticked optional positions arrive as **optional** in the Auftrag. To make one regular: `__bx.openEdit(row)`, click
+  `kb_position_custom[is_optional]` off, form «Speichern». Bexio then moves it up to just after the first position,
+  so reorder afterwards.
+- Reordering (verified on AU-00136 and RE-01832): move the `[id^=position_]` rows in the DOM into the wanted order,
+  then call the sortable's own update: `c=jQuery('.positionTable.ui-sortable'); c.sortable('option','update').call(c[0])`.
+  It POSTs `c.sortable('serialize')` to `reorderPositionsUrl`. Check the order with `bxapi get /2.0/kb_…/<id>`.
+  With this, `bx add-break` can be appended and moved to where the page should turn.
+- «Teilrechnung 2 erstellen» was available while Teilrechnung 1 was still a draft (plan shows «gestellt» as soon
+  as the draft exists).
+
+## Dates on a draft invoice (2026-10-26, RE-01832/RE-01833)
+
+Konditionen tab, form `kb_invoice/editPayment`: set `kb_item[is_valid_from]`, trigger change (it does not move
+`is_valid_to`), set `kb_item[is_valid_to]` (format dd.mm.yyyy), click «Eingaben speichern». Check with bxapi.
+
+## Login
+
+`bx go` reported NOT LOGGED IN after Brian had logged in again in Chrome: the running browser-use session kept the
+old state. `bx close`, then `bx go` again.
 
 ## Dead ends
 
@@ -201,10 +228,7 @@ item up.
 - Switching off «Angebot Total anzeigen» (`kb_item[show_total]` on the Einstellungen tab, button «Einstellungen
   übernehmen»). On AN-00267 (2026-10-07) a fresh offer already had it unchecked, so nothing was clicked; Bexio's
   own Positionen view still shows the total. Check the box state before touching it.
-- Konditionen: fields are `kb_item[is_valid_from]`, `kb_item[is_valid_until]` (offer) or `kb_item[is_valid_to]`
-  (invoice), `kb_item[accomplishment_date]` (Leistungszeitraum, invoice), button «Eingaben speichern». Never edited.
-- Reordering (rows are jQuery UI sortable), deleting or duplicating a position.
-- Changing Datum and Zahlbar bis (or an offer's validity) on a draft. Brian did it by hand on RE-01830 on
-  2026-10-09. Find the fields (document header pencil or the Konditionen tab), set them, reload and `bx read`.
+- Konditionen of an offer: `kb_item[is_valid_until]`. The invoice fields worked (section above).
+- Deleting or duplicating a position.
 - Invoice list page 2 (the offer URL pattern with `KbInvoiceFilter` is a guess).
 - Whether a deleted draft frees its number.

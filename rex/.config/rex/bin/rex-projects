@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+# Fuzzy project picker for Rex. Opened in a floating layer by the
+# open_project action in init.lua, which passes the client to switch and the
+# share of the terminal's width and height that Rex actually shows.
+#
+# Each project from projects.tsv, and each of its extra git worktrees, maps to
+# one Rex session labelled "project" or "project/worktree". Rows are sorted by
+# what needs you first: an agent waiting on you, an agent finished, an agent
+# working, an open session, then the rest by when you last opened them.
+#
+# Runs under macOS's bash 3.2, so the joining happens in awk.
+set -uo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
+
+client="${1:-}"
+show_w="${2:-1}" show_h="${3:-1}"
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+cfg="$(dirname "$here")"
+state="${XDG_STATE_HOME:-$HOME/.local/state}/rex-projects"
+recent="$state/recent.tsv"
+mkdir -p "$state" && touch "$recent"
+
+fail() {
+	printf '\n  %s\n\n  Press any key to close.' "$1"
+	read -rsn1
+	exit 1
+}
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+# label, session_id, blocked, done, working, agents
+rex do "$here/sessions-status.lua" >"$tmp/status" 2>/dev/null
+
+# key, path: every project and its worktrees other than the main checkout.
+while IFS=$'\t' read -r name path; do
+	[[ -z "$name" || "$name" == \#* ]] && continue
+	printf '%s\t%s\n' "$name" "$path"
+	main=$(git -C "$path" rev-parse --show-toplevel 2>/dev/null) || continue
+	git -C "$path" worktree list --porcelain 2>/dev/null | sed -n 's/^worktree //p' |
+		while read -r wt; do
+			[ "$wt" != "$main" ] && [ -d "$wt" ] && printf '%s/%s\t%s\n' "$name" "$(basename "$wt")" "$wt"
+		done
+done <"$cfg/projects.tsv" >"$tmp/targets"
+
+# Row: rank, recency sort key, key, path, session_id, display.
+# Colors, as truecolor escapes for awk and hex for fzf.
+panel='#23262e' line='#2f333d' edge='#4b5263' dim='#6b717d' text='#d4d7dd'
+
+# Draw only in the visible part, keeping a column and row spare for rounding.
+read -r lines cols < <(stty size </dev/tty 2>/dev/null || echo 30 100)
+read -r vcols vlines <<<"$(awk -v c="$cols" -v l="$lines" -v w="$show_w" -v h="$show_h" \
+	'BEGIN { print (w < 1 ? int(c * w) - 1 : c), (h < 1 ? int(l * h) - 1 : l) }')"
+margin="0,$((cols - vcols)),$((lines - vlines)),0"
+
+# Width of the list inside the frame: border 2, padding 4, pointer and marker 2, fzf margin 2.
+inner=$((vcols - 10))
+
+awk -F'\t' -v OFS='\t' -v now="$(date +%s)" -v inner="$inner" '
+	function ago(t,   s) {
+		if (t == 0) return ""
+		s = now - t
+		if (s < 3600) return int(s / 60) "m"
+		if (s < 86400) return int(s / 3600) "h"
+		return int(s / 86400) "d"
+	}
+	function rgb(hex) {
+		return sprintf("\033[38;2;%d;%d;%dm", hexval(substr(hex, 2, 2)), hexval(substr(hex, 4, 2)), hexval(substr(hex, 6, 2)))
+	}
+	function hexval(h,   i, n) {
+		n = 0; h = tolower(h)
+		for (i = 1; i <= length(h); i++) n = n * 16 + index("0123456789abcdef", substr(h, i, 1)) - 1
+		return n
+	}
+	function row(key, path,   k, rank, icon, info, color, n, own, name, slash, shown, cut, pad, w, R) {
+		k = tolower(key); seen[k] = 1
+		R = "\033[0m"
+		rank = 4; icon = " "; info = ""; color = DIM
+		if (k in sid) {
+			rank = 3; icon = DIM "○" R; info = "open"
+			if (wk[k] > 0) { rank = 2; icon = BLUE "◐" R; color = BLUE; info = wk[k] " working" }
+			if (dn[k] > 0) { rank = 1; icon = GREEN "✓" R; color = GREEN; info = dn[k] " done" }
+			if (bl[k] > 0) { rank = 0; icon = YELLOW "●" R; color = YELLOW; info = bl[k] " waiting" }
+			if (bl[k] + dn[k] + wk[k] > 0 && (bl[k] > 0) + (dn[k] > 0) + (wk[k] > 0) > 1)
+				info = info " +" (bl[k] + dn[k] + wk[k] - (rank == 0 ? bl[k] : rank == 1 ? dn[k] : wk[k]))
+		}
+		n = own = (k in last) ? last[k] : 0
+		# A worktree you never opened here sorts with its project.
+		if (n == 0 && index(k, "/") && (substr(k, 1, index(k, "/") - 1) in last))
+			n = last[substr(k, 1, index(k, "/") - 1)] - 1
+
+		# Name column: whatever is left after icon, status and time.
+		w = inner - 2 - 2 - 12 - 2 - 4
+		if (w < 16) w = 16
+		# Shown as "project › worktree", which is 2 wider than the key.
+		cut = length(key) + (index(key, "/") ? 2 : 0) > w
+		shown = cut ? substr(key, 1, w - 1 - (index(key, "/") ? 2 : 0)) : key
+		slash = index(shown, "/")
+		if (slash)
+			name = DIM substr(shown, 1, slash - 1) " › " R TEXT substr(shown, slash + 1) R
+		else
+			name = TEXT shown R
+		if (cut) name = name DIM "…" R
+		pad = w - length(shown) - (slash ? 2 : 0) - (cut ? 1 : 0)
+		if (pad < 0) pad = 0
+		print rank, sprintf("%010d", 9999999999 - n), key, path, sid[k], \
+			sprintf("%s %s%*s  %s%12s%s  %s%4s%s", icon, name, pad, "", color, info, R, DIM, ago(own), R)
+	}
+	BEGIN {
+		TEXT = rgb("#d4d7dd"); DIM = rgb("#6b717d")
+		YELLOW = rgb("#e5c07b"); GREEN = rgb("#98c379"); BLUE = rgb("#61afef")
+	}
+	FILENAME == ARGV[1] { k = tolower($1); sid[k] = $2; bl[k] = $3; dn[k] = $4; wk[k] = $5; label[k] = $1; next }
+	FILENAME == ARGV[2] { k = tolower($2); if ($1 + 0 > last[k] + 0) last[k] = int($1); next }
+	{ row($1, $2) }
+	END { for (k in sid) if (!(k in seen)) row(label[k], "") }
+' "$tmp/status" "$recent" "$tmp/targets" | sort -t$'\t' -k1,1n -k2,2 >"$tmp/rows"
+
+if [ "$client" = "--list" ]; then
+	cut -f6 "$tmp/rows"
+	exit 0
+fi
+
+# Rex draws floating layers see-through and fzf leaves its padding unpainted,
+# so fill the whole terminal with the panel color first.
+printf '\e[48;2;35;38;46m\e[2J\e[H'
+
+choice=$(fzf --ansi --delimiter=$'\t' --with-nth=6 --tiebreak=index \
+	--height=100% --margin="$margin" --layout=reverse --no-scrollbar --info=inline-right \
+	--border=rounded --border-label=' Projects ' --border-label-pos=3 --padding=1,2 \
+	--prompt='❯ ' --pointer='▍' --gutter=' ' --separator='─' --ellipsis='…' \
+	--footer=$'\e[38;2;229;192;123m●\e[0m waiting   \e[38;2;152;195;121m✓\e[0m done   \e[38;2;97;175;239m◐\e[0m working   ○ open        ↵ open   esc close' \
+	--color="bg:$panel,bg+:$line,gutter:$panel,border:$edge,separator:$edge,label:$dim:bold" \
+	--color="fg:$text,fg+:$text:bold,hl:#e5c07b,hl+:#e5c07b:bold,query:$text,prompt:#61afef,pointer:#61afef,info:$dim,footer:$dim,spinner:#61afef" \
+	<"$tmp/rows") || exit 0
+
+key=$(cut -f3 <<<"$choice")
+path=$(cut -f4 <<<"$choice")
+id=$(cut -f5 <<<"$choice")
+
+if [ -z "$id" ]; then
+	id=$(rex new "$key" -c "${path:-$HOME}" --json | jq -er '.session_id') ||
+		fail "Could not create a session for $key."
+fi
+printf '%s\t%s\n' "$(date +%s)" "$key" >>"$recent"
+
+if [ -z "$client" ]; then
+	echo "$id"
+	exit 0
+fi
+rex -C "$client" do session.select session_id="$id" >/dev/null 2>"$state/last-error" ||
+	fail "$(cat "$state/last-error")"

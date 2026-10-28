@@ -1,0 +1,26 @@
+# name<TAB>path. One line per project; the picker also lists each repo's git worktrees.
+Athletes	/Users/brianboy/dev/wp-local/sites/mcc-athletes/wp-content/plugins/mcc-athletes
+BASPO	/Users/brianboy/dev/wp-local/sites/baspo/wp-content/plugins/mcc-baspo
+baspo-manual-import	/Users/brianboy/dev/work/baspo-manual-import
+dergartenbau	/Users/brianboy/dev/wp-local/sites/dergartenbau/wp-content/plugins/mcc-gartenbau
+DOTFILES	/Users/brianboy/.dotfiles
+dpr	/Users/brianboy/dev/wp-local
+hsb	/Users/brianboy/.superset/projects/hsb
+LABMAG	/Users/brianboy/dev/wp-local/sites/mcc-labmag/wp-content/plugins/mcc-labmag
+Life	/Users/brianboy/dev/personal/life
+maintenance-clients	/Users/brianboy/dev/work/maintenance-clients
+MCC Boilerplate	/Users/brianboy/dev/wp-local/sites/mcc-boilerplate/wp-content/plugins/mcc-boilerplate
+Morntag Accounting	/Users/brianboy/dev/work/morntag-accounting
+ora	/Users/brianboy/dev/personal/ora
+oracount	/Users/brianboy/dev/personal/oracount
+pressdify	/Users/brianboy/dev/wp-local/sites/pressdify/wp-content/plugins/pressdify
+renovita	/Users/brianboy/dev/wp-local/sites/renovita/wp-content/plugins/mcc-renovita
+Sarasani	/Users/brianboy/dev/wp-local/sites/mcc-sarasani/wp-content/plugins/mcc-sarasani
+sbbhistoric	/Users/brianboy/dev/wp-local/sites/sbbhistoric/wp-content/plugins/mcc-sbbhistoric
+Steinerbus	/Users/brianboy/dev/wp-local/sites/steinerbus/wp-content/plugins/mcc-steinerbus
+The Visual Studio	/Users/brianboy/dev/wp-local/sites/visual-studio/wp-content/plugins/mcc-visual-studio
+Tierspital	/Users/brianboy/.superset/projects/uzh
+unisono	/Users/brianboy/dev/wp-local/sites/unisono/wp-content/plugins/mcc-unisono
+WP Central	/Users/brianboy/dev/work/morntag-central-wp
+wp-core	/Users/brianboy/dev/work/wp-core
+wuhrmann	/Users/brianboy/dev/wp-local/sites/wuhrmanngarten/wp-content/plugins/mcc-wuhrmanngarten

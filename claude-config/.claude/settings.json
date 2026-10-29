@@ -124,7 +124,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "fable",
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -250,7 +250,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude 2>/dev/null || true'",
+            "timeout": 5
           }
         ]
       },
@@ -258,8 +259,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/bin/sh -c 'rex __internal session-start --agent claude 2>/dev/null || true'",
-            "timeout": 5
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/notify.sh\" ] && SUPERSET_HOOK_HARNESS=claude \"$SUPERSET_HOME_DIR/hooks/notify.sh\" || true"
           }
         ]
       }

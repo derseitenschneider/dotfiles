@@ -8,15 +8,17 @@ description: Trigger this if the user says 'full send'.
 If the user triggered this, it's because they are not watching this thread, and
 they want you to complete the work end-to-end autonomously. Your updates and
 your final message go unread until long after you stop. You own the work from
-its current state to a merged PR.
+its current state to the change running and verified in production.
 
 If the user did not explicitly request "full send" in some clear way, do not
 assume full autonomy. If they did, everything below applies.
 
 The user grants you permission to:
 
-- Merge the PR once the merge gate passes, unless the merge deploys (see
-  "Merges that deploy").
+- Merge the PR once the merge gate passes, including merges that release or
+  deploy.
+- Update the shipped code on the client's production site over SSH and check
+  it there (see "Ship to production").
 - Force-push the PR's own branch with `--force-with-lease` after a rebase.
 - Use the test methods that Proof needs, without asking first.
 
@@ -37,8 +39,8 @@ leave-it-to-the-user step. If a preferred method cannot prove the change,
 use a gated method under this permission.
 
 It covers only the tests needed for this task. It does not add permission
-for the steps under "Asking the user", such as production changes or data
-deletion. It also does not bypass a harness or system approval prompt if
+for the steps under "Asking the user", such as data deletion or production
+changes beyond "Ship to production". It also does not bypass a harness or system approval prompt if
 one appears.
 
 ## Steps
@@ -52,12 +54,18 @@ one appears.
    branch first. Say how you proved the change in the body's Evidence section.
 5. **Babysit the PR** with the `babysit-pr` skill. Fix real findings and CI
    failures. Get proof for each fix before you push it.
-6. **Merge** when the merge gate passes and the merge does not deploy.
-7. **Report** in your final message: the PR link, the merge commit, your proof,
-   and each decision you made for the user.
+6. **Merge** when the merge gate passes.
+7. **Watch the merge complete.** Wait for every workflow the merge triggers
+   (release, build, deploy) to finish green. Treat a failed run like a CI
+   failure and fix it.
+8. **Ship to production** when there is SSH access to the client's prod. See
+   "Ship to production".
+9. **Report** in your final message: the PR link, the merge commit, the
+   release or deploy run, what you updated on prod and how you checked it,
+   your proof, and each decision you made for the user.
 
-Stay active from step 1 to step 7. If you end your turn while checks or bots are
-pending, the work stops, because nobody will prompt you again. Wait with the
+Stay active from step 1 to step 9. If you end your turn while checks, bots or
+post-merge runs are pending, the work stops, because nobody will prompt you again. Wait with the
 watcher from `babysit-pr`, so something wakes you when the PR changes. In T3
 Code that is `watch_pull_request`. If you stop before the merge, call
 `unwatch_pull_request` first.
@@ -97,14 +105,26 @@ PR as merged. Merge through branch protection as configured. Never use `--admin`
 or other bypasses. You can ignore automated reviews that request "needs human
 review" if you have high confidence in your changes.
 
-## Merges that deploy
+## Ship to production
 
-Before merging, check whether a merge to the default branch deploys: a
-workflow in `.github/workflows/` that deploys on push to it, or a deploy
-named in `CLAUDE.md`, `AGENTS.md` or the README. A deploying merge touches
-production. Then finish the way `full-stop` does: turn off auto-merge, leave
-the PR ready and unmerged, follow its "Stop at the gate" handoff, and name the
-deploy that stopped you in the report.
+Once the merge's runs are green, get the change onto the client's production
+site.
+
+1. **Find access.** Look up the prod SSH alias in
+   `~/dev/work/maintenance-clients/clients.json` and the client's README there,
+   the wp-local `.remote` file, and `~/.ssh/config`. Follow the host quirks
+   noted there, such as a WP-CLI wrapper. With no access listed, stop here and
+   name the open prod update in the report.
+2. **Update** the way the site normally receives the code: for an MCC plugin,
+   its update checker plus `wp plugin update`. When the site does not see the
+   new release yet, force a fresh update check. Copying files by hand is not an
+   update.
+3. **Check on prod:** the new version is installed and the fixed code is on
+   disk, the site answers 200, and the fixed behaviour works on prod (the page,
+   the job, the flow from the task). Keep checks read-only, or run the same job
+   the site runs on its own schedule anyway.
+4. **Roll back** to the previous release when the prod check fails, then ask
+   the user.
 
 ## Asking the user
 
@@ -118,8 +138,9 @@ Ask only when you cannot continue alone:
 
 - You cannot prove the change.
 - The merge gate cannot pass, and you cannot fix that yourself.
-- The next step is outside the grant above: deleting data, touching production,
-  changing things outside the repo, closing a PR, or force-pushing any other
+- The next step is outside the grant above: deleting data, touching production
+  beyond "Ship to production" (settings, content, other plugins), changing
+  things outside the repo, closing a PR, or force-pushing any other
   branch.
 - The goal is ambiguous in a way that changes the result.
 - Another PR makes this one obsolete.

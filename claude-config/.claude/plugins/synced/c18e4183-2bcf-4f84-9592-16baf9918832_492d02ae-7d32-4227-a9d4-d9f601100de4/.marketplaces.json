@@ -1,0 +1,25 @@
+{
+  "etag": "W/\"cSR2hw6jQizacBVhpE0Df6o91IP5Xh0eaJzvWA_QE_8\"",
+  "rows": [
+    {
+      "name": "Organization library",
+      "scope": "org",
+      "source": {
+        "source": "claudeai"
+      },
+      "id": "marketplace_01PygwuA4CwDBDDWTSfTJBv7",
+      "updated_at": "2026-10-22T16:17:29.79356Z"
+    },
+    {
+      "name": "anthropic-plugin-directory",
+      "display_name": "Anthropic Directory",
+      "scope": "default",
+      "source": {
+        "source": "claudeai"
+      },
+      "id": "marketplace_01VNB7JgJyYTuJiDfXSABKm3",
+      "updated_at": "2026-10-29T15:20:55.191379Z"
+    }
+  ],
+  "parserVersion": 1002
+}

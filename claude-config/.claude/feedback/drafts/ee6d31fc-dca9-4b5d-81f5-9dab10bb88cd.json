@@ -1,0 +1,31 @@
+{
+  "draft_id": "ee6d31fc-dca9-4b5d-81f5-9dab10bb88cd",
+  "created_at": "2026-10-29T14:46:14.665Z",
+  "source_session_id": "3a5eeadc-a7ec-4df4-9676-8de9c4feb052",
+  "cwd": "/Users/brianboy/dev/wp-local/sites/renovita/wp-content/plugins/mcc-renovita",
+  "model": "claude-opus-5-5",
+  "cli_version": "2.1.312",
+  "os": "darwin arm64",
+  "request_ids": [
+    "req_011CgWi6fVPUxZ5hLKTKxVK9",
+    "req_011CgWi6rtUx7gnMeph5BeR2",
+    "req_011CgWi72Baawea9pkfQbH55"
+  ],
+  "type": "bug",
+  "title": "claude.ai Gmail connector keeps returning \"session expired\" after user reconnects via /mcp",
+  "details": "- **What happened:** Every mcp__claude_ai_Gmail__* call (search_threads, create_draft) returned `MCP server \"claude.ai Gmail\" session expired`. That included calls after the user reported the connector as reconnected and after the tool schemas were reloaded with ToolSearch. Expected: calls succeed after the reconnect.\n- **What the user said:** \"gmail ist wieder verbunden\" (after I asked them to reconnect with /mcp); earlier \"wieszo nicht via mcp?\"\n- **Repro:** In a long session, call a claude.ai Gmail tool and get \"session expired\". The user reconnects through /mcp, ToolSearch select reloads the Gmail tools, the same call fails with the same error.\n- **Evidence:** 2026-10-29, macOS, 5 failed calls in total (2 before the reconnect, 3 after it, counting the one after the ToolSearch reload).",
+  "area": "MCP connectors (claude.ai Gmail)",
+  "task_category": "other",
+  "trigger": "model_judgment",
+  "effort": "high",
+  "thinking_type": "adaptive",
+  "message_count": 725,
+  "assistant_turn_count": 66,
+  "subagent_count": 0,
+  "transcript_ref": {
+    "session_file": "/Users/brianboy/.claude/projects/-Users-brianboy-dev-wp-local-sites-renovita-wp-content-plugins-mcc-renovita/3a5eeadc-a7ec-4df4-9676-8de9c4feb052.jsonl",
+    "message_range": null,
+    "project_dir_key": "-Users-brianboy-dev-wp-local-sites-renovita-wp-content-plugins-mcc-renovita"
+  },
+  "status": "queued"
+}

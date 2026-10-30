@@ -1,0 +1,182 @@
+{
+  "version": 6,
+  "last_updated": "2026-04-02",
+  "scope": "Gmx account only",
+  "global_rules": {
+    "unread_is_todo": {
+      "description": "Unread personal/important emails stay in the inbox. Spam can be trashed regardless of read status."
+    },
+    "manual_move_categories": {
+      "description": "These emails are always actionable and manually managed. NEVER move or trash them.",
+      "categories": ["Irina (personal)", "Rechnungen/Invoices", "Hostpoint invoices", "AWS (all)"]
+    }
+  },
+  "patterns": [
+    {
+      "id": "safelist-irina",
+      "description": "NEVER touch — Irina's emails are always actionable",
+      "condition": { "type": "sender_address", "value": "irina.rusu89@yahoo.ro" },
+      "action": { "type": "keep" },
+      "mode": "safelist",
+      "status": "auto"
+    },
+    {
+      "id": "safelist-rechnungen",
+      "description": "NEVER touch — invoices are always actionable and manually filed",
+      "condition": { "type": "subject_keyword", "value": ["Rechnung", "Invoice", "Zahlung", "Payment", "Quittung"] },
+      "action": { "type": "keep" },
+      "mode": "safelist",
+      "status": "auto"
+    },
+    {
+      "id": "safelist-aws",
+      "description": "NEVER touch — all AWS emails are actionable and manually managed",
+      "condition": { "type": "sender_domain", "value": ["amazon.com", "aws.com"] },
+      "action": { "type": "keep" },
+      "mode": "safelist",
+      "status": "auto"
+    },
+    {
+      "id": "safelist-hostpoint",
+      "description": "NEVER touch — Hostpoint invoices are Rechnungen",
+      "condition": { "type": "sender_domain", "value": "hostpoint.ch" },
+      "action": { "type": "keep" },
+      "mode": "safelist",
+      "status": "auto"
+    },
+    {
+      "id": "wordpress-plugin-updates",
+      "description": "WordPress automated plugin update notifications from ANY site",
+      "condition": { "type": "subject_keyword", "value": ["Plugins wurden automatisch aktualisiert", "plugins were automatically updated", "Some plugins were automatically updated"] },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 3,
+      "status": "auto"
+    },
+    {
+      "id": "github-releases",
+      "description": "GitHub release notifications — trash. PR failures stay (actionable).",
+      "condition": { "type": "sender_address", "value": "notifications@github.com", "subject_contains": ["Release"] },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 3,
+      "status": "auto"
+    },
+    {
+      "id": "galaxus-notifications",
+      "description": "Galaxus/Digitec order and shipping notifications",
+      "condition": { "type": "sender_domain", "value": "galaxus.ch" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 2,
+      "status": "confirm"
+    },
+    {
+      "id": "raiffeisen-kontoauszug",
+      "description": "Raiffeisen E-Dokument Kontoauszug notifications only. Other Raiffeisen emails stay.",
+      "condition": { "type": "sender_domain", "value": "raiffeisen.ch", "subject_contains": ["E-Dokument", "Kontoauszug"] },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 3,
+      "status": "auto"
+    },
+    {
+      "id": "tldr-newsletter",
+      "description": "TLDR Dev newsletter",
+      "condition": { "type": "sender_domain", "value": "tldrnewsletter.com" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "cheatday",
+      "description": "Cheat Day WordPress notifications and SMTP summaries",
+      "condition": { "type": "sender_address", "value": "info@cheat-day.ch" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "brilliant",
+      "description": "Brilliant.org gamification notifications (streaks, levels)",
+      "condition": { "type": "sender_domain", "value": "brilliant.org" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 3,
+      "status": "auto"
+    },
+    {
+      "id": "gmx-self-marketing",
+      "description": "GMX's own marketing/premium upsell emails",
+      "condition": { "type": "sender_domain", "value": "gmx.net" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "instapaper",
+      "description": "Instapaper onboarding/marketing emails",
+      "condition": { "type": "sender_domain", "value": "instapaper.com" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "uptimerobot-to-eleno",
+      "description": "UptimeRobot monitoring reports → Eleno. Only move if READ.",
+      "condition": { "type": "sender_domain", "value": "uptimerobot.com" },
+      "action": { "type": "move", "target_folder": "📱 Eleno", "target_parent": "01-Projects" },
+      "mode": "sort",
+      "requires_read": true,
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "cembra-to-banking",
+      "description": "Cembra bank documents → Banking. Only move if READ.",
+      "condition": { "type": "sender_domain", "value": "cembra.ch" },
+      "action": { "type": "move", "target_folder": "🏦 Banking", "target_parent": "02-Areas" },
+      "mode": "sort",
+      "requires_read": true,
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "banana-ch",
+      "description": "Banana.ch — account cancelled, all emails are trash",
+      "condition": { "type": "sender_domain", "value": "banana.ch" },
+      "action": { "type": "trash" },
+      "mode": "delete_only",
+      "confirmations": 0,
+      "status": "auto"
+    },
+    {
+      "id": "meta-business-to-eleno",
+      "description": "Meta for Business ad notifications → Eleno. Only move if READ.",
+      "condition": { "type": "sender_domain", "value": "business-updates.facebook.com" },
+      "action": { "type": "move", "target_folder": "📱 Eleno", "target_parent": "01-Projects" },
+      "mode": "sort",
+      "requires_read": true,
+      "confirmations": 1,
+      "status": "confirm"
+    },
+    {
+      "id": "bb-wertmetall-to-banking",
+      "description": "BB Wertmetall → Banking. Only move if READ.",
+      "condition": { "type": "sender_domain", "value": "bb-wertmetall.ch" },
+      "action": { "type": "move", "target_folder": "🏦 Banking", "target_parent": "02-Areas" },
+      "mode": "sort",
+      "requires_read": true,
+      "confirmations": 1,
+      "status": "confirm"
+    }
+  ],
+  "account": {
+    "name": "Gmx",
+    "inbox_name": "INBOX"
+  }
+}

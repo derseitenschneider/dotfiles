@@ -1,0 +1,1 @@
+../../claude-config/.claude/hookify.dangerous-rm.local.md

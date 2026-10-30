@@ -1,0 +1,1 @@
+../../claude-config/.claude/hookify.block-as-any.md

@@ -1,0 +1,1 @@
+../../claude-config/.claude/hookify.warn-foreach.md

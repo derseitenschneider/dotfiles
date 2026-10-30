@@ -1,0 +1,1 @@
+../../claude-config/.claude/hookify.warn-as-syntax.md

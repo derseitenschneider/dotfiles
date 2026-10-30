@@ -69,3 +69,24 @@ lnav/.config/lnav/formats/default/
 ssh/.ssh/known_hosts
 ssh/.ssh/known_hosts.old
 ssh/.ssh/ssh-morntag
+
+# claude-private: second Claude Code config dir (private account); only the symlinks + seed are tracked
+claude-private/.claude-private/.claude.json
+claude-private/.claude-private/.credentials.json
+claude-private/.claude-private/history.jsonl
+claude-private/.claude-private/sessions/
+claude-private/.claude-private/session-env/
+claude-private/.claude-private/backups/
+claude-private/.claude-private/cache/
+claude-private/.claude-private/file-history/
+claude-private/.claude-private/paste-cache/
+claude-private/.claude-private/telemetry/
+claude-private/.claude-private/state/
+claude-private/.claude-private/tasks/
+claude-private/.claude-private/plans/
+claude-private/.claude-private/chrome/
+claude-private/.claude-private/daemon*
+claude-private/.claude-private/.last-*
+claude-private/.claude-private/*-cache.json
+claude-private/.claude-private/stats-cache.json
+claude-private/.claude-private/package.json

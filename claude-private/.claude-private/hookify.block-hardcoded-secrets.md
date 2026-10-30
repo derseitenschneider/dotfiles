@@ -1,0 +1,1 @@
+../../claude-config/.claude/hookify.block-hardcoded-secrets.md

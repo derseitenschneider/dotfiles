@@ -74,3 +74,20 @@ numbers; `--dry-run` prints it without sending.
   skill (through `bxapi compound FILE.json`), each after Brian's «book it», one month at a time.
 - Delete or change only entries whose ids the current run file holds. Never touch payments, bills, invoices or
   entries in a closed business year.
+
+## Offer drafts through the API (2026-10-29, AN-00270, Brian's go while the browser was logged out)
+
+Worked end to end, no browser needed:
+
+- `POST /2.0/kb_offer` with `title`, `contact_id`, `contact_sub_id`, `user_id`, `language_id`, `currency_id`,
+  `mwst_type` 0, `mwst_is_net` true, `is_valid_from`, `is_valid_until`, `header`, `footer` (HTML as in texte.md).
+  Creates the draft with its AN-number at once (status 1). Take settings from the client's last offer.
+- Positions append per group: `POST /2.0/kb_offer/<id>/kb_position_text` `{text, show_pos_nr: false, is_optional}`,
+  `POST …/kb_position_custom` `{text, amount: "1", unit_id: 1, account_id: 101, tax_id: 36, unit_price, is_optional}`
+  (101 = 3200 Erlös, 36 = UN81 8.1 %), `POST …/kb_position_pagebreak` `{pagebreak: true}`.
+  `is_optional` is honoured. To put a break in front of saved positions, `DELETE …/kb_position_custom|text/<pos id>`
+  them, add the break, re-add them.
+- `show_total` is **not** writable through the API (422 «Widget schema does not include … show_total»). New offers
+  come with it off, so the PDF shows no total block. Switch it on in the UI (Einstellungen tab) when the offer has
+  optional add-ons.
+- There is no Bexio user for Brian; `user_id` 3 (Simea) prints as «Dein Ansprechpartner».

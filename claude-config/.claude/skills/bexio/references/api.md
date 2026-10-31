@@ -43,10 +43,12 @@ are outgoing payment orders. The bank side of a reconciliation always comes from
 ```
 
 Sammelbuchung (`bxapi compound`): `"type": "manual_compound_entry"`, every line carries **either**
-`debit_account_id` **or** `credit_account_id` and the same `description`; the lines must balance. `GET` returns the
-first line (the counter, e.g. Haben 1350 with the total) with `id: null`, so summing every line's amount doubles the
-total. In the journal each line shows up as its own row with the counter on the opposite side (`6500 / 1350`), all
-with the same description; `bxapi compound` detects an existing entry by that.
+`debit_account_id` **or** `credit_account_id` and its own `description` (Viseca: the same on every line; salaries:
+one per line, «Bruttolöhne Mai», «Löhne Mai, AHV», …); the lines must balance. `GET` returns the first line (the
+counter, e.g. Haben 1350 with the total) with `id: null`, so summing every line's amount doubles the total. In the
+journal each line shows up as its own row with the counter on the opposite side (`6500 / 1350`) and that line's
+description; `bxapi compound` detects an existing entry by those descriptions. The salary entry has its counter on
+the debit side (Soll 5000), hence `"counter_side": "debit"`.
 
 ```json
 {"type": "manual_compound_entry", "date": "2026-08-24",
@@ -71,7 +73,7 @@ numbers; `--dry-run` prints it without sending.
 
 - Reads are free. Manual entries are written only by the `morntag-accounting` skill (through `bxapi book
   FILE.json`, which skips rows already in the journal and stops at the first error) and the `morntag-viseca`
-  skill (through `bxapi compound FILE.json`), each after Brian's «book it», one month at a time.
+  and `morntag-lohn` skills (through `bxapi compound FILE.json`), each after Brian's «book it», one month at a time.
 - Delete or change only entries whose ids the current run file holds. Never touch payments, bills, invoices or
   entries in a closed business year.
 

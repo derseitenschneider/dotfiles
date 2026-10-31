@@ -1,4 +1,11 @@
 {
+  "markdown_preview": {
+    "font_family": "Andale Mono"
+  },
+  "buffer_line_height": "comfortable",
+  "vim": {
+    "toggle_relative_line_numbers": true
+  },
   "agent_servers": {
     "claude-acp": {
       "type": "registry"
@@ -18,14 +25,18 @@
   "git_panel": {
     "dock": "left"
   },
-  "icon_theme": "Zed (Default)",
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
   "session": {
     "trust_all_worktrees": true
   },
-  "theme": "One Dark Pro",
+  "theme": "Ayu Dark",
   "vim_mode": false,
   "ui_font_size": 18,
-  "buffer_font_size": 18,
+  "buffer_font_size": 17.0,
   "buffer_font_family": "Fira Code",
   "ui_font_family": "Fira Code",
   "relative_line_numbers": "enabled",

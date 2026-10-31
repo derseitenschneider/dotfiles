@@ -37,12 +37,14 @@ Writing (manual entries, no tax, CHF)
                                                "text"}, ...]. R.json: the same rows plus status and entry id.
   bxapi compound FILE.json [--dry-run] [--out R.json]
                                                one Sammelbuchung (manual_compound_entry): the counter account
-                                               against one line per account, same text on every line. FILE:
+                                               against one line per account. FILE:
                                                {"key","date","text","counter":"1350","total":2374.50,
                                                "lines":[{"account":"6500","amount":1160.60}, ...]}. The counter
                                                is credited with the total, positive lines are debited, negative
-                                               lines credited. Skips when the counter already carries this text
-                                               and total on that date.
+                                               lines credited. "counter_side":"debit" mirrors that (counter
+                                               debited, positive lines credited). Every line carries "text"
+                                               unless the line sets its own "text". Skips when the counter's
+                                               rows with these texts on that date already net to the total.
 Plumbing
   bxapi get PATH [k=v ...]                     raw GET, prints JSON (e.g. bxapi get /2.0/kb_invoice/123)
 """
@@ -438,25 +440,33 @@ def cmd_book(args):
 
 def compound_body(spec, accounts):
     text, lines = spec["text"], spec["lines"]
-    if len(text) > 255:
+    if any(len(t) > 255 for t in compound_texts(spec)):
         die("text longer than 255 characters")
+    side = spec.get("counter_side", "credit")
+    if side not in ("credit", "debit"):
+        die(f"counter_side must be credit or debit, not {side!r}")
     if not lines:
         die("compound entry needs at least one line")
     total = round(sum(float(l["amount"]) for l in lines), 2)
     if abs(total - float(spec["total"])) >= 0.005:
         die(f"lines sum to {fmt(total)}, total says {fmt(float(spec['total']))}")
     counter = resolve_account(spec["counter"], accounts)
-    entries = [{"credit_account_id": counter["id"], "amount": total}]
+    entries = [{f"{side}_account_id": counter["id"], "amount": total, "description": text}]
     for l in lines:
         amt = round(float(l["amount"]), 2)
         if amt == 0:
             die(f"line {l['account']} has amount 0, drop it")
         acc = resolve_account(l["account"], accounts)
-        side = "debit_account_id" if amt > 0 else "credit_account_id"
-        entries.append({side: acc["id"], "amount": abs(amt)})
+        debit = amt > 0 if side == "credit" else amt < 0
+        entries.append({"debit_account_id" if debit else "credit_account_id": acc["id"], "amount": abs(amt),
+                        "description": l.get("text", text)})
     for e in entries:
-        e.update(description=text, currency_id=CHF, currency_factor=1)
+        e.update(currency_id=CHF, currency_factor=1)
     return {"type": "manual_compound_entry", "date": iso(spec["date"]), "entries": entries}
+
+
+def compound_texts(spec):
+    return {spec["text"]} | {l["text"] for l in spec["lines"] if l.get("text")}
 
 
 def describe_compound(spec):
@@ -478,12 +488,14 @@ def cmd_compound(args):
     body = compound_body(spec, accounts)
     counter = resolve_account(spec["counter"], accounts)
     # journal rows of a compound entry carry the counter on the opposite side of each line
+    texts = compound_texts(spec)
     same = [r for r in journal_rows(counter["uuid"], body["date"], body["date"])
-            if (r.get("description") or "") == spec["text"]]
+            if (r.get("description") or "") in texts]
     net = round(sum(float(r["base_currency_amount"]) * (-1 if r["credit_account_id"] == counter["id"] else 1)
                     for r in same), 2)
+    expected = float(spec["total"]) * (1 if spec.get("counter_side") == "debit" else -1)
     res = dict(spec)
-    if same and abs(net + float(spec["total"])) < 0.005:
+    if same and abs(net - expected) < 0.005:
         res.update(status="exists", journal_ids=[r["id"] for r in same])
         print(f"exists   {spec['key']:<12} {describe_compound(spec)}   (journal ids {res['journal_ids']})")
     elif same:

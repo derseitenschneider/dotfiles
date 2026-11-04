@@ -169,6 +169,20 @@ position written by Bexio, keep the Auftrag's title and get the du default heade
 Konditionen tab, form `kb_invoice/editPayment`: set `kb_item[is_valid_from]`, trigger change (it does not move
 `is_valid_to`), set `kb_item[is_valid_to]` (format dd.mm.yyyy), click «Eingaben speichern». Check with bxapi.
 
+## Offer settings and validity (2026-11-03, AN-00273)
+
+- Validity: Konditionen tab `/index.php/kb_offer/editPayment/id/<n>`, set `kb_item[is_valid_until]` (dd.mm.yyyy) with
+  jQuery `.val().trigger("change")`, then click `input[type=submit][value="Eingaben speichern"]`. Checked with bxapi.
+- Total and Ansprechpartner: Einstellungen tab `/index.php/kb_offer/editItemSettings/id/<n>`. A new offer had
+  `kb_item[show_total]` unchecked and `kb_item[user_id]` = 6 (morntag Team; 3 = Merki Simea, 1 = Merki Joshy,
+  7 = Frey Stefan). Click the checkbox, set the select, then click «Einstellungen übernehmen». `bx press … input`
+  does not find it; click it with `Array.from(document.querySelectorAll("input[type=submit]")).find(x=>x.value.trim()=="Einstellungen übernehmen").click()`.
+- `bx add-break` lands at the end of the non-optional group. A break there pushes the totals block onto the next page,
+  because totals print after the last normal position. Breaks inside the optional group could not be added with `bx`.
+- When `bxapi` fails with a 1Password «authorization timeout», the PDF also comes from
+  `/index.php/kb_invoice|kb_offer/getPdf/id/<n>` with `curl` and the cookies from `bx cookies export FILE`
+  (filter `.bexio` domains, delete the file afterwards). Worked on a draft offer.
+
 ## Login
 
 `bx go` reported NOT LOGGED IN after Brian had logged in again in Chrome: the running browser-use session kept the
@@ -225,10 +239,7 @@ No agent has done the following at all. Try them when a real document needs them
 item up.
 
 - `"Rechnung erstellen"` on an Auftrag without a plan (never run; it would bill 100 %).
-- Switching off «Angebot Total anzeigen» (`kb_item[show_total]` on the Einstellungen tab, button «Einstellungen
-  übernehmen»). On AN-00267 (2026-10-07) a fresh offer already had it unchecked, so nothing was clicked; Bexio's
-  own Positionen view still shows the total. Check the box state before touching it.
-- Konditionen of an offer: `kb_item[is_valid_until]`. The invoice fields worked (section above).
+- Switching «Angebot Total anzeigen» **off** (switching it on worked, see «Offer settings and validity»).
 - Deleting or duplicating a position.
 - Invoice list page 2 (the offer URL pattern with `KbInvoiceFilter` is a guess).
 - Whether a deleted draft frees its number.

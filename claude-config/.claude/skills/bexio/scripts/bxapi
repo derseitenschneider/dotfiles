@@ -26,6 +26,7 @@ USAGE = """Reading
   bxapi balance --account NO --at D            saldo at end of day D, summed from the journal since 1 January
   bxapi entry get ID                           one manual entry
   bxapi entry set-ref ID [--ref N]             set the Belegnummer (default: next free number)
+  bxapi entry set-text ID --text T             change the Buchungstext of a single entry (keeps date, accounts, amount, ref)
   bxapi entry attach ID FILE [--line LINE]     upload a receipt (pdf/png/jpg, max 12MB) onto an entry line
   bxapi entry files ID                         list the files attached to an entry
 Writing (manual entries, no tax, CHF)
@@ -345,6 +346,20 @@ def cmd_entry(args):
                                                 "currency_id", "currency_factor")} for e in cur["entries"]]}
         res = call("PUT", f"/3.0/accounting/manual_entries/{eid}", body=body)
         print(f"entry {eid}: reference_nr {cur.get('reference_nr')} -> {res.get('reference_nr')}")
+    elif sub == "set-text":
+        eid = int(rest[0]); text = arg(rest, "--text", required=True)
+        if len(text) > 255:
+            die("text longer than 255 characters")
+        cur = call("GET", f"/3.0/accounting/manual_entries/{eid}")
+        if len(cur["entries"]) != 1:
+            die("set-text handles single entries only")
+        e = cur["entries"][0]
+        body = {"type": cur["type"], "date": cur["date"], "reference_nr": cur.get("reference_nr"),
+                "entries": [{**{k: e[k] for k in ("id", "debit_account_id", "credit_account_id", "amount",
+                                                   "currency_id", "currency_factor")}, "description": text}]}
+        res = call("PUT", f"/3.0/accounting/manual_entries/{eid}", body=body)
+        new = res["entries"][0]
+        print(f"entry {eid}: text {e['description']!r} -> {new['description']!r}  (line {e['id']} -> {new['id']})")
     elif sub == "attach":
         # bxapi entry attach ID FILE [--line LINE_ID]: upload a receipt (pdf/png/jpg…) onto an entry line
         eid = int(rest[0]); fpath = rest[1]

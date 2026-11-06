@@ -93,3 +93,11 @@ Worked end to end, no browser needed:
   come with it off, so the PDF shows no total block. Switch it on in the UI (Einstellungen tab) when the offer has
   optional add-ons.
 - There is no Bexio user for Brian; `user_id` 3 (Simea) prints as «Dein Ansprechpartner».
+
+## Invoice drafts through the API (2026-11-05, RE-01841)
+
+`POST /2.0/kb_invoice` with the same fields as an offer plus `bank_account_id`, `payment_type_id`,
+`template_slug`, `is_valid_from`/`is_valid_to` (Datum, Zahlbar bis) **and `positions` inline** creates the
+numbered draft in one call: `[{type: "KbPositionCustom", text, amount, unit_price, account_id, tax_id}]`.
+Send header, footer and position text unescaped (plain «ü»); the GET returns entities. `pressdify-license`'s
+`scripts/invoice draft` clones a client's last licence invoice this way; `--dry-run` prints the body.

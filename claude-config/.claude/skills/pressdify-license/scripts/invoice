@@ -1,0 +1,190 @@
+#!/usr/bin/env python3
+"""invoice: the Bexio licence invoice for a pressdify client, read or drafted from the last one.
+
+  invoice last DOMAIN                       the newest invoice whose title names DOMAIN, in full,
+                                            older ones in one line each, warnings when it is not
+                                            CHF with 8.1 % or a draft already exists
+  invoice draft DOMAIN [--date YYYY-MM-DD] [--from RE-NNNNN] [--price X] [--pdf FILE] [--dry-run]
+                                            clone that invoice as a new draft dated --date (today),
+                                            due 29 days later, same contact, texts and positions;
+                                            --price overrides the single priced position;
+                                            --pdf saves the draft's PDF and prints its page count;
+                                            --dry-run prints the request body and creates nothing
+
+Uses the bexio skill's bxapi (token from 1Password). Reads are free; `draft` creates one document
+and refuses when the contact already has a draft with this title.
+"""
+import datetime as dt
+import html
+import importlib.util
+import json
+import os
+import re
+import subprocess
+import sys
+from importlib.machinery import SourceFileLoader
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+BXAPI = os.path.join(HERE, "..", "..", "bexio", "scripts", "bxapi")
+DRAFT, CHF, UN81 = 7, 1, 36
+
+
+def bxapi():
+    loader = SourceFileLoader("bxapi", BXAPI)
+    mod = importlib.util.module_from_spec(importlib.util.spec_from_loader("bxapi", loader))
+    loader.exec_module(mod)
+    return mod
+
+
+def die(msg, code=1):
+    print(f"invoice: {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+def opt(args, name, default=None):
+    if name not in args:
+        return default
+    i = args.index(name)
+    if i + 1 >= len(args):
+        die(f"{name} needs a value")
+    v = args[i + 1]
+    del args[i:i + 2]
+    return v
+
+
+def norm(s):
+    return re.sub(r"^www\.", "", (s or "").strip().lower())
+
+
+def matching(bx, domain):
+    d = norm(domain)
+    inv = bx.call("GET", "/2.0/kb_invoice", {"limit": 2000})
+    hits = [i for i in inv if d in norm(i.get("title"))]
+    return sorted(hits, key=lambda i: (i["is_valid_from"], i["id"]), reverse=True), inv
+
+
+def warnings(doc, all_inv):
+    w = []
+    if doc["currency_id"] != CHF:
+        w.append(f"currency_id {doc['currency_id']}, not CHF: ask Brian")
+    for p in doc["positions"]:
+        if p["type"] == "KbPositionCustom" and p.get("tax_id") != UN81:
+            w.append(f"position tax_id {p.get('tax_id')}, not UN81 8.1 %: ask Brian")
+    drafts = [i for i in all_inv if i["contact_id"] == doc["contact_id"] and i["kb_item_status_id"] == DRAFT]
+    for i in drafts:
+        w.append(f"open draft for this contact: {i['document_nr']} «{i['title']}»")
+    return w
+
+
+def show(doc, w):
+    print(f"{doc['document_nr']}  {doc['is_valid_from']} → {doc['is_valid_to']}  status {doc['kb_item_status_id']}")
+    print(f"title:   {doc['title']}")
+    print(f"contact: {doc['contact_id']} / person {doc['contact_sub_id']}  user {doc['user_id']}")
+    print("address: " + doc["contact_address"].replace("\n", ", "))
+    for p in doc["positions"]:
+        if p["type"] == "KbPositionCustom":
+            print(f"pos:     {html.unescape(p['text'])}  {float(p['amount']):g} × {float(p['unit_price']):.2f}"
+                  f"  account {p['account_id']} tax {p['tax_id']}")
+        else:
+            print(f"pos:     [{p['type']}] {html.unescape(p.get('text') or '')[:80]}")
+    print(f"total:   {float(doc['total_net']):.2f} net, {float(doc['total']):.2f} gross")
+    form = "du" if re.search(r"\bdir\b", html.unescape(doc["header"])) else "euch"
+    print(f"texts:   {form} form, header «{html.unescape(doc['header'])[:60]}…»")
+    for x in w:
+        print(f"WARNING: {x}")
+
+
+def clone_body(src, date, price):
+    due = (dt.date.fromisoformat(date) + dt.timedelta(days=29)).isoformat()
+    body = {k: src[k] for k in ("title", "contact_id", "contact_sub_id", "user_id", "language_id",
+                                "bank_account_id", "currency_id", "payment_type_id", "mwst_type",
+                                "mwst_is_net", "show_position_taxes", "template_slug")
+            if src.get(k) is not None}   # some clients have no contact person
+    body.update(is_valid_from=date, is_valid_to=due,
+                header=html.unescape(src["header"]), footer=html.unescape(src["footer"]), positions=[])
+    priced = [p for p in src["positions"] if p["type"] == "KbPositionCustom"]
+    if price is not None and len(priced) != 1:
+        die(f"--price needs exactly one priced position, the source has {len(priced)}")
+    for p in src["positions"]:
+        if p["type"] == "KbPositionCustom":
+            q = {"type": p["type"], "text": html.unescape(p["text"]), "amount": p["amount"],
+                 "unit_price": price if price is not None else p["unit_price"],
+                 "account_id": p["account_id"], "tax_id": p["tax_id"]}
+            if p.get("unit_id"):
+                q["unit_id"] = p["unit_id"]
+            if p.get("discount_in_percent"):
+                q["discount_in_percent"] = p["discount_in_percent"]
+            body["positions"].append(q)
+        elif p["type"] == "KbPositionText":
+            body["positions"].append({"type": p["type"], "text": html.unescape(p["text"]),
+                                      "show_pos_nr": p.get("show_pos_nr", False)})
+        elif p["type"] == "KbPositionPagebreak":
+            body["positions"].append({"type": p["type"], "pagebreak": True})
+    return body
+
+
+def save_pdf(bx, doc_id, path):
+    import base64
+    r = bx.call("GET", f"/2.0/kb_invoice/{doc_id}/pdf")
+    with open(path, "wb") as f:
+        f.write(base64.b64decode(r["content"]))
+    try:
+        info = subprocess.run(["pdfinfo", path], capture_output=True, text=True, check=True).stdout
+        pages = re.search(r"Pages:\s+(\d+)", info).group(1)
+    except Exception:
+        pages = "?"
+    print(f"pdf:     {path}  ({pages} pages)")
+
+
+def main(argv):
+    args = list(argv)
+    if not args or args[0] in ("help", "-h", "--help"):
+        print(__doc__.strip())
+        return
+    cmd = args.pop(0)
+    date = opt(args, "--date", dt.date.today().isoformat())
+    src_nr = opt(args, "--from")
+    price = opt(args, "--price")
+    pdf = opt(args, "--pdf")
+    dry = "--dry-run" in args and (args.remove("--dry-run") or True)
+    if not args:
+        die(f"{cmd} DOMAIN")
+    domain = args[0]
+    bx = bxapi()
+    hits, all_inv = matching(bx, domain)
+    if src_nr:
+        hits = [i for i in all_inv if i["document_nr"] == src_nr] or die(f"{src_nr} not found")
+    if not hits:
+        die(f"no invoice with '{domain}' in the title")
+    src = bx.call("GET", f"/2.0/kb_invoice/{hits[0]['id']}")
+    w = warnings(src, all_inv)
+
+    if cmd == "last":
+        show(src, w)
+        for i in hits[1:]:
+            print(f"older:   {i['document_nr']}  {i['is_valid_from']}  {float(i['total_net']):.2f}  {i['title']}")
+        return
+
+    if cmd != "draft":
+        die(f"unknown command {cmd}")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        die(f"--date wants YYYY-MM-DD, got '{date}'")
+    blocking = [x for x in w if x.startswith("open draft") and src["title"] in x] + \
+               [x for x in w if x.startswith(("currency", "position tax"))]
+    if blocking:
+        die("refusing to draft:\n  " + "\n  ".join(blocking))
+    body = clone_body(src, date, price)
+    if dry:
+        print(f"would POST /2.0/kb_invoice, cloned from {src['document_nr']}:")
+        print(json.dumps(body, ensure_ascii=False, indent=1))
+        return
+    doc = bx.call("POST", "/2.0/kb_invoice", body=body)
+    print(f"created from {src['document_nr']}:")
+    show(doc, [])
+    print(f"url:     https://office.bexio.com/index.php/kb_invoice/show/id/{doc['id']}")
+    if pdf:
+        save_pdf(bx, doc["id"], pdf)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

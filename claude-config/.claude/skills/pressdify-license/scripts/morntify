@@ -1,0 +1,26 @@
+#!/bin/bash
+# morntify: read and renew rows of the Customer table on the Morntify render server.
+# Pipes morntify.php over SSH to the host `morntify` (~/.ssh/ssh-morntag/mssh_config) and runs it
+# inside the prod app directory. Only `renew` writes. Output is JSON, one object per line.
+HOST="${MORNTIFY_HOST:-morntify}"
+APP="${MORNTIFY_APP:-~/www/morntify/prod}"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
+case "${1:-help}" in
+  help|-h|--help)
+    cat <<'EOF'
+Reading
+  morntify list                 every customer: id, url, bought, used, start, end (no keys)
+  morntify customer DOMAIN      the row for DOMAIN (with or without www.) plus what the API
+                                answers for this customer right now (aboActive, credits, dates)
+Writing
+  morntify renew DOMAIN [--from YYYY-MM-DD]   new year: used = 0, start = from (today), end = from + 1 year
+  morntify renew DOMAIN --top-up N            add N renderings, dates unchanged
+                                both print the row before and after and the API answer
+EOF
+    ;;
+  *)
+    ssh -o BatchMode=yes -o ConnectTimeout=15 "$HOST" \
+      "cd $APP && php /dev/stdin -- $(printf '%q ' "$@")" < "$HERE/morntify.php"
+    ;;
+esac

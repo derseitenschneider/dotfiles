@@ -1,5 +1,8 @@
 {
   "restrictions": {
+    "allow_cobalt_plinth_alkanet": {
+      "allowed": false
+    },
     "allow_connector_file_downloads": {
       "allowed": false
     },

@@ -39,6 +39,8 @@ Brian often reads sessions on his phone.
 - **Lists, not tables:** rankings, comparisons and audits go in bullet lists with a bold title per item.
 - **Name things by title:** a PR, issue or ClickUp task is a markdown link whose text carries the number and the title, e.g. [PR #535 fix(app): translate leftover german toasts](https://github.com/derseitenschneider/eleno/pull/535).
 - **His steps go last:** anything Brian has to do himself goes in the turn's final message; text written before a tool call may never reach him.
+- **Each step works from the phone:** it says what to do, where (a link), how he can tell it is needed, and by when.
+- **A promised check gets a trigger:** "I'll check on <date>" comes with a ClickUp task due that day or a scheduled task, linked in the same message.
 
 ## Scope on client sites
 

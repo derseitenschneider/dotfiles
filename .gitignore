@@ -40,7 +40,24 @@ claude-config/.claude/daemon.lock
 claude-config/.claude/daemon.log
 claude-config/.claude/daemon.status.json
 claude-config/.claude/daemon/
-claude-config/.claude/jobs/*/
+claude-config/.claude/jobs/
+
+# Claude Code runtime state: Claude Code rewrites these on every machine by itself (timestamps,
+# caches, signatures, server-managed settings, claude.ai-synced skills and plugins). Tracked, they
+# made up nearly every daily auto commit and would collide between machines.
+claude-config/.claude/.last-update-result.json
+claude-config/.claude/policy-limits.json*
+claude-config/.claude/remote-settings.json*
+claude-config/.claude/daemon-auth-*
+claude-config/.claude/gh-pr-status-cache.json
+claude-config/.claude/feedback/
+claude-config/.claude/state/
+claude-config/.claude/plugins/.last_inuse_sweep
+claude-config/.claude/plugins/plugin-directory-cache-v2.json
+claude-config/.claude/plugins/store/
+claude-config/.claude/plugins/synced/
+claude-config/.claude/skills/synced/
+claude-config/.claude/skills/.trash/
 
 # Zed editor databases and temp files
 *.mdb

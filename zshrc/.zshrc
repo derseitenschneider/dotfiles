@@ -11,6 +11,9 @@ if [[ -n "$CLAUDECODE" ]]; then
   setopt no_nomatch
 fi
 
+# Ensure local bin is in PATH early (for Claude Code, pipx, etc.)
+export PATH="$HOME/.local/bin:$PATH"
+
 ######## TERMINAL
 #
 if [[ -z "$_agent_shell" ]]; then
@@ -22,9 +25,6 @@ if [[ -z "$_agent_shell" ]]; then
   # Source fzf
   eval "$(fzf --zsh)"
 fi
-
-# Ensure local bin is in PATH early (for Claude Code, pipx, etc.)
-export PATH="$HOME/.local/bin:$PATH"
 
 if [[ -z "$_agent_shell" ]]; then
 ######## PLUGINS

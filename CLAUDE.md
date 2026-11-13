@@ -176,6 +176,26 @@ These configurations require double confirmation due to potential system impact:
   - `raycast/.config/raycast/extensions`
   - `stripe/.config/stripe/config.toml`
   - `.DS_Store` files
+  - Claude Code's runtime state under `claude-config/.claude/` (caches, timestamps, signatures, server-managed
+    settings, claude.ai-synced `skills/synced` and `plugins/synced`): Claude Code rewrites it on every machine.
+    A file Claude Code writes by itself goes here, not into a commit.
+
+## Sync Between Machines
+
+The repo is `~/.dotfiles` on the Mac and `~/dotfiles` on the devserver. Both run the same script,
+`autosync/.config/scripts/dotfiles-autosync.sh`, every hour: Mac via the LaunchAgent `com.dotfiles.autosync`,
+devserver via the systemd user timer `dotfiles-autosync.timer` (units in `autosync/.config/systemd/user/`,
+symlinked into `~/.config/systemd/user/`). A run commits every change on that machine as `auto: <date> <host>
+(<packages>)`, rebases onto `origin/main` and pushes; the Mac also dumps the Brewfile once a day.
+
+- An edit younger than 5 minutes waits for the next run.
+- A file another machine stopped tracking (added to `.gitignore` and `git rm --cached`) is untracked on this
+  machine too and stays on disk.
+- Any other conflict aborts the rebase and blocks the sync: `~/.local/state/dotfiles-sync.blocked` says since
+  when and why, the SessionStart hook `dotfiles-sync-warning.sh` reports it in every session, and Ora alerts
+  on the devserver. Rebase by hand, then run the script once; a run that gets through removes the block.
+- Deliberate changes still deserve a commit with a real message: commit them yourself and the next run pushes
+  them. Log: `journalctl --user -u dotfiles-autosync` (devserver).
 
 ## Current Architecture
 

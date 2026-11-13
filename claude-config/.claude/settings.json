@@ -241,7 +241,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/dotfiles-autopull-warning.sh",
+            "command": "bash ~/.claude/hooks/dotfiles-sync-warning.sh",
             "timeout": 5
           }
         ]

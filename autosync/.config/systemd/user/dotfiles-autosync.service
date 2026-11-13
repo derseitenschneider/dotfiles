@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync the dotfiles repo with origin (commit, rebase, push)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash %h/dotfiles/autosync/.config/scripts/dotfiles-autosync.sh

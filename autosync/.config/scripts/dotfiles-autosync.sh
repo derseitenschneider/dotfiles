@@ -25,6 +25,8 @@ main() {
   HOST=$(hostname -s)
   export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
   export HOMEBREW_NO_AUTO_UPDATE=1
+  # Paths as they are (no \303\244 quoting), so lists from git can be fed back to git and find.
+  export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.quotePath GIT_CONFIG_VALUE_0=false
 
   mkdir -p "$STATE_DIR"
   LOCK_DIR=$STATE_DIR/dotfiles-sync.lock
@@ -49,8 +51,18 @@ main() {
   branch=$(git symbolic-ref --short -q HEAD || true)
   [ "$branch" = "main" ] || block "checked out is '${branch:-a detached HEAD}', not main"
 
+  git fetch --quiet origin
+  upstream=$(git rev-parse '@{u}')
+  git show "$upstream:.gitignore" >"$WORK/upstream.gitignore" 2>/dev/null || : >"$WORK/upstream.gitignore"
+
   # Wait while something is being edited (modified, deleted or new files touched recently).
-  busy=$(git ls-files -z -m -o --exclude-standard | xargs -0 -I{} find {} -prune -mmin "-$QUIET_MINUTES" -print 2>/dev/null | head -3 || true)
+  # Files origin ignores do not count: Claude Code rewrites its runtime files every few minutes,
+  # and on a machine that still tracks them they would keep every run waiting.
+  git ls-files -m -o --exclude-standard | LC_ALL=C sort -u >"$WORK/changed"
+  git -c core.excludesFile="$WORK/upstream.gitignore" check-ignore --no-index --stdin <"$WORK/changed" |
+    LC_ALL=C sort >"$WORK/changed.ignored" || true
+  busy=$(LC_ALL=C comm -23 "$WORK/changed" "$WORK/changed.ignored" | tr '\n' '\0' |
+    xargs -0 -I{} find {} -prune -mmin "-$QUIET_MINUTES" -print 2>/dev/null | head -3 || true)
   if [ -n "$busy" ]; then
     log "edited in the last $QUIET_MINUTES min, next run: $(echo "$busy" | tr '\n' ' ')"
     exit 0
@@ -58,12 +70,8 @@ main() {
 
   dump_brewfile
 
-  git fetch --quiet origin
-  upstream=$(git rev-parse '@{u}')
-
   # Paths this machine tracks that origin does not, and that origin's .gitignore ignores:
   # another machine untracked them on purpose, so they are untracked here and kept on disk.
-  git show "$upstream:.gitignore" >"$WORK/upstream.gitignore" 2>/dev/null || : >"$WORK/upstream.gitignore"
   git ls-tree -r --name-only "$upstream" | LC_ALL=C sort >"$WORK/upstream.files"
   git add -A
   git ls-files | LC_ALL=C sort >"$WORK/local.files"

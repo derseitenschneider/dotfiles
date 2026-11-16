@@ -87,6 +87,12 @@ Zwei Sachen für dich:
 Done, one open point left after reading the thread (869ed4rg5; a second point was already answered in
 Simea's comment of 12.10 and dropped):
 ```
-@Simea Merki Spielregeln sind umgesetzt, zum Anschauen auf tvsent.ethz.ch/spielregeln/: Abstände und Raster wie in Figma, Pfeil aussen mit Hover und Klick, Deckblatt mit Text und der weisse Moment beim Öffnen. Die Notizen von Katja und Arthur im Elementor hab ich abgearbeitet.
+@Simea Merki Spielregeln sind umgesetzt, die Notizen von Katja und Arthur im Elementor hab ich auch abgearbeitet.
 Eine Sache für dich und Katja: Die Projekt-Check-Buttons im Seiteninhalt gehen auf /projekt-check/, nur Header und Menü auf Notion. Sollen alle auf Notion?
+```
+
+Done, request given as subtasks and a video by Corinne, who created and assigned the task (869fpw950; two
+earlier drafts listed all five changes again and named staging). Only the deviation from her ask is named:
+```
+@Corinne Ulrich alles umgesetzt. Die Buttons sind auf dem Handy untereinander, nebeneinander hatte es dort keinen Platz.
 ```

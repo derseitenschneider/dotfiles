@@ -89,6 +89,9 @@ Worked end to end, no browser needed:
   (101 = 3200 Erlös, 36 = UN81 8.1 %), `POST …/kb_position_pagebreak` `{pagebreak: true}`.
   `is_optional` is honoured. To put a break in front of saved positions, `DELETE …/kb_position_custom|text/<pos id>`
   them, add the break, re-add them.
+- Positions can also go inline in the create call as `positions: [{type: "KbPositionText", …}, {type:
+  "KbPositionCustom", …}]` (2026-11-13, AN-00278, with `logopaper_id`, `bank_account_id`, `payment_type_id`,
+  `template_slug` from the client's last offer). One request, positions in the given order.
 - `show_total` is **not** writable through the API (422 «Widget schema does not include … show_total»). New offers
   come with it off, so the PDF shows no total block. Switch it on in the UI (Einstellungen tab) when the offer has
   optional add-ons.

@@ -34,18 +34,25 @@ terminal and the repo docs.
 
 ## The reader decides the shape
 
-**Simea or client side** (the default):
-- The mention, then one or two sentences: what is done, where to look. Technical cause at most as one plain
-  half-sentence, only when it matters to her or the client.
+**Simea, Corinne or client side** (the default):
+- The mention, then one or two sentences: what is done. Technical cause at most as one plain half-sentence,
+  only when it matters to her or the client.
+- Don't report the request back item by item, whether it came as subtasks, a checklist, a video or was only
+  implied. `alles umgesetzt` covers it. Name only what turned out different from the ask, and why in a few
+  words (`Die Buttons sind auf dem Handy untereinander, nebeneinander hatte es dort keinen Platz.`).
+- Name where to look only when the reader could not guess it: a specific page, or prod when the work is
+  usually checked on staging. Staging itself needs no mention.
 - Extra fixes as a lead-in sentence plus bullets: `Hab dabei noch ein paar Sachen gefixt:`. One line each,
   in her words, what changed for the user.
 - Her decisions last: a single one as a question (`…, oder?`, `Jetzt schon oder beim Launch?`), several as
   `Zwei Sachen für dich:` plus bullets, each naming who decides when it is not her.
-- About 60 words. Only her decisions justify more.
+- A done comment is one or two sentences, about 20 words. Only her decisions justify more, up to about 60.
 - Versions, plugin names, paths, field keys, numbers from logs, PR and doc links live in the repo.
 
-**Joshy (dev handover)**: `@joschua merki` first, concise and structured, bullets welcome, technical detail
-where he has to act on it, one PR or case-file link allowed.
+**Joshy (dev handover)**: `@joschua merki` first. He codes and owns the servers, so technical detail is
+welcome where he has to act on it or will need it later (server, deploy, config). Still short and
+scannable: what he has to do first, then a few one-line bullets, no paragraphs. One PR or case-file link
+allowed.
 
 **Brian (note for later)**: starts with `Notiz:`, same density as for Joshy, no mention.
 
@@ -70,7 +77,8 @@ rewrites; match them.
 - Mention Simea when she has to approve or decide something. No mention means "not for you", and she reads it
   that way.
 - Mention her to say a task is done only when she is already in the comment thread, or she created the task
-  and assigned it to Brian. A task from the support agent ("Morntag Support-Triage") shows Simea as creator
+  and assigned it to Brian. The same goes for Corinne or any teammate who created and assigned the task
+  (`[@Corinne Ulrich](#user_mention#2438289)`). A task from the support agent ("Morntag Support-Triage") shows Simea as creator
   because the agent runs under her account. Tell those apart by the first comment, which is the agent's:
   - Only the agent and Brian in the thread: the comment is internal documentation, no mention.
   - Someone else active in the thread who needs to hear the outcome: mention that person.
@@ -104,5 +112,5 @@ Simea was already told it is done (not live after all, a regression), post a new
 ## Before the call
 
 Every line passes: triage answered by Brian, reader chosen, mention first and only if the reader must act or
-hear it is done, Simea's comment free of technical detail and around 60 words, open points only Simea's or
-the client's, Brian's voice with Swiss spelling, status untouched unless the prompt named one.
+hear it is done, Simea's or Corinne's comment free of technical detail, about 20 words when done (60 with
+decisions), the request not repeated back, open points only Simea's or the client's, Brian's voice with Swiss spelling, status untouched unless the prompt named one.

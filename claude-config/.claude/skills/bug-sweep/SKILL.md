@@ -1,78 +1,37 @@
 ---
 name: bug-sweep
-description: Batch triage Sentry errors and GitHub bug issues — auto-fix clear bugs, flag complex ones. Use when user says "bug sweep", "triage bugs", "sweep errors", "check sentry", or wants to batch-process open bugs from Sentry and GitHub.
+description: Batch triage Sentry errors and GitHub bug issues in Eleno: fix the clear ones, flag the rest. Use when user says "bug sweep", "triage bugs", "sweep errors", "check sentry", or wants to batch-process open bugs from Sentry and GitHub.
 ---
 
 # Bug Sweep
 
-Fetch unresolved Sentry errors and GitHub `bug` issues, auto-fix clear ones, flag the rest.
+Fetch unresolved Sentry errors and open GitHub `bug` issues for Eleno, fix the clear ones, flag the rest.
 
 ## Arguments
 
-Parse arguments from `ARGUMENTS`:
-- **Source filter**: `sentry` or `github` (default: both)
-- **Time filter**: `Nd` for last N days (default: all unresolved)
-- **`--dry-run`**: Assess and report only, no code changes
-- Combinable: `sentry 7d --dry-run`
+From `ARGUMENTS`, combinable (`sentry 7d --dry-run`):
+- **Source**: `sentry` or `github` (default: both)
+- **Window**: `Nd`, last N days (default: all unresolved)
+- **`--dry-run`**: assess and report only, no code changes
 
-## Workflow
+## Constants
 
-### Phase 1: Prepare
+- Sentry: organization `eleno`, region `https://de.sentry.io`, projects `eleno-react` and `eleno-scheduler`. Pass these to every Sentry tool; `find_organizations` is not needed.
+- GitHub: `gh issue list --repo derseitenschneider/eleno --label bug --state open --json number,title,body,url,createdAt`
+- PHP API logs (besides what the API sends to Sentry): `ssh hostpoint`, logs in `~/www/api.eleno.net/src/logs` (`app-YYYY-MM-DD.log`, `requests-YYYY-MM-DD.log`).
 
-1. Read `.docs/BUG_FIXES.md` — build a set of already-fixed issue IDs (e.g. `ELENO-REACT-18`, `#321`)
-2. Run baseline tests. Abort with message if they fail:
-   - `cd app && npm run typecheck && npm run test`
-   - `cd api && composer stan && composer test`
-3. Unless `--dry-run`: create branch `triage/YYYY-MM-DD` off `dev`
+## Steps
 
-### Phase 2: Gather
+1. **Where to work.** The current worktree, on a branch off a fresh `origin/main` (`git fetch origin main && git switch -c fix/bug-sweep-YYYY-MM-DD origin/main` when the tree is clean). Skip baseline suites: the pre-push `npm run verify` and CI are the safety net.
+2. **Gather.** One Sentry search per project (`is:unresolved`, plus the window) with `search_issues`; the GitHub list above. Read `.docs/BUG_FIXES.md` for issue IDs already logged as fixed. A GitHub issue is skipped only when it is logged there AND closed; a logged issue that is open again gets assessed, with the earlier fix named. Merge Sentry and GitHub entries that describe the same bug. At most 10 issues per run; report the overflow count.
+3. **Assess each issue.** `get_sentry_resource` or `get_issue_details` for the stack trace, then the source files. Fix it only when all hold:
+   - the root cause follows from the trace or the issue text plus the code;
+   - the fix needs no design decision and touches 1-3 files;
+   - user-facing UI changes only when the UI is the bug (then the root CLAUDE.md "UI evidence" rule applies).
+   Everything else is flagged with: ID, title, root-cause hypothesis, why it is not a clear fix, suggested approach.
+4. **Fix** (not on `--dry-run`): a regression test where the code allows one, then the fix, one commit per issue: `fix(<app|api|scheduler>): <lowercase subject>` with the trailer `Fixes <SENTRY-SHORT-ID>` or `Fixes #<n>`. Log each fix in `.docs/BUG_FIXES.md` (it reached prod, so it is logged). Run the `reviewer` agent on the branch before reporting.
+5. **Report in the terminal**, no triage file unless Brian asks: fixed (ID, title, commit), flagged (as above), skipped (ID, reason), overflow count. Closing issues waits for the ship: after Brian says "ship" and the release is deployed, resolve the Sentry issues with `update_issue` and close the GitHub ones with `gh issue close <n> --comment "Fixed in vX.Y.Z"`.
 
-4. **Sentry**: Use `mcp__sentry__search_issues` with query `is:unresolved`. If Sentry MCP is unavailable, skip and notify user. Apply time filter if specified.
-5. **GitHub**: Run `gh issue list --repo derseitenschneider/eleno --label bug --state open --json number,title,body,url`. Apply time filter if specified.
-6. **Deduplicate**: Cross-reference Sentry issues and GitHub issues by title/description similarity. Cross-reference both against the BUG_FIXES.md known-fixed set. **Only skip a GitHub issue if its ID appears in BUG_FIXES.md AND the issue is currently closed on GitHub.** If an issue was logged as fixed but is still open (i.e. reopened or the fix was insufficient), do NOT skip it — assess it normally, noting in the report that a prior fix exists.
-7. **Cap**: Process max 10 issues per run. If more exist, note the overflow count in the report.
+## When a source fails
 
-### Phase 3: Assess each issue
-
-For each issue, use `mcp__sentry__get_issue_details` (Sentry) or read the GitHub issue body to understand the bug. Then read the relevant source files.
-
-**Auto-fix criteria** (ALL must be true):
-- Root cause is identifiable from stack trace / error message + code reading
-- Fix does not require architectural decisions or design changes
-- Fix does not alter user-facing UI/UX (unless the bug IS a UI/UX defect)
-- Fix is localized (touches 1-3 files)
-
-**If auto-fixable and NOT dry-run**:
-1. Apply the fix
-2. Commit: `fix(scope): lowercase description (ISSUE-ID)` — follow commitlint: conventional type, scoped to `app`/`api`/`scheduler`, lowercase subject. Reference Sentry ID (e.g. `ELENO-REACT-XX`) or GitHub issue (e.g. `#123`).
-3. Add to "Fixed" list
-
-**If NOT auto-fixable OR dry-run**:
-1. Add to "Flagged" list with: issue ID, title, root cause hypothesis, why it can't be auto-fixed, suggested approach
-
-### Phase 4: Verify & close
-
-8. Unless `--dry-run`: Run tests again (same as step 2)
-9. If any test fails: identify which commit(s) caused it, `git revert <sha>`, move those issues from "Fixed" to "Flagged" with note "fix reverted — broke tests"
-10. For each successfully fixed issue:
-    - Update `.docs/BUG_FIXES.md` with brief entry (follow existing format in that file)
-    - Sentry: `mcp__sentry__update_issue` to mark resolved
-    - GitHub: `gh issue close <number> --comment "Fixed in triage/YYYY-MM-DD"`
-11. Write triage report (see [TRIAGE-TEMPLATE.md](TRIAGE-TEMPLATE.md)) to `.docs/triage/YYYY-MM-DD.md`
-
-### Phase 5: Report
-
-Print summary to terminal:
-```
-Bug Sweep complete — YYYY-MM-DD
-Fixed: N | Flagged: N | Skipped: N
-Branch: triage/YYYY-MM-DD
-Report: .docs/triage/YYYY-MM-DD.md
-```
-
-## Error handling
-
-- **Sentry MCP unavailable**: Skip Sentry source, notify user, continue with GitHub only
-- **`gh` CLI fails**: Skip GitHub source, notify user, continue with Sentry only
-- **Both unavailable**: Abort with clear error message
-- **Baseline tests fail**: Abort — do not start triage on a broken baseline
+Sentry MCP or `gh` unavailable: skip that source, say so in the report, continue with the other. Both unavailable: stop and say which tool failed.

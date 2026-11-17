@@ -9,6 +9,10 @@ Rules Brian settled with Simea (PM) on 2026-10-20. Simea watches the tasks, so e
 inbox, whoever it is for. The goal is a **distilled** inbox: she reads what needs her and what is done, in
 Brian's voice, and nothing she would have to hand back to Brian.
 
+**Access:** ClickUp comes only through the claude.ai connector (`mcp__claude_ai_ClickUp__*`, loaded with
+ToolSearch); there is no CLI or API token on any machine. When ToolSearch finds no ClickUp tool, ask Brian to
+reconnect it at claude.ai → Settings → Connectors; the tools then appear without a restart.
+
 ## Steps
 
 1. **Read the task and its whole thread**, including Simea's and the client's comments. A point someone

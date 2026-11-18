@@ -92,6 +92,11 @@ Worked end to end, no browser needed:
 - Positions can also go inline in the create call as `positions: [{type: "KbPositionText", …}, {type:
   "KbPositionCustom", …}]` (2026-11-13, AN-00278, with `logopaper_id`, `bank_account_id`, `payment_type_id`,
   `template_slug` from the client's last offer). One request, positions in the given order.
+- An issued offer (status 2, «offen») stays editable through the API (2026-11-18, AN-00278, on Brian's
+  «update the existing offer»): `POST …/kb_position_text|kb_position_custom/<pos id>` changes a position,
+  `DELETE` removes one, and `POST /2.0/kb_offer/<id>` with the create fields (title, contact, ids, header,
+  footer, template_slug) plus new `is_valid_from`/`is_valid_until` moves the dates. Status stays «offen».
+  Save `GET /2.0/kb_offer/<id>` to a file before deleting positions, and re-add them from that copy.
 - `show_total` is **not** writable through the API (422 «Widget schema does not include … show_total»). New offers
   come with it off, so the PDF shows no total block. Switch it on in the UI (Einstellungen tab) when the offer has
   optional add-ons.

@@ -122,7 +122,29 @@
       "Bash(playwright-cli console:*)",
       "Bash(playwright-cli close-all:*)"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "ask": [
+      "mcp__clickup__clickup_create_comment",
+      "mcp__clickup__clickup_create_task_comment",
+      "mcp__clickup__clickup_update_comment",
+      "mcp__clickup__clickup_delete_comment",
+      "mcp__clickup__clickup_create_task",
+      "mcp__clickup__clickup_update_task",
+      "mcp__clickup__clickup_delete_task",
+      "mcp__clickup__clickup_send_chat_message",
+      "mcp__clickup__clickup_update_chat_message",
+      "mcp__clickup__clickup_execute_operator",
+      "mcp__claude_ai_ClickUp__clickup_create_comment",
+      "mcp__claude_ai_ClickUp__clickup_create_task_comment",
+      "mcp__claude_ai_ClickUp__clickup_update_comment",
+      "mcp__claude_ai_ClickUp__clickup_delete_comment",
+      "mcp__claude_ai_ClickUp__clickup_create_task",
+      "mcp__claude_ai_ClickUp__clickup_update_task",
+      "mcp__claude_ai_ClickUp__clickup_delete_task",
+      "mcp__claude_ai_ClickUp__clickup_send_chat_message",
+      "mcp__claude_ai_ClickUp__clickup_update_chat_message",
+      "mcp__claude_ai_ClickUp__clickup_execute_operator"
+    ]
   },
   "model": "opus",
   "hooks": {
@@ -384,6 +406,16 @@
           {
             "type": "command",
             "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" || true"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*[Cc]lick[Uu]p.*__clickup_(create_comment|create_task_comment|update_comment|delete_comment|create_task|update_task|delete_task|send_chat_message|update_chat_message|execute_operator)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/clickup-write-guard.sh",
+            "timeout": 10
           }
         ]
       }

@@ -401,21 +401,21 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Artifact",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" || true"
-          }
-        ]
-      },
-      {
         "matcher": "mcp__.*[Cc]lick[Uu]p.*__clickup_(create_comment|create_task_comment|update_comment|delete_comment|create_task|update_task|delete_task|send_chat_message|update_chat_message|execute_operator)$",
         "hooks": [
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/clickup-write-guard.sh",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Artifact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$SUPERSET_HOME_DIR\" ] && [ -x \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" ] && \"$SUPERSET_HOME_DIR/hooks/artifact-guard.sh\" || true"
           }
         ]
       }

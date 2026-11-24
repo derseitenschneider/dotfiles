@@ -92,6 +92,8 @@ brew "mysql", restart_service: :changed
 brew "neovim"
 # Create, run, and share large language models (LLMs)
 brew "ollama", restart_service: :changed
+# Framework for layout and rendering of i18n text
+brew "pango"
 # Check coding standards in PHP, JavaScript and CSS
 brew "php-code-sniffer"
 # General-purpose scripting language
@@ -158,7 +160,7 @@ cask "clickup"
 cask "docker-desktop"
 # Client for the Dropbox cloud storage service
 cask "dropbox"
-cask "factoryfloor"
+cask "alltuner/tap/factoryfloor"
 # Web browser
 cask "firefox"
 cask "font-caskaydia-cove-nerd-font"

@@ -122,7 +122,6 @@
       "Bash(playwright-cli console:*)",
       "Bash(playwright-cli close-all:*)"
     ],
-    "defaultMode": "auto",
     "ask": [
       "mcp__clickup__clickup_create_comment",
       "mcp__clickup__clickup_create_task_comment",
@@ -144,9 +143,10 @@
       "mcp__claude_ai_ClickUp__clickup_send_chat_message",
       "mcp__claude_ai_ClickUp__clickup_update_chat_message",
       "mcp__claude_ai_ClickUp__clickup_execute_operator"
-    ]
+    ],
+    "defaultMode": "auto"
   },
-  "model": "opus",
+  "model": "fable",
   "hooks": {
     "Stop": [
       {

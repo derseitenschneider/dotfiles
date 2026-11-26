@@ -71,5 +71,5 @@ Danach analog: Zahlungsmodalitäten (50/50), Optionen (typischerweise Workshops 
 ## Wichtige Zahlen & Fakten
 
 - **MWST-Normalsatz Schweiz (Stand 2026): 8.1 %.** (Nicht mehr 7.7 % — das war der alte Satz bis Ende 2023. Falls unsicher, kurz bei Simea nachfragen, ob sich der Satz geändert hat.)
-- Firmendaten für die Fusszeile (falls Simea sie im Fliesstext braucht): morntag GmbH, Zurzacherstrasse 81, 5200 Brugg, team@morntag.com, +41 79 811 90 30, IBAN CH47 0839 0037 9269 1000 5, MWST-Nr. CHE-470.377.920 MWST. Diese Angaben normalerweise NICHT ins Markdown schreiben, da Bexio sie automatisch aus der Vorlage zieht — nur auf Nachfrage einfügen.
+- Firmendaten für die Fusszeile (falls Simea sie im Fliesstext braucht): morntag GmbH, Bächle 4, 5225 Bözberg, team@morntag.com, +41 79 811 90 30, IBAN CH47 0839 0037 9269 1000 5, MWST-Nr. CHE-470.377.920 MWST. Diese Angaben normalerweise NICHT ins Markdown schreiben, da Bexio sie automatisch aus der Vorlage zieht — nur auf Nachfrage einfügen.
 - Preise im Angebotstext werden exkl. MWST ausgewiesen, mit Total/Zzgl. MWST/Betrag inkl. MWST am Schluss.
